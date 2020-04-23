@@ -7,4 +7,10 @@
     <string name="my_bookings">My bookings</string>
     <string name="sing_out">sing out</string>
     <string name="make_a_booking">Make a booking</string>
+    <string name="textview">TextView</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="description">Description</string>
+    <string name="confirm">Confirm</string>
+    <string name="back">Back</string>
 </resources>

@@ -9,13 +9,15 @@ import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.Spinner;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CalendarActivity extends AppCompatActivity {
 
-    CalendarView calendarView;
-    Spinner hallRoom;
-    ArrayList<String> rooms;
+    private CalendarView calendarView;
+    private Spinner hallRoom;
+    private ArrayList<String> rooms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,13 @@ public class CalendarActivity extends AppCompatActivity {
         hallRoom.setAdapter(adapter);
     }
     public void openReservationActivity(View v){
-        //Intent intent = new Intent(CalendarActivity.this)
+        Intent intent = new Intent(CalendarActivity.this, ReservationActivity.class);
+        SimpleDateFormat sdf  = new SimpleDateFormat("dd.MM.yyyy");
+        String date = sdf.format(new Date(calendarView.getDate()));
+        intent.putExtra("date",date); // todo palauttaa aina kyseisen päivän. korjattava
+        intent.putExtra("room",hallRoom.getSelectedItem().toString());
+        startActivity(intent);
+
     }
 
 
