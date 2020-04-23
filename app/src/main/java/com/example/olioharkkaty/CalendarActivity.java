@@ -21,8 +21,7 @@ public class CalendarActivity extends AppCompatActivity {
     private Spinner hallRoom;
     private ArrayList<String> rooms;
     private TextView textView;
-    protected String room = "";
-    protected String date = "";
+    protected String date;
 
 
 

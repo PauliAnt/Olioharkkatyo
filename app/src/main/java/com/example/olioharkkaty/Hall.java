@@ -15,8 +15,8 @@ public class Hall {
 
     public ArrayList<String> getRooms(){return rooms;};
 
-    public ArrayList<String> getAvailableReservations(int roomID, String date){
-        return null;
+    public ArrayList<String> getAvailableReservations(String room, String date){
+        return (new ArrayList<String>(Arrays.asList("12.00","13.00","14.00","15.00","19.00")));
     }
 
     public void makeReservation(int time, int roomID, String date){}
