@@ -41,6 +41,7 @@ public class ReservationActivity extends AppCompatActivity {
     }
 
     public void makeReservation(View V) {
-        Hall.getInstance().makeReservation(availableSlots.getSelectedItem().toString(),room,date);
+        Hall.getInstance().makeReservation(ReservationActivity.this, availableSlots.getSelectedItem().toString(), room, date);
+        finish();
     }
 }

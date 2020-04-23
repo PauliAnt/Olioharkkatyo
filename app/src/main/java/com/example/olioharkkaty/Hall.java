@@ -1,7 +1,9 @@
 package com.example.olioharkkaty;
 
-import java.io.File;
+import android.content.Context;
 
+
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.simpleframework.xml.Serializer;
@@ -11,11 +13,12 @@ public class Hall {
 
     public ArrayList<User> users;
     private ArrayList<String> rooms;
-    private File file = new File("reservations.xml");
+    private String fname = "reservations.xml";
 
     private Hall() {
         rooms = new ArrayList<String>(Arrays.asList("Tennis 1", "Tennis 2", "Tennis 3", "Badminton 1", "Badminton 2"));
         users = new ArrayList<User>();
+
     }
 
     public static Hall getInstance() {
@@ -31,10 +34,14 @@ public class Hall {
         return (new ArrayList<String>(Arrays.asList("12.00", "13.00", "14.00", "15.00", "19.00")));
     }
 
-    public void makeReservation(String time, String room, String date) {
-        Serializer ser = new Persister();
+    public void makeReservation(Context con,String time, String room, String date) {
         try {
-            ser.write(new Reservation("2.2.2020", "18.00", "pale", "Sulkapalloo pelailees"), file);
+            Serializer ser = new Persister();
+            OutputStream os = con.openFileOutput(fname,Context.MODE_APPEND);
+            // todo paranna XML käsittelyä
+            ser.write(new Reservation(date, time, "pale", "Sulkapalloo pelailees"), os);
+            os.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
