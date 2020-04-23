@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.widget.CalendarView;
 import android.widget.Spinner;
 
-public class CalenderAct extends AppCompatActivity {
+public class CalenderActivity extends AppCompatActivity {
 
     CalendarView calendarView;
     Spinner hallRoom;
