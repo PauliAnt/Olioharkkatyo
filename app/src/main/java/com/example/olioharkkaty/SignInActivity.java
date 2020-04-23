@@ -33,7 +33,9 @@ public class SignInActivity extends AppCompatActivity {
         un = userReg.getText().toString();
         pw1 =  passReg1.getText().toString();
         pw2 = passReg2.getText().toString();
-        if (pw1.equals("") || pw2.equals(""))
+        if (pw1.equals("") && pw2.equals("") && un.equals(""))
+            warning2.setText("Give username and password");
+        else if (pw1.equals("") || pw2.equals(""))
             warning2.setText("Give password");
         else if (un.equals(""))
             warning2.setText("Give username");
