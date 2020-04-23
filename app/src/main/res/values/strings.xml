@@ -22,4 +22,6 @@
     <string name="button">Button</string>
     <string name="password_again">Password again</string>
     <string name="register">Register</string>
+    <string name="update_your_information">Update your information</string>
+    <string name="adress">Adress</string>
 </resources>
