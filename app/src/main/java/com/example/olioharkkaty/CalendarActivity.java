@@ -2,14 +2,16 @@ package com.example.olioharkkaty;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
 
-public class CalenderActivity extends AppCompatActivity {
+public class CalendarActivity extends AppCompatActivity {
 
     CalendarView calendarView;
     Spinner hallRoom;
@@ -30,6 +32,9 @@ public class CalenderActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, rooms);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         hallRoom.setAdapter(adapter);
+    }
+    public void openReservationActivity(View v){
+        //Intent intent = new Intent(CalendarActivity.this)
     }
 
 
