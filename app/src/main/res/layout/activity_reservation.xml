@@ -4,13 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#BFF3FA"
     tools:context=".ReservationActivity">
 
     <TextView
         android:id="@+id/dateView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:background="@drawable/calender"
         android:text="@string/textview"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@+id/roomView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.66"
@@ -20,9 +23,11 @@
 
     <TextView
         android:id="@+id/roomView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:background="@drawable/calender"
         android:text="@string/textview"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/dateView"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,6 +38,7 @@
         android:id="@+id/availableSlotsSpinner"
         android:layout_width="239dp"
         android:layout_height="69dp"
+        android:background="@drawable/calender"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.79"
@@ -44,6 +50,8 @@
         android:id="@+id/editText"
         android:layout_width="160dp"
         android:layout_height="49dp"
+        android:autofillHints=""
+        android:background="@drawable/calender"
         android:ems="10"
         android:hint="@string/first_name"
         android:inputType="textPersonName"
@@ -51,26 +59,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.07"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/availableSlotsSpinner"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/availableSlotsSpinner" />
 
     <EditText
         android:id="@+id/editText2"
         android:layout_width="199dp"
         android:layout_height="49dp"
+        android:autofillHints=""
+        android:background="@drawable/calender"
         android:ems="10"
         android:hint="@string/last_name"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/spinner3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@+id/availableSlotsSpinner"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/availableSlotsSpinner" />
 
     <Spinner
         android:id="@+id/spinner3"
         android:layout_width="384dp"
         android:layout_height="57dp"
+        android:background="@drawable/calender"
         app:layout_constraintBottom_toTopOf="@+id/editText4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,6 +90,8 @@
         android:id="@+id/editText4"
         android:layout_width="374dp"
         android:layout_height="254dp"
+        android:autofillHints=""
+        android:background="@drawable/calender"
         android:ems="10"
         android:gravity="start|top"
         android:hint="@string/description"
@@ -89,13 +100,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.84000003"
-        android:autofillHints="" />
+        app:layout_constraintVertical_bias="0.84000003" />
 
     <Button
         android:id="@+id/button6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/calender"
         android:text="@string/confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,6 +118,7 @@
         android:id="@+id/button7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/calender"
         android:onClick="backButton"
         android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -117,9 +129,11 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="106dp"
-        android:layout_height="24dp"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:background="@drawable/calender"
         android:text="VIttu vapaat ajat"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/editText"
         app:layout_constraintEnd_toStartOf="@+id/availableSlotsSpinner"
         app:layout_constraintHorizontal_bias="0.466"
