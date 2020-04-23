@@ -13,4 +13,5 @@
     <string name="description">Description</string>
     <string name="confirm">Confirm</string>
     <string name="back">Back</string>
+    <string name="press_the_button_to_confirm">Press the button to confirm</string>
 </resources>
