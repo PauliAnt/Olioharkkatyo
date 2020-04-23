@@ -1,13 +1,29 @@
 package com.example.olioharkkaty;
 
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
+
+@Root
 public class Reservation {
 
-    public Reservation(String d, String time, User u, String description){}
-
+    @Element
     private String date;
-    private int time;
-    private User user;
-    private String description;
 
-    
+    @Element
+    private String time;
+
+    @Element
+    private String username;
+
+    @Element
+    private String describtion;
+
+    public Reservation(String d, String t, String un, String des){
+        date = d;
+        time = t;
+        username = un;
+        describtion = des;
+    }
+
+
 }

@@ -2,15 +2,11 @@ package com.example.olioharkkaty;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import java.util.ArrayList;
 
 public class ReservationActivity extends AppCompatActivity {
 
@@ -42,5 +38,9 @@ public class ReservationActivity extends AppCompatActivity {
 
     public void backButton(View v){
         finish();
+    }
+
+    public void makeReservation(View V) {
+        Hall.getInstance().makeReservation(availableSlots.getSelectedItem().toString(),room,date);
     }
 }
