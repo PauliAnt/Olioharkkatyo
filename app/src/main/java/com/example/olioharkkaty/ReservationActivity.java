@@ -41,7 +41,6 @@ public class ReservationActivity extends AppCompatActivity {
     }
 
     public void backButton(View v){
-        Intent intent = new Intent(ReservationActivity.this, CalendarActivity.class);
-        startActivity(intent);
+        finish();
     }
 }
