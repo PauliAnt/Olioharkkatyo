@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Olioharkkatyö</string>
+    <string name="CalenderText">Choose room and date</string>
 </resources>
