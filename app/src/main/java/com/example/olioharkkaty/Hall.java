@@ -49,6 +49,7 @@ public class Hall {
     }
 
     public void addUser(User u) {
+
         users.add(u);
     }
 }
