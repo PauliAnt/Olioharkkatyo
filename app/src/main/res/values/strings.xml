@@ -15,4 +15,13 @@
     <string name="back">Back</string>
     <string name="press_the_button_to_confirm">Press the button to confirm</string>
     <string name="welcome_to_playsports">Welcome to PlaySports!</string>
+    <string name="please_sign_in_or_register">Please sign in or register</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="button">Button</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="password_again">Password again</string>
+    <string name="register">Register</string>
 </resources>
