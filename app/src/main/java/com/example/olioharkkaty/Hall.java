@@ -15,6 +15,7 @@ public class Hall {
 
     private Hall() {
         rooms = new ArrayList<String>(Arrays.asList("Tennis 1", "Tennis 2", "Tennis 3", "Badminton 1", "Badminton 2"));
+        users = new ArrayList<User>();
     }
 
     public static Hall getInstance() {
