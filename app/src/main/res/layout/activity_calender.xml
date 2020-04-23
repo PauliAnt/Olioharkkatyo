@@ -21,8 +21,8 @@
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="335dp"
-        android:layout_height="29dp"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:background="@drawable/calender"
         app:layout_constraintBottom_toTopOf="@+id/calendarView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,13 +32,14 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="303dp"
-        android:layout_height="42dp"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:background="@drawable/calender"
         android:text="@string/CalenderText"
         android:textAlignment="center"
         android:textColor="#050404"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,8 +47,8 @@
 
     <Button
         android:id="@+id/button5"
-        android:layout_width="133dp"
-        android:layout_height="68dp"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
         android:background="@drawable/calender"
         android:onClick="openReservationActivity"
         android:text="@string/confirm"
@@ -60,13 +61,14 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="247dp"
-        android:layout_height="29dp"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:background="@drawable/calender"
         android:text="@string/press_the_button_to_confirm"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="18sp"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/button5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
