@@ -9,6 +9,7 @@ import java.util.Arrays;
 
 public class Hall {
 
+    public ArrayList<User> users;
     private ArrayList<String> rooms;
 
     private Hall(){
@@ -33,4 +34,7 @@ public class Hall {
 
     }
 
+    public void addUser(User u) {
+        users.add(u);
+    }
 }
