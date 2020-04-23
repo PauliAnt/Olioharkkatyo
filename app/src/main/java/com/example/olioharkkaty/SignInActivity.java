@@ -30,18 +30,18 @@ public class SignInActivity extends AppCompatActivity {
 
     public void signIn(View v) {
         Hall hall = Hall.getInstance();
-        un = (String) userReg.getText();
-        pw1 = (String) passReg1.getText();
-        pw2 = (String) passReg2.getText();
-        if (passReg1.equals("") || passReg2.equals(""))
+        un = userReg.getText().toString();
+        pw1 =  passReg1.getText().toString();
+        pw2 = passReg2.getText().toString();
+        if (pw1.equals("") || pw2.equals(""))
             warning2.setText("Give password");
-        else if (userReg.equals(""))
+        else if (un.equals(""))
             warning2.setText("Give username");
-        else if (passReg2.equals(passReg1)) {
+        else if (pw2.equals(pw1)) {
                 User user = new User(un, pw1);
                 hall.addUser(user);
-            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-            startActivity(intent);
+                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                startActivity(intent);
         } else
             warning2.setText("Passwords dont match");
 
