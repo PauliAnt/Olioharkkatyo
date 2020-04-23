@@ -40,8 +40,7 @@ public class SignInActivity extends AppCompatActivity {
         else if (un.equals(""))
             warning2.setText("Give username");
         else if (pw2.equals(pw1)) {
-                User user = new User(un, pw1);
-                hall.addUser(user);
+                hall.addUser(un, pw1);
                 Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                 startActivity(intent);
         } else

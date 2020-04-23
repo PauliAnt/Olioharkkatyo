@@ -48,8 +48,8 @@ public class Hall {
 
     }
 
-    public void addUser(User u) {
-
-        users.add(u);
+    public void addUser(String un, String pw) {
+        User user = new User(un, pw);
+        users.add(user);
     }
 }
