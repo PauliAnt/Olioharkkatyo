@@ -1,6 +1,5 @@
 package com.example.olioharkkaty;
 
-import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -36,8 +35,8 @@ public class Room {
         return name;
     }
 
-    public void addReservation(String date, String time) {
-        reservations.add(new Reservation(date, time, "pale", "Sulkapalloo pelailees"));
+    public void addReservation(String date, String time,String describtion, String sport) {
+        reservations.add(new Reservation(date, time, "pale", describtion,sport));
     }
 
     public boolean isReserved(String time, String date) {

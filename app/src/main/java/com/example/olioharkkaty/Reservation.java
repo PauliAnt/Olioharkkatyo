@@ -22,11 +22,15 @@ public class Reservation {
     @Element
     private String describtion;
 
-    public Reservation(String d, String t, String un, String des){
+    @Element
+    private String sport;
+
+    public Reservation(String d, String t, String un, String des, String s){
         date = d;
         time = t;
         username = un;
         describtion = des;
+        sport = s;
     }
 
     // Tyhjä rakentaja Simple kirjastoa varten

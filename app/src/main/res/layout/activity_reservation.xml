@@ -44,50 +44,21 @@
         app:layout_constraintHorizontal_bias="0.79"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.132" />
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="160dp"
-        android:layout_height="49dp"
-        android:autofillHints=""
-        android:background="@drawable/calender"
-        android:ems="10"
-        android:hint="@string/first_name"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/spinner3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.07"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/availableSlotsSpinner" />
-
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="199dp"
-        android:layout_height="49dp"
-        android:autofillHints=""
-        android:background="@drawable/calender"
-        android:ems="10"
-        android:hint="@string/last_name"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/spinner3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@+id/availableSlotsSpinner" />
+        app:layout_constraintVertical_bias="0.18" />
 
     <Spinner
-        android:id="@+id/spinner3"
+        android:id="@+id/sportSpinner"
         android:layout_width="384dp"
         android:layout_height="57dp"
         android:background="@drawable/calender"
-        app:layout_constraintBottom_toTopOf="@+id/editText4"
+        app:layout_constraintBottom_toTopOf="@+id/editDescribtion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/availableSlotsSpinner"
-        app:layout_constraintVertical_bias="0.75" />
+        app:layout_constraintVertical_bias="0.45" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/editDescribtion"
         android:layout_width="374dp"
         android:layout_height="254dp"
         android:autofillHints=""
@@ -113,7 +84,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.73"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+        app:layout_constraintTop_toBottomOf="@+id/editDescribtion" />
 
     <Button
         android:id="@+id/button7"
@@ -126,20 +97,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+        app:layout_constraintTop_toBottomOf="@+id/editDescribtion" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="120dp"
         android:layout_height="40dp"
+        android:layout_marginTop="104dp"
         android:background="@drawable/calender"
         android:text="VIttu vapaat ajat"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/editText"
+        app:layout_constraintBottom_toBottomOf="@+id/availableSlotsSpinner"
         app:layout_constraintEnd_toStartOf="@+id/availableSlotsSpinner"
-        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.629" />
+        app:layout_constraintVertical_bias="0.65999997" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

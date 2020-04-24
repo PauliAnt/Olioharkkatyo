@@ -18,11 +18,15 @@ public class Hall {
     private ArrayList<String> rooms;
     private String fname = "reservations.xml";
 
+    private String[] sports = {"Tennis","Badminton","Squash"};
+    public String[] getSports(){return sports;}
+
     //todo opening hours array jossa kaikkien päivien aukeamis- ja sulkemisajankohdat erikseen
     private int closinghour = 20;
     private int openinghour = 10;
     // todo toiminnallisuus tähän ja tietojen muokkausaktitivity
     private User currentuser;
+
 
     private Hall() {
         rooms = new ArrayList<String>(Arrays.asList("Tennis 1", "Tennis 2", "Tennis 3", "Badminton 1", "Badminton 2"));
@@ -72,9 +76,10 @@ public class Hall {
 
     }
 
-    public void makeReservation(Context con,String time, String roomname, String date) {
+    public void makeReservation(Context con,String time, String roomname, String date, String describtion, String sport) {
         Room room = null;
         try {
+            // luetaan vanhat varaukset
             room = this.deserializeXMLToRoomObject(con,roomname);
 
         } catch (FileNotFoundException e) {
@@ -85,9 +90,11 @@ public class Hall {
             Log.e("Serialisaatio","Ei lue oikein");
 
         }
-        room.addReservation(date,time);
+        // Lisätään uusi varaus
+        room.addReservation(date,time,describtion,sport);
 
         try {
+            //kirjoitetaan varaukset tiedostoon
             this.serializeRoomObjectToXML(con, room);
 
         } catch (NullPointerException e) {
@@ -101,23 +108,23 @@ public class Hall {
 
 
     private Room deserializeXMLToRoomObject(Context con, String roomname) throws Exception {
-        String filename = roomname.replaceAll(" ","") + fname;
+            String filename = roomname.replaceAll(" ","") + fname;
 
-        InputStream is = null;
-        is = con.openFileInput(filename);
-        Serializer ser = new Persister();
-        Room room = ser.read(Room.class,is);
-        Log.i("Test",room.getName());
-        is.close();
-        return room;
-    }
+            InputStream is = null;
+            is = con.openFileInput(filename);
+            Serializer ser = new Persister();
+            Room room = ser.read(Room.class,is);
+            Log.i("Test",room.getName());
+            is.close();
+            return room;
+        }
 
-    private void serializeRoomObjectToXML(Context con, Room room) throws Exception {
-        String filename = room.getName().replaceAll(" ","") + fname;
-        OutputStream os = con.openFileOutput(filename,Context.MODE_PRIVATE);
-        Serializer ser = new Persister();
-        ser.write(room,os);
-        os.close();
+        private void serializeRoomObjectToXML(Context con, Room room) throws Exception {
+            String filename = room.getName().replaceAll(" ","") + fname;
+            OutputStream os = con.openFileOutput(filename,Context.MODE_PRIVATE);
+            Serializer ser = new Persister();
+            ser.write(room,os);
+            os.close();
 
     }
 
