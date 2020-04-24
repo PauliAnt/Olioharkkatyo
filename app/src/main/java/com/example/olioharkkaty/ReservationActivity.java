@@ -3,6 +3,7 @@ package com.example.olioharkkaty;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.view.View;
 import android.widget.Spinner;
@@ -31,7 +32,7 @@ public class ReservationActivity extends AppCompatActivity {
         roomView.setText(room);
         Hall hall = Hall.getInstance();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,hall.getAvailableReservations(date,room));
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,hall.getAvailableReservations(ReservationActivity.this,room,date));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         availableSlots.setAdapter(adapter);
     }

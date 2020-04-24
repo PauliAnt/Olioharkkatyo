@@ -9,8 +9,12 @@ public class Reservation {
     @Element
     private String date;
 
+    public String getDate() {return date;}
+
     @Element
     private String time;
+
+    public String getTime() {return time;}
 
     @Element
     private String username;
@@ -24,6 +28,9 @@ public class Reservation {
         username = un;
         describtion = des;
     }
+
+    // Tyhjä rakentaja Simple kirjastoa varten
+    private Reservation(){}
 
 
 }
