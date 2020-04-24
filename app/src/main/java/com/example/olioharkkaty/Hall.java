@@ -17,8 +17,12 @@ public class Hall {
     public ArrayList<User> users;
     private ArrayList<String> rooms;
     private String fname = "reservations.xml";
+
+    //todo opening hours array jossa kaikkien päivien aukeamis- ja sulkemisajankohdat erikseen
     private int closinghour = 20;
     private int openinghour = 10;
+    // todo toiminnallisuus tähän ja tietojen muokkausaktitivity
+    private User currentuser;
 
     private Hall() {
         rooms = new ArrayList<String>(Arrays.asList("Tennis 1", "Tennis 2", "Tennis 3", "Badminton 1", "Badminton 2"));
@@ -41,7 +45,10 @@ public class Hall {
             Room room = deserializeXMLToRoomObject(con,roomname);
             
             ArrayList<String> availabletimes = new ArrayList<String>();
-            for(int i = openinghour; i == closinghour;i++) {
+
+            // todo Tämä fiksummin ja toimimaan
+            for(int i = openinghour; i <= closinghour;i++) {
+                Log.e("i",Integer.toString(i));
                 String time = String.format("%02d.00",i);
                 if (!room.isReserved(time,date))
                     availabletimes.add(time);
@@ -51,7 +58,11 @@ public class Hall {
 
         } catch (FileNotFoundException e) {
             // Tiedostoa ei ole -> palautetaan kaikki ajat
-            return(new ArrayList<String>(Arrays.asList("12.00","13.00")));
+            ArrayList<String> al = new ArrayList<String>();
+            for (int i = openinghour; i <= closinghour; i++) {
+                    al.add(String.format("%02d.00",i));
+            }
+            return (al);
 
         } catch (Exception e) {
             e.printStackTrace();

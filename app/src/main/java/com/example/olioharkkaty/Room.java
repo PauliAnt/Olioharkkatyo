@@ -43,7 +43,7 @@ public class Room {
     public boolean isReserved(String time, String date) {
         for (Reservation res:reservations){
             Log.i("isReserved()",time + "  " +res.getTime()+"\n"+date + "  " + res.getDate());
-            if (res.getTime().equals(time) || res.getDate().equals(date)){
+            if (res.getTime().equals(time) && res.getDate().equals(date)){
                 return true;
             }
         }

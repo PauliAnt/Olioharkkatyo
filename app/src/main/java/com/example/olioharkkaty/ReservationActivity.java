@@ -31,6 +31,7 @@ public class ReservationActivity extends AppCompatActivity {
         dateView.setText(date);
         roomView.setText(room);
         Hall hall = Hall.getInstance();
+        Log.i("Reservation activity","toimii");
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,hall.getAvailableReservations(ReservationActivity.this,room,date));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
