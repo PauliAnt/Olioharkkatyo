@@ -140,6 +140,7 @@ public class Hall {
     public User getUser(String un) {
         int i = 0;
         while (users.get(i).getU_name() != null) {
+            System.out.println(users.get(i).getU_name());
             if (users.get(i).getU_name() == un) {
                 break;
             }
