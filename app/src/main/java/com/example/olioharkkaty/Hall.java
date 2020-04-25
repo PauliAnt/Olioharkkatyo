@@ -18,6 +18,7 @@ import org.simpleframework.xml.core.Persister;
 
 
 public class Hall {
+    /*  Luokka käsittelee varausjärjestelmän toiminnallisuutta Room-luokkaa apuna käyttäen. */
 
     public ArrayList<User> users;
     private ArrayList<String> rooms;
@@ -26,7 +27,7 @@ public class Hall {
     private String[] sports = {"Tennis","Badminton","Squash"};
     public String[] getSports(){return sports;}
 
-    //todo opening hours array jossa kaikkien päivien aukeamis- ja sulkemisajankohdat erikseen
+    // todo korjaa aukioloajat toimimaan
     private int[][] openhours = {{8,19},{8,19},{8,19},{7,17},{9,21},{10,20},{13,18}};
     // todo toiminnallisuus tähän ja tietojen muokkausaktitivity
     private User currentuser;
@@ -92,7 +93,6 @@ public class Hall {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("Serialisaatio","Ei lue oikein");
 
         }
         // Lisätään uusi varaus
@@ -101,9 +101,6 @@ public class Hall {
         try {
             //kirjoitetaan varaukset tiedostoon
             this.serializeRoomObjectToXML(con, room);
-
-        } catch (NullPointerException e) {
-            Log.e("Serialisaatio","nul pointer");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,7 +116,6 @@ public class Hall {
             is = con.openFileInput(filename);
             Serializer ser = new Persister();
             Room room = ser.read(Room.class,is);
-            Log.i("Test",room.getName());
             is.close();
             return room;
         }
@@ -137,6 +133,8 @@ public class Hall {
         User user = new User(un, pw);
         users.add(user);
     }
+    // todo tämä uudestaan
+    /*
     public User getUser(String un) {
         int i = 0;
         while (users.get(i).getU_name() != null) {
@@ -148,5 +146,5 @@ public class Hall {
         }
         return users.get(i);
     }
-
+*/
 }

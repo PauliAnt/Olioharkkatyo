@@ -12,6 +12,9 @@ public class SignInActivity extends AppCompatActivity {
     private TextView passReg1;
     private TextView passReg2;
     private TextView warning2;
+
+
+    // Näitä ei tarvitse merkitä koko luokan välisiksi. Riittää että käyttää register() metodissa
     protected String un;
     private String pw1;
     private String pw2;

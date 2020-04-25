@@ -13,7 +13,7 @@ public class User {
         password = pw;
     }
 
-    public void setU_name(String un) {
+    public void setUserName(String un) {
         u_name = un;
     }
 
@@ -21,20 +21,18 @@ public class User {
         password = pw;
     }
 
-    public void setAdress(String ad) {
+    public void setAddress(String ad) {
         adress = ad;
     }
 
-    public void setF_name(String fn){
-        f_name = fn;
-    }
+    public void setFirstName(String fn){ f_name = fn; }
 
-    public void setL_name(String ln){
+    public void setLastName(String ln){
         l_name = ln;
     }
 
 
-    public String getU_name(){
+    public String getUserName(){
         return u_name;
     }
 
@@ -42,17 +40,15 @@ public class User {
         return password;
     }
 
-    public String getF_name(){
+    public String getFirstName(){
         return f_name;
     }
 
-    public String getL_name(){
+    public String getLastName(){
         return l_name;
     }
 
-    public String getAdress(){
-        return adress;
-    }
+    public String getAddress(){return adress;}
 }
 
 

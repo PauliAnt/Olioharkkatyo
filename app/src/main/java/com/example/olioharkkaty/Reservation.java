@@ -31,8 +31,10 @@ public class Reservation {
         date = d;
         time = t;
         username = un;
-        if (des == null || des.length()==0)
+        // Väliaikainen arvo helpottaa xml käsittelyssä
+        if (des == null || des.length()==0) {
             des = "_empty_";
+        }
         describtion = des;
         sport = s;
     }

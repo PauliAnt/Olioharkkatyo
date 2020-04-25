@@ -22,7 +22,7 @@ public class UserInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_info);
         un = "Tommi";
         Hall hall = Hall.getInstance();
-        user = hall.getUser(un);
+        //user = hall.getUser(un);
 /*
         uname = (TextView) findViewById(R.id.userName);
         uname.setText(user.getU_name());
@@ -38,11 +38,11 @@ public class UserInfoActivity extends AppCompatActivity {
     }
     public void updateInfo(View v){
         un = uname.getText().toString();
-        user.setU_name(un);
+        user.setUserName(un);
         user.setPassword(pw.getText().toString());
-        user.setF_name(fn.getText().toString());
-        user.setL_name(ln.getText().toString());
-        user.setAdress(ad.getText().toString());
+        user.setFirstName(fn.getText().toString());
+        user.setLastName(ln.getText().toString());
+        user.setAddress(ad.getText().toString());
 
         Intent intent = new Intent(UserInfoActivity.this, MainActivity.class);
         intent.putExtra("Username", un);
