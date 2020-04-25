@@ -24,4 +24,6 @@
     <string name="register">Register</string>
     <string name="update_your_information">Update your information</string>
     <string name="adress">Adress</string>
+    <string name="password_6_16_char">Password (6-16 char)</string>
+    <string name="user_info">User info</string>
 </resources>

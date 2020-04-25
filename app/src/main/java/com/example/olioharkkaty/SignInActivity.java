@@ -12,7 +12,7 @@ public class SignInActivity extends AppCompatActivity {
     private TextView passReg1;
     private TextView passReg2;
     private TextView warning2;
-    private String un;
+    protected String un;
     private String pw1;
     private String pw2;
 
@@ -28,7 +28,7 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
-    public void signIn(View v) {
+    public void register(View v) {
         Hall hall = Hall.getInstance();
         un = userReg.getText().toString();
         pw1 =  passReg1.getText().toString();
@@ -39,12 +39,21 @@ public class SignInActivity extends AppCompatActivity {
             warning2.setText("Give password");
         else if (un.equals(""))
             warning2.setText("Give username");
+        else if (pw1.length()<6)
+            warning2.setText("Password too short");
+        else if (pw1.length()>16)
+            warning2.setText("Password too long");
         else if (pw2.equals(pw1)) {
                 hall.addUser(un, pw1);
-                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                Intent intent = new Intent(SignInActivity.this, UserInfoActivity.class);
+                intent.putExtra("Username", un);
                 startActivity(intent);
         } else
-            warning2.setText("Passwords dont match");
+            warning2.setText("Passwords don't match");
 
+    }
+    public void signInButton(View v){
+        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }

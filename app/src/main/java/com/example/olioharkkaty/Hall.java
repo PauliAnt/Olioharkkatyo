@@ -137,4 +137,15 @@ public class Hall {
         User user = new User(un, pw);
         users.add(user);
     }
+    public User getUser(String un) {
+        int i = 0;
+        while (users.get(i).getU_name() != null) {
+            if (users.get(i).getU_name() == un) {
+                break;
+            }
+            i++;
+        }
+        return users.get(i);
+    }
+
 }

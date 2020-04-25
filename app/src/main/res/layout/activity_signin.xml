@@ -29,32 +29,20 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/username"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/passSign"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        android:importantForAutofill="no" />
-
-    <EditText
-        android:id="@+id/passSign"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/password"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/buttonSign"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.822"
-        android:importantForAutofill="no" />
+        app:layout_constraintVertical_bias="0.208" />
 
     <Button
         android:id="@+id/buttonSign"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/calender"
+        android:onClick="signInButton"
         android:text="@string/sign_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -76,47 +64,19 @@
         app:layout_constraintVertical_bias="0.572"
         android:importantForAutofill="no" />
 
-    <EditText
-        android:id="@+id/passReg1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/password"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userReg"
-        app:layout_constraintVertical_bias="0.088"
-        android:importantForAutofill="no" />
-
-    <EditText
-        android:id="@+id/passReg2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/password_again"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passReg1"
-        app:layout_constraintVertical_bias="0.175"
-        android:importantForAutofill="no" />
-
     <Button
         android:id="@+id/buttonReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/calender"
-        android:onClick="signIn"
+        android:onClick="register"
         android:text="@string/register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passReg2"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintTop_toBottomOf="@+id/userReg"
+        app:layout_constraintVertical_bias="0.71" />
 
     <TextView
         android:id="@+id/warning2"
@@ -138,4 +98,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonSign"
         app:layout_constraintVertical_bias="0.23" />
+
+    <EditText
+        android:id="@+id/passReg1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/password_6_16_char"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonReg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userReg"
+        app:layout_constraintVertical_bias="0.167" />
+
+    <EditText
+        android:id="@+id/passReg2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/password_again"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonReg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passReg1"
+        app:layout_constraintVertical_bias="0.316"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/passSign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSign"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userSign"
+        android:importantForAutofill="no" />
 </androidx.constraintlayout.widget.ConstraintLayout>
