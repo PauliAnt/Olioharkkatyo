@@ -1,5 +1,7 @@
 package com.example.olioharkkaty;
 
+import android.util.Log;
+
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
@@ -29,6 +31,8 @@ public class Reservation {
         date = d;
         time = t;
         username = un;
+        if (des == null || des.length()==0)
+            des = "_empty_";
         describtion = des;
         sport = s;
     }

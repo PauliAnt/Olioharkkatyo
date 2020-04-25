@@ -6,8 +6,13 @@ import android.util.Log;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
@@ -22,8 +27,7 @@ public class Hall {
     public String[] getSports(){return sports;}
 
     //todo opening hours array jossa kaikkien päivien aukeamis- ja sulkemisajankohdat erikseen
-    private int closinghour = 20;
-    private int openinghour = 10;
+    private int[][] openhours = {{8,19},{8,19},{8,19},{7,17},{9,21},{10,20},{13,18}};
     // todo toiminnallisuus tähän ja tietojen muokkausaktitivity
     private User currentuser;
 
@@ -43,37 +47,38 @@ public class Hall {
     }
 
 
-    public ArrayList<String> getAvailableReservations(Context con ,String roomname, String date) {
+    public ArrayList<String> getAvailableReservations(Context con ,String roomname, String date) throws ParseException {
+
+        // Viikonpäivän parsiminen ja aukioloajat
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyy");
+        c.setTime(sdf.parse(date));
+        int day = c.get(Calendar.DAY_OF_WEEK);
+
+        int openinghour = openhours[day-1][0];
+        int closinghour = openhours[day-1][1];
+
+        // Luodaan Arraylist joka voidaan palauttaa jos tiedostoa ei löydy
+        ArrayList<String> al = new ArrayList<String>();
+        for (int hour = openinghour; hour <= closinghour; hour++) {
+            al.add(String.format("%02d.00",hour));
+        }
 
         try {
+            // Room objektin luku tiedostosta
             Room room = deserializeXMLToRoomObject(con,roomname);
-            
-            ArrayList<String> availabletimes = new ArrayList<String>();
+            return(room.getAvailableHours(date,openinghour,closinghour));
 
-            // todo Tämä fiksummin ja toimimaan
-            for(int i = openinghour; i <= closinghour;i++) {
-                Log.e("i",Integer.toString(i));
-                String time = String.format("%02d.00",i);
-                if (!room.isReserved(time,date))
-                    availabletimes.add(time);
-            }
-            return availabletimes;
 
 
         } catch (FileNotFoundException e) {
             // Tiedostoa ei ole -> palautetaan kaikki ajat
-            ArrayList<String> al = new ArrayList<String>();
-            for (int i = openinghour; i <= closinghour; i++) {
-                    al.add(String.format("%02d.00",i));
-            }
             return (al);
 
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-
-
     }
 
     public void makeReservation(Context con,String time, String roomname, String date, String describtion, String sport) {

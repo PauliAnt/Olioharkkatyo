@@ -2,6 +2,7 @@ package com.example.olioharkkaty;
 
 import android.util.Log;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,14 +15,14 @@ import org.simpleframework.xml.Root;
 @Root
 public class Room {
 
-    @ElementList(inline=true)
+    @ElementList(inline = true)
     private List<Reservation> reservations;
 
     @Element
     private String name;
 
     // Tyhjä rakentaja Simple kirjastoa varten
-    private Room(){}
+    private Room() {}
 
 
     public Room(String n) {
@@ -30,22 +31,29 @@ public class Room {
     }
 
 
-
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void addReservation(String date, String time,String describtion, String sport) {
-        reservations.add(new Reservation(date, time, "pale", describtion,sport));
+    public void addReservation(String date, String time, String describtion, String sport) {
+        reservations.add(new Reservation(date, time, "pale", describtion, sport));
     }
 
-    public boolean isReserved(String time, String date) {
-        for (Reservation res:reservations){
-            Log.i("isReserved()",time + "  " +res.getTime()+"\n"+date + "  " + res.getDate());
-            if (res.getTime().equals(time) && res.getDate().equals(date)){
-                return true;
+    public ArrayList<String> getAvailableHours(String date, int openinghour, int closinghour) {
+        ArrayList<String> reservedhours = new ArrayList<String>(), availablehours = new ArrayList<String>();
+        for (Reservation reservation : reservations) {
+            if (reservation.getDate().equals(date)) {
+                reservedhours.add(reservation.getTime());
             }
         }
-        return false;
+        for (int hour = openinghour; hour <= closinghour; hour++) {
+            String time = String.format("%02d.00",hour);
+            if(!reservedhours.contains(time)){
+                availablehours.add(time);
+            }
+
+        }
+
+        return availablehours;
     }
 }

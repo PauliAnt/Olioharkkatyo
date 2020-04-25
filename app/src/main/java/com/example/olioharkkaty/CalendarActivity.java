@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class CalendarActivity extends AppCompatActivity {
@@ -45,14 +46,16 @@ public class CalendarActivity extends AppCompatActivity {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         date = sdf.format(new Date(calendarView.getDate()));
+
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                date = dayOfMonth + "." + month + "." + year;
+                date = String.format("%02d.%02d.%04d",dayOfMonth,month,year);
             }
         });
     }
     public void openReservationActivity(View v){
+
         Intent intent = new Intent(CalendarActivity.this, ReservationActivity.class);
         intent.putExtra("date", date);
         intent.putExtra("room", hallRoom.getSelectedItem().toString());
