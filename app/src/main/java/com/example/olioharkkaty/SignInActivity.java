@@ -12,6 +12,10 @@ public class SignInActivity extends AppCompatActivity {
     private TextView passReg1;
     private TextView passReg2;
     private TextView warning2;
+    private TextView userSign;
+    private TextView passSign;
+    private TextView warning1;
+    private User user;
 
 
     // Näitä ei tarvitse merkitä koko luokan välisiksi. Riittää että käyttää register() metodissa
@@ -24,6 +28,9 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
 
+        userSign = (TextView) findViewById(R.id.userSign);
+        passSign = (TextView) findViewById(R.id.passSign);
+        warning1 = (TextView) findViewById(R.id.warning1);
         userReg = (TextView) findViewById(R.id.userReg);
         passReg1 = (TextView) findViewById(R.id.passReg1);
         passReg2 = (TextView) findViewById(R.id.passReg2);
@@ -56,7 +63,22 @@ public class SignInActivity extends AppCompatActivity {
 
     }
     public void signInButton(View v){
-        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-        startActivity(intent);
+        UserManager um = UserManager.getInstance();
+        un = userSign.getText().toString();
+        user = um.findUser(un);
+        pw1 = passSign.getText().toString();
+        if (un.equals(""))
+            warning1.setText("Give username");
+        else if (pw1.equals(""))
+            warning1.setText("Give password");
+        else if (user==null)
+            warning1.setText("Username not found");
+        else if (user.getPassword().equals(pw1)!=true)
+            warning1.setText("Password doesn't match username");
+        else if (user.getPassword().equals(pw1)) {
+            um.setCurrentUser(user);
+            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 }

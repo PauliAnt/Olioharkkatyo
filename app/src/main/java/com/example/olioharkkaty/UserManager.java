@@ -11,6 +11,7 @@ public class UserManager {
 
     private UserManager() {
         users = new ArrayList<User>();
+        users.add(new User("Tommi", "Teemuki"));
     }
 
     public static final UserManager instance = new UserManager();
@@ -19,6 +20,14 @@ public class UserManager {
     public boolean checkLogin(String username, String password) {
         // todo lisää toiminnallisuus, tsekkaa käyttäjänimen ja salasanan user listasta, palauttaa true jos löytyy, false jos ei
         return true;
+    }
+
+    public User findUser(String un){
+        for (User user:users){
+            if (user.getUserName().equals(un))
+                    return user;
+        }
+        return null;
     }
 
     public User getCurrentUser() {return currentuser;}
