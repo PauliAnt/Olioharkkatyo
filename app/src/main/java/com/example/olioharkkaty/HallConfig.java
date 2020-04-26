@@ -1,12 +1,9 @@
 package com.example.olioharkkaty;
 
-import android.util.Log;
-
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementArray;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -31,14 +28,6 @@ public class HallConfig {
     private int[][] openhours;
     public int[][] getOpenHours(){return openhours;}
 
-    /*
-    public HallConfig(int[] ids, String[] names, int[][] openhours,String[] sports) {
-        rooms = new ArrayList<RoomInfo>();
-        for (int i = 0; i < ids.length; i++)
-            rooms.add(new RoomInfo(ids[i], names[i]));
-        this.openhours = openhours;
-        this.sports = sports;
-    }*/
     private HallConfig(){}
 
     @Root

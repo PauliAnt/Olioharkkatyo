@@ -22,8 +22,6 @@ import org.simpleframework.xml.core.Persister;
 
 public class Hall {
     /*  Luokka käsittelee varausjärjestelmän toiminnallisuutta Room-luokkaa apuna käyttäen. */
-
-    public ArrayList<User> users;
     private HashMap<String, Integer> rooms;
     private String fname = "reservations.xml";
     private String[] sports;
@@ -32,8 +30,6 @@ public class Hall {
 
     private Hall() {
         rooms = new HashMap<String, Integer>();
-        users = new ArrayList<User>();
-        Log.e("Singleton","pitäis tulla vaa kerra");
     }
 
     public static final Hall instance = new Hall();
@@ -43,15 +39,23 @@ public class Hall {
 
 
     public void config(Context con) throws Exception {
+        // Etsii config asetukset puhelimen asutuksista
         String filename = "hallconfig.xml";
         InputStream is = null;
+        HallConfig hc = null;
         try {
             is = con.openFileInput(filename);
+            hc = deserializeXMLToConfigObject(is);
+            is.close();
         } catch (IOException e){
+            // Luetaan assets kansiosta config ja tallennetaan puhelimen muistiin
             is = con.getAssets().open(filename);
+            hc = deserializeXMLToConfigObject(is);
+            is.close();
+            this.serializeObjectToXML(con,filename,hc);
+
+
         }
-        HallConfig hc = deserializeXMLToConfigObject(is);
-        is.close();
         openhours = hc.getOpenHours();
         sports = hc.getSports();
         rooms = hc.getRoomMap();

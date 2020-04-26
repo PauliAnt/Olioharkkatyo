@@ -1,5 +1,7 @@
 package com.example.olioharkkaty;
 
+import java.util.ArrayList;
+
 public class User {
 
     private String u_name;
@@ -7,6 +9,7 @@ public class User {
     private String f_name = "";
     private String l_name = "";
     private String adress = "";
+    private ArrayList<Integer> reservationids;
 
     public User(String un, String pw){
         u_name = un;
