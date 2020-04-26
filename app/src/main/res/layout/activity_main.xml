@@ -52,6 +52,7 @@
         android:layout_width="180dp"
         android:layout_height="50dp"
         android:background="@drawable/calender"
+        android:onClick="signOut"
         android:text="@string/sing_out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

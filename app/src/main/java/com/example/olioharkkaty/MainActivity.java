@@ -41,4 +41,9 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("Username", username);
         startActivity(intent);
     }
+
+    public void signOut(View v){
+        UserManager.getInstance().setCurrentUser(null);
+        finish();
+    }
 }

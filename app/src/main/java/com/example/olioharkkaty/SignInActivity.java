@@ -28,19 +28,24 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signin);
 
         userSign = (TextView) findViewById(R.id.userSign);
-        userSign.setText("");
         passSign = (TextView) findViewById(R.id.passSign);
-        passSign.setText("");
         warning1 = (TextView) findViewById(R.id.warning1);
-        warning1.setText("");
         userReg = (TextView) findViewById(R.id.userReg);
-        userReg.setText("");
         passReg1 = (TextView) findViewById(R.id.passReg1);
-        passReg1.setText("");
         passReg2 = (TextView) findViewById(R.id.passReg2);
-        passReg2.setText("");
         warning2 = (TextView) findViewById(R.id.warning2);
+
+
+    }
+
+    private void clearFields(){
+        userSign.setText("");
+        passSign.setText("");
+        warning1.setText("");
         warning2.setText("");
+        userReg.setText("");
+        passReg1.setText("");
+        passReg2.setText("");
 
     }
 
@@ -63,6 +68,7 @@ public class SignInActivity extends AppCompatActivity {
         else if (pw2.equals(pw1)) {
                 UserManager.getInstance().addUser(un, pw1);
                 Intent intent = new Intent(SignInActivity.this, UserInfoActivity.class);
+                this.clearFields();
                 startActivity(intent);
         } else
             warning2.setText("Passwords don't match");
@@ -84,6 +90,7 @@ public class SignInActivity extends AppCompatActivity {
         else if (user.getPassword().equals(pw1)) {
             um.setCurrentUser(user);
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+            this.clearFields();
             startActivity(intent);
         }
     }

@@ -62,5 +62,8 @@ public class CalendarActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void mainMenu(View v){
+        finish();
+    }
 
 }
