@@ -23,15 +23,15 @@ public class UserInfoActivity extends AppCompatActivity {
         user = UserManager.getInstance().getCurrentUser();
 
         uname = (TextView) findViewById(R.id.userName);
-        uname.setText(user.getU_name());
+        uname.setText(user.getUserName());
         pw = (TextView) findViewById(R.id.userPaword);
         pw.setText(user.getPassword());
         fn = (TextView) findViewById(R.id.firstName);
-        fn.setText(user.getF_name());
+        fn.setText(user.getFirstName());
         ln = (TextView) findViewById(R.id.lastName);
-        ln.setText(user.getL_name());
+        ln.setText(user.getLastName());
         ad = (TextView) findViewById(R.id.adress);
-        ad.setText(user.getAdress());
+        ad.setText(user.getAddress());
 
     }
     public void updateInfo(View v){
