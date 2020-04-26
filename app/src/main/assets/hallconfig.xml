@@ -1,0 +1,38 @@
+<hallConfig>
+    <openhours length="7">
+        <int length="2">8, 19</int>
+        <int length="2">8, 19</int>
+        <int length="2">8, 19</int>
+        <int length="2">7, 17</int>
+        <int length="2">9, 21</int>
+        <int length="2">10, 20</int>
+        <int length="2">13, 18</int>
+    </openhours>
+    <rooms>
+        <roomInfo>
+            <id>1</id>
+            <name>Tennis 1</name>
+        </roomInfo>
+        <roomInfo>
+            <id>2</id>
+            <name>Tennis 2</name>
+        </roomInfo>
+        <roomInfo>
+            <id>3</id>
+            <name>Tennis 3</name>
+        </roomInfo>
+        <roomInfo>
+            <id>4</id>
+            <name>Badminton 1</name>
+        </roomInfo>
+        <roomInfo>
+            <id>5</id>
+            <name>Badminton 2</name>
+        </roomInfo>
+    </rooms>
+    <sports length="3">
+        <string>Tennis</string>
+        <string>Badminton</string>
+        <string>Squash</string>
+    </sports>
+</hallConfig>

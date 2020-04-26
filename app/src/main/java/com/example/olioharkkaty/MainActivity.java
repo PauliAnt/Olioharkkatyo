@@ -19,6 +19,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         username = getIntent().getStringExtra("Username");
+
+        try {
+            Hall.getInstance().config(MainActivity.this);
+        } catch (Exception e) {
+            // config tiedoston parsiminen epäonnistui
+            e.printStackTrace();
+            finish();
+            System.exit(0);
+        }
     }
 
     public void openCalendarActivity(View v){

@@ -49,7 +49,7 @@ public class SignInActivity extends AppCompatActivity {
         else if (un.equals(pw1))
             warning2.setText("Username and password can't be same");
         else if (pw2.equals(pw1)) {
-                hall.addUser(un, pw1);
+                //hall.addUser(un, pw1);
                 Intent intent = new Intent(SignInActivity.this, UserInfoActivity.class);
                 //intent.putExtra("Username", un);
                 startActivity(intent);
