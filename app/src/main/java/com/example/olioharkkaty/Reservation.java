@@ -2,11 +2,15 @@ package com.example.olioharkkaty;
 
 import android.util.Log;
 
+import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Root
 public class Reservation {
+
+    @Attribute
+    private int id;
 
     @Element
     private String date;
@@ -27,7 +31,7 @@ public class Reservation {
     @Element
     private String sport;
 
-    public Reservation(String d, String t, String un, String des, String s){
+    public Reservation(String d, String t, String un, String des, String s,int i){
         date = d;
         time = t;
         username = un;
@@ -37,6 +41,7 @@ public class Reservation {
         }
         describtion = des;
         sport = s;
+        id = i;
     }
 
     // Tyhjä rakentaja Simple kirjastoa varten

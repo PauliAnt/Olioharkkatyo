@@ -1,12 +1,10 @@
 package com.example.olioharkkaty;
 
-import android.util.Log;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -15,19 +13,27 @@ import org.simpleframework.xml.Root;
 @Root
 public class Room {
 
+    @Attribute
+    private int id;
+
     @ElementList(inline = true)
     private List<Reservation> reservations;
 
     @Element
     private String name;
 
+    @Element
+    private int nextid;
+
     // Tyhjä rakentaja Simple kirjastoa varten
     private Room() {}
 
 
-    public Room(String n) {
-        name = n;
+    public Room(String name,int id) {
+        this.name = name;
+        this.id = id;
         reservations = new ArrayList<Reservation>();
+        nextid = 1000*id+1;
     }
 
 
@@ -35,8 +41,11 @@ public class Room {
         return name;
     }
 
-    public void addReservation(String date, String time, String describtion, String sport) {
-        reservations.add(new Reservation(date, time, "pale", describtion, sport));
+    public int addReservation(String date, String time, String describtion, String sport) {
+        int reservationid = nextid;
+        nextid++;
+        reservations.add(new Reservation(date, time, "pale", describtion, sport, reservationid));
+        return reservationid;
     }
 
     public ArrayList<String> getAvailableHours(String date, int openinghour, int closinghour) {

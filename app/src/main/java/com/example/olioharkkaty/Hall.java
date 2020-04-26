@@ -10,10 +10,7 @@ import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Dictionary;
 import java.util.HashMap;
 
 import org.simpleframework.xml.Serializer;
@@ -22,14 +19,14 @@ import org.simpleframework.xml.core.Persister;
 
 public class Hall {
     /*  Luokka käsittelee varausjärjestelmän toiminnallisuutta Room-luokkaa apuna käyttäen. */
-    private HashMap<String, Integer> rooms;
+    private HashMap<Integer,String> rooms;
     private String fname = "reservations.xml";
     private String[] sports;
     private int[][] openhours;
 
 
     private Hall() {
-        rooms = new HashMap<String, Integer>();
+        rooms = new HashMap<Integer, String>();
     }
 
     public static final Hall instance = new Hall();
@@ -64,7 +61,7 @@ public class Hall {
 
     public ArrayList<String> getRooms() {
         ArrayList<String> al = new ArrayList<String>();
-        al.addAll(rooms.keySet());
+        al.addAll(rooms.values());
         Log.i("getRooms",Integer.toString(rooms.size())+ Integer.toString(rooms.keySet().size()));
         return al;
     }
@@ -110,7 +107,7 @@ public class Hall {
             room = this.deserializeXMLToRoomObject(con, roomname);
 
         } catch (FileNotFoundException e) {
-            room = new Room(roomname);
+            room = new Room(roomname,(int)this.getKeyFromValue(rooms,roomname));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -155,6 +152,14 @@ public class Hall {
         ser.write(object, os);
         os.close();
 
+    }
+
+    private Object getKeyFromValue(HashMap map, String value) {
+        for (Object key:map.keySet()){
+            if (map.get(key).equals(value))
+                    return(key);
+        }
+        return null;
     }
 }
 

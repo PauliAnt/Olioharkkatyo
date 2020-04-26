@@ -12,10 +12,10 @@ public class HallConfig {
 
     @ElementList
     private ArrayList<RoomInfo> rooms;
-    public HashMap<String, Integer> getRoomMap(){
-        HashMap<String, Integer> hm = new HashMap<String, Integer>();
+    public HashMap<Integer, String> getRoomMap(){
+        HashMap hm = new HashMap<Integer, String>();
         for (RoomInfo room:rooms){
-            hm.put(room.name, room.id);
+            hm.put(room.id, room.name);
         }
         return hm;
     }

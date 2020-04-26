@@ -11,7 +11,7 @@
         android:id="@+id/textView4"
         android:layout_width="300dp"
         android:layout_height="45dp"
-        android:background="@drawable/calender"
+        android:background="@android:color/transparent"
         android:text="@string/please_sign_in_or_register"
         android:textAlignment="center"
         android:textColor="#000000"
