@@ -15,13 +15,14 @@ public class UserInfoActivity extends AppCompatActivity {
     private TextView ln;
     private TextView ad;
     private User user;
+    private UserManager um;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
-        user = UserManager.getInstance().getCurrentUser();
-
+        um = UserManager.getInstance();
+        user = um.getCurrentUser();
         uname = (TextView) findViewById(R.id.userName);
         uname.setText(user.getUserName());
         pw = (TextView) findViewById(R.id.userPaword);
@@ -34,16 +35,9 @@ public class UserInfoActivity extends AppCompatActivity {
         ad.setText(user.getAddress());
 
     }
-    public void updateInfo(View v){
+    public void confirm(View v){
         un = uname.getText().toString();
-        user.setUserName(un);
-        user.setPassword(pw.getText().toString());
-        user.setFirstName(fn.getText().toString());
-        user.setLastName(ln.getText().toString());
-        user.setAddress(ad.getText().toString());
-
-        Intent intent = new Intent(UserInfoActivity.this, MainActivity.class);
-        intent.putExtra("Username", un);
-        startActivity(intent);
+        um.updateInfo(un, pw.getText().toString(), fn.getText().toString(), ln.getText().toString(), ad.getText().toString());
+        finish();
     }
 }

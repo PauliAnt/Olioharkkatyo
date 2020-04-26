@@ -18,7 +18,6 @@ public class SignInActivity extends AppCompatActivity {
     private User user;
 
 
-    // Näitä ei tarvitse merkitä koko luokan välisiksi. Riittää että käyttää register() metodissa
     protected String un;
     private String pw1;
     private String pw2;
@@ -29,12 +28,19 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signin);
 
         userSign = (TextView) findViewById(R.id.userSign);
+        userSign.setText("");
         passSign = (TextView) findViewById(R.id.passSign);
+        passSign.setText("");
         warning1 = (TextView) findViewById(R.id.warning1);
+        warning1.setText("");
         userReg = (TextView) findViewById(R.id.userReg);
+        userReg.setText("");
         passReg1 = (TextView) findViewById(R.id.passReg1);
+        passReg1.setText("");
         passReg2 = (TextView) findViewById(R.id.passReg2);
+        passReg2.setText("");
         warning2 = (TextView) findViewById(R.id.warning2);
+        warning2.setText("");
 
     }
 
