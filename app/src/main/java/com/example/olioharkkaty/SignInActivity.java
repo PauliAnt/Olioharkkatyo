@@ -32,7 +32,6 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void register(View v) {
-        Hall hall = Hall.getInstance();
         un = userReg.getText().toString();
         pw1 =  passReg1.getText().toString();
         pw2 = passReg2.getText().toString();
@@ -49,9 +48,8 @@ public class SignInActivity extends AppCompatActivity {
         else if (un.equals(pw1))
             warning2.setText("Username and password can't be same");
         else if (pw2.equals(pw1)) {
-                //hall.addUser(un, pw1);
+                UserManager.getInstance().addUser(un, pw1);
                 Intent intent = new Intent(SignInActivity.this, UserInfoActivity.class);
-                //intent.putExtra("Username", un);
                 startActivity(intent);
         } else
             warning2.setText("Passwords don't match");

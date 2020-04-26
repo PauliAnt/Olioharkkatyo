@@ -20,10 +20,8 @@ public class UserInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
-        un = "Tommi";
-        Hall hall = Hall.getInstance();
-        //user = hall.getUser(un);
-/*
+        user = UserManager.getInstance().getCurrentUser();
+
         uname = (TextView) findViewById(R.id.userName);
         uname.setText(user.getU_name());
         pw = (TextView) findViewById(R.id.userPaword);
@@ -34,7 +32,7 @@ public class UserInfoActivity extends AppCompatActivity {
         ln.setText(user.getL_name());
         ad = (TextView) findViewById(R.id.adress);
         ad.setText(user.getAdress());
-*/
+
     }
     public void updateInfo(View v){
         un = uname.getText().toString();

@@ -14,12 +14,28 @@ public class UserManager {
     }
 
     public static final UserManager instance = new UserManager();
-    public UserManager getInstance() {return instance;}
+    public static UserManager getInstance() {return instance;}
 
     public boolean checkLogin(String username, String password) {
         // todo lisää toiminnallisuus, tsekkaa käyttäjänimen ja salasanan user listasta, palauttaa true jos löytyy, false jos ei
         return true;
     }
 
+    public User getCurrentUser() {return currentuser;}
+
     public String getCurrentUserName() {return currentuser.getUserName();}
+
+    public void addUsers(User user) {
+        users.add(user);
+    }
+
+    public void setCurrentUser(User user){
+        currentuser = user;
+    }
+
+    public void addUser(String un, String pw){
+        User user = new User(un, pw);
+        addUsers(user);
+        setCurrentUser(user);
+    }
 }
