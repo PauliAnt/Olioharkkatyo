@@ -1,4 +1,9 @@
 package com.example.olioharkkaty;
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 public class UserManager {
@@ -44,16 +49,23 @@ public class UserManager {
     public String getCurrentUserName() {return currentuser.getUserName();}
 
     public void addUsers(User user) {
-        users.add(user);
+
+
     }
 
     public void setCurrentUser(User user){
         currentuser = user;
     }
 
-    public void addUser(String un, String pw){
+    public void addUser(Context con, String un, String pw) {
+        SharedPreferences mPrefs = con.getSharedPreferences("Users", Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
         User user = new User(un, pw);
-        addUsers(user);
-        setCurrentUser(user);
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        String una = user.getUserName();
+        prefsEditor.putString(una, json);
+        prefsEditor.commit();
     }
+
 }
