@@ -77,21 +77,24 @@ public class SignInActivity extends AppCompatActivity {
     public void signInButton(View v){
         UserManager um = UserManager.getInstance();
         un = userSign.getText().toString();
-        user = um.findUser(un);
         pw1 = passSign.getText().toString();
+
         if (un.equals(""))
             warning1.setText("Give username");
         else if (pw1.equals(""))
             warning1.setText("Give password");
-        else if (user==null)
-            warning1.setText("Username not found");
-        else if (user.getPassword().equals(pw1)!=true)
-            warning1.setText("Password doesn't match username");
-        else if (user.getPassword().equals(pw1)) {
-            um.setCurrentUser(user);
-            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-            this.clearFields();
-            startActivity(intent);
+        else {
+            Boolean check = um.checkLogin(SignInActivity.this, un, pw1);
+            if(check==false)
+                warning1.setText("Username or password invalid");
+            else if (check==true) {
+                um.setCurrentUser(user);
+                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                this.clearFields();
+                startActivity(intent);
+            }
+
+
         }
     }
 }
