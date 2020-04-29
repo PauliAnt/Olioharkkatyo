@@ -29,7 +29,7 @@ public class UserManager {
         else {
             User user = gson.fromJson(json, User.class);
             if (password.equals(user.getPassword())) {
-                this.setCurrentUser(user);
+                currentuser = user;
                 return true;
             } else
                 return false;
@@ -58,7 +58,6 @@ public class UserManager {
     private void writeToFile(Context con, User user){
         SharedPreferences mPrefs = con.getSharedPreferences("Users", Context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
-        this.setCurrentUser(user);
         Gson gson = new Gson();
         String json = gson.toJson(user);
         una = user.getUserName();
@@ -72,6 +71,7 @@ public class UserManager {
 
     public void addUser(Context con, String un, String pw) {
         User user = new User(un, pw);
+        currentuser = user;
         this.writeToFile(con, user);
     }
 

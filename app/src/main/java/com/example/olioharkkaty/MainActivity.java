@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        username = getIntent().getStringExtra("Username");
 
         try {
             Hall.getInstance().config(MainActivity.this);
@@ -38,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void openUserInfoActivity(View v){
         Intent intent = new Intent(MainActivity.this, UserInfoActivity.class);
-        intent.putExtra("Username", username);
         startActivity(intent);
     }
 
