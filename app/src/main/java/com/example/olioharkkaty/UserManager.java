@@ -61,6 +61,7 @@ public class UserManager {
         SharedPreferences mPrefs = con.getSharedPreferences("Users", Context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         User user = new User(un, pw);
+        this.setCurrentUser(user);
         Gson gson = new Gson();
         String json = gson.toJson(user);
         String una = user.getUserName();
