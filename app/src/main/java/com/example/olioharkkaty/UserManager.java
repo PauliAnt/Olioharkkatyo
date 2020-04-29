@@ -18,9 +18,9 @@ public class UserManager {
     public static final UserManager instance = new UserManager();
     public static UserManager getInstance() {return instance;}
 
+
     public boolean checkLogin(Context con, String username, String password) {
         SharedPreferences mPrefs = con.getSharedPreferences("Users", Context.MODE_PRIVATE);
-
         Gson gson = new Gson();
         String json = mPrefs.getString(username, "defValue");
 
@@ -36,12 +36,13 @@ public class UserManager {
         }
     }
 
-    public void updateInfo(String un, String pw, String fn, String ln, String ad){
+    public void updateInfo(Context con, String un, String pw, String fn, String ln, String ad){
         currentuser.setUserName(un);
         currentuser.setPassword(pw);
         currentuser.setFirstName(fn);
         currentuser.setLastName(ln);
         currentuser.setAddress(ad);
+        writeToFile(con, currentuser);
     }
 
 
@@ -54,21 +55,24 @@ public class UserManager {
 
 
     }
-
-    public void setCurrentUser(User user){
-        currentuser = user;
-    }
-
-    public void addUser(Context con, String un, String pw) {
+    private void writeToFile(Context con, User user){
         SharedPreferences mPrefs = con.getSharedPreferences("Users", Context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
-        User user = new User(un, pw);
         this.setCurrentUser(user);
         Gson gson = new Gson();
         String json = gson.toJson(user);
         una = user.getUserName();
         prefsEditor.putString(una, json);
         prefsEditor.commit();
+    }
+
+    public void setCurrentUser(User user){
+        currentuser = user;
+    }
+
+    public void addUser(Context con, String un, String pw) {
+        User user = new User(un, pw);
+        this.writeToFile(con, user);
     }
 
 }
