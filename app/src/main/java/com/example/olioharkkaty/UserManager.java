@@ -10,22 +10,30 @@ public class UserManager {
     // todo kaikki user toiminta tämän luokan kautta!!!
 
     private User currentuser;
+    private String una;
 
-    // korvataan myöhemmin tiedoston lukemisella
-    public ArrayList<User> users;
-
-    private UserManager() {
-        users = new ArrayList<User>();
-        users.add(new User("Tommi", "Teemuki"));
-    }
+    private UserManager() {}
 
 
     public static final UserManager instance = new UserManager();
     public static UserManager getInstance() {return instance;}
 
-    public boolean checkLogin(String username, String password) {
-        // todo lisää toiminnallisuus, tsekkaa käyttäjänimen ja salasanan user listasta, palauttaa true jos löytyy, false jos ei
-        return true;
+    public boolean checkLogin(Context con, String username, String password) {
+        SharedPreferences mPrefs = con.getSharedPreferences("Users", Context.MODE_PRIVATE);
+
+        Gson gson = new Gson();
+        String json = mPrefs.getString(username, "defValue");
+
+        if (json.equals("defValue"))
+            return false;
+        else {
+            User user = gson.fromJson(json, User.class);
+            if (password.equals(user.getPassword())) {
+                this.setCurrentUser(user);
+                return true;
+            } else
+                return false;
+        }
     }
 
     public void updateInfo(String un, String pw, String fn, String ln, String ad){
@@ -36,13 +44,7 @@ public class UserManager {
         currentuser.setAddress(ad);
     }
 
-    public User findUser(String un){
-        for (User user:users){
-            if (user.getUserName().equals(un))
-                    return user;
-        }
-        return null;
-    }
+
 
     public User getCurrentUser() {return currentuser;}
 
@@ -64,7 +66,7 @@ public class UserManager {
         this.setCurrentUser(user);
         Gson gson = new Gson();
         String json = gson.toJson(user);
-        String una = user.getUserName();
+        una = user.getUserName();
         prefsEditor.putString(una, json);
         prefsEditor.commit();
     }
