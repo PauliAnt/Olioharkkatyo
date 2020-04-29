@@ -41,10 +41,10 @@ public class Room {
         return name;
     }
 
-    public int addReservation(String date, String time, String describtion, String sport) {
+    public int addReservation(String date, String time, String describtion, int sportid) {
         int reservationid = nextid;
         nextid++;
-        reservations.add(new Reservation(date, time, "pale", describtion, sport, reservationid));
+        reservations.add(new Reservation(date, time, "pale", describtion, sportid, reservationid,name));
         return reservationid;
     }
 

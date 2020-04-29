@@ -9,6 +9,9 @@ import org.simpleframework.xml.Root;
 @Root
 public class Reservation {
 
+    private String[] listofsports = {"Tennis", "Badminton", "Squash"};
+    private int[] sportImageResources = {R.drawable.ic_tennisball,R.drawable.ic_badminton,R.drawable.ic_squashball};
+
     @Attribute
     private int id;
 
@@ -29,9 +32,14 @@ public class Reservation {
     private String describtion;
 
     @Element
-    private String sport;
+    private int sportid;
 
-    public Reservation(String d, String t, String un, String des, String s,int i){
+    @Element
+    private String room;
+
+    public String getRoom() { return room; }
+
+    public Reservation(String d, String t, String un, String des, int si , int i, String r){
         date = d;
         time = t;
         username = un;
@@ -40,10 +48,12 @@ public class Reservation {
             des = "_empty_";
         }
         describtion = des;
-        sport = s;
+        sportid = si;
         id = i;
+        room = r;
     }
 
+    public int getSportImageResource(){ return sportImageResources[sportid]; }
     // Tyhjä rakentaja Simple kirjastoa varten
     private Reservation(){}
 

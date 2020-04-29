@@ -100,7 +100,7 @@ public class Hall {
         }
     }
 
-    public void makeReservation(Context con, String time, String roomname, String date, String describtion, String sport) {
+    public void makeReservation(Context con, String time, String roomname, String date, String describtion, int sportid) {
         Room room = null;
         try {
             // luetaan vanhat varaukset
@@ -114,7 +114,7 @@ public class Hall {
 
         }
         // Lisätään uusi varaus
-        room.addReservation(date, time, describtion, sport);
+        int id = room.addReservation(date, time, describtion, sportid);
 
         try {
             //kirjoitetaan varaukset tiedostoon

@@ -1,5 +1,7 @@
 package com.example.olioharkkaty;
 
+import android.content.Context;
+
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementArray;
 import org.simpleframework.xml.ElementList;
@@ -14,7 +16,7 @@ public class HallConfig {
     private ArrayList<RoomInfo> rooms;
     public HashMap<Integer, String> getRoomMap(){
         HashMap hm = new HashMap<Integer, String>();
-        for (RoomInfo room:rooms){
+        for (RoomInfo room:rooms) {
             hm.put(room.id, room.name);
         }
         return hm;
