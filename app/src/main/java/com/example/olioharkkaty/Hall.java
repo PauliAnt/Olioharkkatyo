@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.ListIterator;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
@@ -52,7 +54,7 @@ public class Hall {
             is = con.getAssets().open(filename);
             hc = deserializeXMLToConfigObject(is);
             is.close();
-            this.serializeObjectToXML(con,filename,hc);
+            this.serializeObjectToXML(filename,hc);
 
 
         }
@@ -89,7 +91,7 @@ public class Hall {
 
         try {
             // Room objektin luku tiedostosta
-            Room room = deserializeXMLToRoomObject(con, roomname);
+            Room room = deserializeXMLToRoomObject(roomname);
             return (room.getAvailableHours(date, openinghour, closinghour));
 
 
@@ -107,7 +109,7 @@ public class Hall {
         Room room = null;
         try {
             // luetaan vanhat varaukset
-            room = this.deserializeXMLToRoomObject(con, roomname);
+            room = deserializeXMLToRoomObject(roomname);
 
         } catch (FileNotFoundException e) {
             room = new Room(roomname,(int)this.getKeyFromValue(rooms,roomname));
@@ -123,7 +125,7 @@ public class Hall {
         try {
             //kirjoitetaan varaukset tiedostoon
             String filename = room.getName().replaceAll(" ", "") + fname;
-            this.serializeObjectToXML(con, filename, room);
+            serializeObjectToXML(filename, room);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,38 +134,31 @@ public class Hall {
     }
 
     public ArrayList<Reservation> findReservationsByIdList(ArrayList<Integer> ids) throws Exception {
-        Collections.sort(ids);
-        int counter = 1, roomid;
-        String filename;
-        ArrayList<Integer> templist = new ArrayList<Integer>();
         ArrayList<Reservation> reservations = new ArrayList<Reservation>();
-
-        for (int id:ids) {
-            roomid = id/1000;
-            if (roomid != counter) {
-
-                // Siirrytään seuraavan huoneen käsittelyyn
-                if (templist.size()!=0) {
-                    Room room = deserializeXMLToRoomObject(con, rooms.get(counter));
-                    reservations.addAll(room.getReservationById(templist));
-                    templist.clear();
-                }
-                while(roomid != counter)
-                    counter++;
-
-
+        Collections.sort(ids);
+        int roomid = 0;
+        Room room = null;
+        Iterator<Integer> itr = ids.iterator();
+        int id = itr.next();
+        while (true)  {
+            if (id/1000 == roomid) {
+                reservations.add(room.getReservationById(id));
+                if (itr.hasNext())
+                    id = itr.next();
+                else
+                    break;
+            } else {
+                roomid = id/1000;
+                room = deserializeXMLToRoomObject(rooms.get(roomid));
             }
-
-            templist.add(id);
-
         }
+
         return reservations;
     }
 
 
-    private Room deserializeXMLToRoomObject(Context con, String roomname) throws Exception {
+    private Room deserializeXMLToRoomObject(String roomname) throws Exception {
         String filename = roomname.replaceAll(" ", "") + fname;
-
         InputStream is = null;
         is = con.openFileInput(filename);
         Serializer ser = new Persister();
@@ -179,7 +174,7 @@ public class Hall {
         return hc;
     }
 
-    private <Object> void serializeObjectToXML(Context con, String filename, Object object) throws Exception {
+    private <Object> void serializeObjectToXML(String filename, Object object) throws Exception {
         OutputStream os = con.openFileOutput(filename, Context.MODE_PRIVATE);
         Serializer ser = new Persister();
         ser.write(object, os);

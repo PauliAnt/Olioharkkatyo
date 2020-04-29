@@ -49,7 +49,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     @Override
     public int getItemCount() {
-        Log.e("Itemcount",Integer.toString(reservations.size()));
         return reservations.size();
     }
 }

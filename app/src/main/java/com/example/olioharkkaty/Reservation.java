@@ -7,7 +7,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Root
-public class Reservation {
+public class Reservation implements Comparable<Reservation>{
 
     private String[] listofsports = {"Tennis", "Badminton", "Squash"};
     private int[] sportImageResources = {R.drawable.ic_tennisball,R.drawable.ic_badminton,R.drawable.ic_squashball};
@@ -60,4 +60,8 @@ public class Reservation {
     private Reservation(){}
 
 
+    @Override
+    public int compareTo(Reservation reservation) {
+        return this.date.compareTo(reservation.date);
+    }
 }

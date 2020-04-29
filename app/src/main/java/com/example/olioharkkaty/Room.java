@@ -66,12 +66,11 @@ public class Room {
         return availablehours;
     }
 
-    public ArrayList<Reservation> getReservationById(ArrayList<Integer> ids){
-        ArrayList<Reservation> temp = new ArrayList<Reservation>();
+    public Reservation getReservationById(int id){
         for(Reservation reservation:reservations){
-            if (ids.contains(reservation.getId()))
-                temp.add(reservation);
+            if (reservation.getId()==id)
+                return reservation;
         }
-        return temp;
+        return null;
     }
 }
