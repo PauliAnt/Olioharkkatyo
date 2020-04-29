@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    protected String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void openCalendarActivity(View v){
         Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
+        startActivity(intent);
+    }
+
+    public void openMyReservationsActivity(View v){
+        Intent intent = new Intent(MainActivity.this, MyReservationsActivity.class);
         startActivity(intent);
     }
 

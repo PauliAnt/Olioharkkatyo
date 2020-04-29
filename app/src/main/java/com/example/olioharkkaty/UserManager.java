@@ -1,17 +1,13 @@
 package com.example.olioharkkaty;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
-
-import java.util.ArrayList;
-
 public class UserManager {
-    // todo kaikki user toiminta tämän luokan kautta!!!
 
     private User currentuser;
     private String una;
-
     private UserManager() {}
 
 
@@ -45,7 +41,10 @@ public class UserManager {
         writeToFile(con, currentuser);
     }
 
-
+    public void addReservationid(Context con, int id){
+        currentuser.addReservation(id);
+        writeToFile(con, currentuser);
+    }
 
     public User getCurrentUser() {return currentuser;}
 
@@ -71,8 +70,8 @@ public class UserManager {
 
     public void addUser(Context con, String un, String pw) {
         User user = new User(un, pw);
-        currentuser = user;
         this.writeToFile(con, user);
+        currentuser = user;
     }
 
 }

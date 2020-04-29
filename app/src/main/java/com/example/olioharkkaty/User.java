@@ -1,6 +1,5 @@
 package com.example.olioharkkaty;
 import java.util.ArrayList;
-import java.util.List;
 
 public class User {
 
@@ -9,11 +8,10 @@ public class User {
     private String f_name = "";
     private String l_name = "";
     private String adress = "";
-    private List<Integer> reservationids;
+    private ArrayList<Integer> reservationids;
 
     public User(String un, String pw){
         reservationids = new ArrayList<Integer>();
-        reservationids.add(2222);
         u_name = un;
         password = pw;
     }
@@ -36,6 +34,8 @@ public class User {
         l_name = ln;
     }
 
+    public void addReservation(int id){reservationids.add(id);}
+
 
     public String getUserName(){
         return u_name;
@@ -54,6 +54,8 @@ public class User {
     }
 
     public String getAddress(){return adress;}
+
+    public ArrayList<Integer> getReservations(){return reservationids;}
 }
 
 

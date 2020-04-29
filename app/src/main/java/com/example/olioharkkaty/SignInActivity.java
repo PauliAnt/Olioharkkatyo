@@ -15,7 +15,6 @@ public class SignInActivity extends AppCompatActivity {
     private TextView userSign;
     private TextView passSign;
     private TextView warning1;
-    private User user;
 
 
     protected String un;
@@ -68,8 +67,8 @@ public class SignInActivity extends AppCompatActivity {
         else if (pw2.equals(pw1)) {
                 UserManager.getInstance().addUser(SignInActivity.this, un, pw1);
                 Intent intent = new Intent(SignInActivity.this, UserInfoActivity.class);
-                startActivity(intent);
                 this.clearFields();
+                startActivity(intent);
         } else
             warning2.setText("Passwords don't match");
 
@@ -84,17 +83,13 @@ public class SignInActivity extends AppCompatActivity {
         else if (pw1.equals(""))
             warning1.setText("Give password");
         else {
-            Boolean check = um.checkLogin(SignInActivity.this, un, pw1);
-            if(check==false)
-                warning1.setText("Username or password invalid");
-            else if (check==true) {
-                um.setCurrentUser(user);
+            if (um.checkLogin(SignInActivity.this, un, pw1)) {
                 Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                startActivity(intent);
                 this.clearFields();
+                startActivity(intent);
+            } else {
+                warning1.setText("Username or password invalid");
             }
-
-
         }
     }
 }

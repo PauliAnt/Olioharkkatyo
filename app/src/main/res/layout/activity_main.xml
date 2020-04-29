@@ -39,6 +39,7 @@
         android:layout_width="180dp"
         android:layout_height="50dp"
         android:background="@drawable/calender"
+        android:onClick="openMyReservationsActivity"
         android:text="@string/my_bookings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

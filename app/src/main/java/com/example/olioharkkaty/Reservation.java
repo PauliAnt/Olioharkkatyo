@@ -15,6 +15,8 @@ public class Reservation {
     @Attribute
     private int id;
 
+    public int getId() { return id; }
+
     @Element
     private String date;
 

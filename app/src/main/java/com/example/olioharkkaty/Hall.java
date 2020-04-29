@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 
 import org.simpleframework.xml.Serializer;
@@ -23,6 +24,7 @@ public class Hall {
     private String fname = "reservations.xml";
     private String[] sports;
     private int[][] openhours;
+    private Context con;
 
 
     private Hall() {
@@ -36,6 +38,7 @@ public class Hall {
 
 
     public void config(Context con) throws Exception {
+        this.con = con;
         // Etsii config asetukset puhelimen asutuksista
         String filename = "hallconfig.xml";
         InputStream is = null;
@@ -115,6 +118,7 @@ public class Hall {
         }
         // Lisätään uusi varaus
         int id = room.addReservation(date, time, describtion, sportid);
+        UserManager.getInstance().addReservationid(con, id);
 
         try {
             //kirjoitetaan varaukset tiedostoon
@@ -125,6 +129,35 @@ public class Hall {
             e.printStackTrace();
         }
 
+    }
+
+    public ArrayList<Reservation> findReservationsByIdList(ArrayList<Integer> ids) throws Exception {
+        Collections.sort(ids);
+        int counter = 1, roomid;
+        String filename;
+        ArrayList<Integer> templist = new ArrayList<Integer>();
+        ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+
+        for (int id:ids) {
+            roomid = id/1000;
+            if (roomid != counter) {
+
+                // Siirrytään seuraavan huoneen käsittelyyn
+                if (templist.size()!=0) {
+                    Room room = deserializeXMLToRoomObject(con, rooms.get(counter));
+                    reservations.addAll(room.getReservationById(templist));
+                    templist.clear();
+                }
+                while(roomid != counter)
+                    counter++;
+
+
+            }
+
+            templist.add(id);
+
+        }
+        return reservations;
     }
 
 

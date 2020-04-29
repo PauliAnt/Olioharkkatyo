@@ -65,4 +65,13 @@ public class Room {
 
         return availablehours;
     }
+
+    public ArrayList<Reservation> getReservationById(ArrayList<Integer> ids){
+        ArrayList<Reservation> temp = new ArrayList<Reservation>();
+        for(Reservation reservation:reservations){
+            if (ids.contains(reservation.getId()))
+                temp.add(reservation);
+        }
+        return temp;
+    }
 }
