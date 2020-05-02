@@ -84,9 +84,15 @@ public class SignInActivity extends AppCompatActivity {
             warning1.setText("Give password");
         else {
             if (um.checkLogin(SignInActivity.this, un, pw1)) {
-                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                this.clearFields();
-                startActivity(intent);
+                if (um.checkAdmin(un, pw1)==true){
+                    Intent intent = new Intent(SignInActivity.this, AdminMainActivity.class);
+                    this.clearFields();
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                    this.clearFields();
+                    startActivity(intent);
+                }
             } else {
                 warning1.setText("Username or password invalid");
             }

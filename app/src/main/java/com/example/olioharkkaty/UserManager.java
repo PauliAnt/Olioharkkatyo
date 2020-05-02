@@ -8,7 +8,14 @@ public class UserManager {
 
     private User currentuser;
     private String una;
-    private UserManager() {}
+    private String adminun;
+    private String adminpw;
+
+    private UserManager() {
+        // todo fiksumpi tapa adminkäyttäjän tekemiseen
+        adminun = "Tommi";
+        adminpw = "Teemuki";
+    }
 
 
     public static final UserManager instance = new UserManager();
@@ -72,6 +79,12 @@ public class UserManager {
         User user = new User(un, pw);
         this.writeToFile(con, user);
         currentuser = user;
+    }
+
+    public Boolean checkAdmin(String un, String pw){
+        if (un.equals(adminun) && pw.equals(adminpw))
+            return true;
+        return false;
     }
 
 }

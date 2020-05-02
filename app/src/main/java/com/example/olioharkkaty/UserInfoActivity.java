@@ -14,6 +14,7 @@ public class UserInfoActivity extends AppCompatActivity {
     private TextView fn;
     private TextView ln;
     private TextView ad;
+    private TextView wr;
     private User user;
     private UserManager um;
 
@@ -33,11 +34,23 @@ public class UserInfoActivity extends AppCompatActivity {
         ln.setText(user.getLastName());
         ad = (TextView) findViewById(R.id.adress);
         ad.setText(user.getAddress());
-
+        wr = (TextView) findViewById(R.id.warning);
     }
+
+    private Boolean checkFields(){
+        if (uname.getText().toString().equals("") || pw.getText().toString().equals("") || fn.getText().toString().equals("") || ln.getText().toString().equals("") || ad.getText().toString().equals(""))
+            return false;
+        return true;
+    }
+
     public void confirm(View v){
-        un = uname.getText().toString();
-        um.updateInfo(UserInfoActivity.this, un, pw.getText().toString(), fn.getText().toString(), ln.getText().toString(), ad.getText().toString());
-        finish();
+        if (checkFields()==false)
+            wr.setText("Fill all fields");
+        else {
+            wr.setText("");
+            un = uname.getText().toString();
+            um.updateInfo(UserInfoActivity.this, un, pw.getText().toString(), fn.getText().toString(), ln.getText().toString(), ad.getText().toString());
+            finish();
+        }
     }
 }
