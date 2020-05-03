@@ -134,24 +134,30 @@ public class Hall {
 
     }
 
-    public ArrayList<Reservation> findReservationsByIdList(ArrayList<Integer> ids) throws Exception {
+    public ArrayList<Reservation> findReservationsByIdList(ArrayList<Integer> ids) {
         ArrayList<Reservation> reservations = new ArrayList<Reservation>();
         Collections.sort(ids);
         int roomid = 0;
         Room room = null;
         Iterator<Integer> itr = ids.iterator();
         int id = itr.next();
-        while (true)  {
-            if (id/1000 == roomid) {
-                reservations.add(room.getReservationById(id));
-                if (itr.hasNext())
-                    id = itr.next();
-                else
-                    break;
-            } else {
-                roomid = id/1000;
-                room = deserializeXMLToRoomObject(rooms.get(roomid));
+        try {
+            while (true) {
+                if (id / 1000 == roomid) {
+                    reservations.add(room.getReservationById(id));
+                    if (itr.hasNext())
+                        id = itr.next();
+                    else
+                        break;
+                } else {
+                    roomid = id / 1000;
+                    room = deserializeXMLToRoomObject(rooms.get(roomid));
+                }
             }
+        } catch(Exception e) {
+            // Parsiminen epäonnistui
+            e.printStackTrace();
+            return null;
         }
 
         return reservations;

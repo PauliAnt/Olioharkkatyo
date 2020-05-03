@@ -19,12 +19,10 @@ public class Reservation implements Comparable<Reservation>{
 
     @Element
     private String date;
-
     public String getDate() {return date;}
 
     @Element
     private String time;
-
     public String getTime() {return time;}
 
     @Element
@@ -32,6 +30,12 @@ public class Reservation implements Comparable<Reservation>{
 
     @Element
     private String describtion;
+
+    public String getDescribtion() {
+        if (describtion.equals("_empty_"))
+            return "";
+        return describtion;
+    }
 
     @Element
     private int sportid;
@@ -59,6 +63,8 @@ public class Reservation implements Comparable<Reservation>{
     // Tyhjä rakentaja Simple kirjastoa varten
     private Reservation(){}
 
+
+    public String getSport() {return listofsports[sportid];}
 
     @Override
     public int compareTo(Reservation reservation) {

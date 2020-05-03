@@ -36,10 +36,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openManageRoomsActivity(View v){
-        Intent intent = new Intent(MainActivity.this, ManageRoomsActivity.class);
-        startActivity(intent);
-    }
 
     public void signOut(View v){
         UserManager.getInstance().setCurrentUser(null);
