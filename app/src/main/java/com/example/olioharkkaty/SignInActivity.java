@@ -59,6 +59,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void register(View v) {
+        UserManager um = UserManager.getInstance();
         un = userReg.getText().toString();
         pw1 =  passReg1.getText().toString();
         pw2 = passReg2.getText().toString();
@@ -68,17 +69,20 @@ public class SignInActivity extends AppCompatActivity {
             warning2.setText("Give password");
         else if (un.equals(""))
             warning2.setText("Give username");
-        else if (pw1.length()<6)
+        else if (pw1.length()<12)
             warning2.setText("Password too short");
-        else if (pw1.length()>16)
+        else if (pw1.length()>32)
             warning2.setText("Password too long");
         else if (un.equals(pw1))
             warning2.setText("Username and password can't be same");
         else if (pw2.equals(pw1)) {
-                UserManager.getInstance().addUser(SignInActivity.this, un, pw1);
-                Intent intent = new Intent(SignInActivity.this, UserInfoActivity.class);
-                this.clearFields();
-                startActivity(intent);
+                if (um.checkPassword(pw1)) {
+                    um.getInstance().addUser(SignInActivity.this, un, pw1);
+                    Intent intent = new Intent(SignInActivity.this, UserInfoActivity.class);
+                    this.clearFields();
+                    startActivity(intent);
+                } else
+                    warning2.setText("Password must contain number and special char");
         } else
             warning2.setText("Passwords don't match");
 

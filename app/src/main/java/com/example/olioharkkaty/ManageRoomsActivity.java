@@ -42,7 +42,5 @@ public class ManageRoomsActivity extends AppCompatActivity {
         // todo lisää toiminnallisuus lisää huoneen huonelistaan
     }
 
-    public void backButton(View v){
-        finish();
-    }
+    public void backButton(View v){ finish();}
 }

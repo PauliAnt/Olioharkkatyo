@@ -46,6 +46,8 @@ public class UserInfoActivity extends AppCompatActivity {
     public void confirm(View v){
         if (checkFields()==false)
             wr.setText("Fill all fields");
+        else if (pw.getText().length()<12 || pw.getText().length()>32 || um.checkPassword(pw.getText().toString())==false)
+            wr.setText("Password must be 12-32 char and contain number and special char");
         else {
             wr.setText("");
             un = uname.getText().toString();

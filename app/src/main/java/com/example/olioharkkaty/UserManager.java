@@ -2,6 +2,11 @@ package com.example.olioharkkaty;
 import android.content.Context;
 import android.content.SharedPreferences;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class UserManager {
 
     private User currentuser;
@@ -58,6 +63,20 @@ public class UserManager {
 
 
     }
+
+    public boolean checkPassword(String pw){
+        Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(pw);
+        boolean b = m.find();
+        if (b==false)
+            return false;
+        for (char c : pw.toCharArray()){
+            if (Character.isDigit(c))
+                return true;
+        }
+        return false;
+    }
+
     private void writeToFile(Context con, User user){
         SharedPreferences mPrefs = con.getSharedPreferences("Users", Context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
