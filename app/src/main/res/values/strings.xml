@@ -24,7 +24,7 @@
     <string name="register">Register</string>
     <string name="update_your_information">Update your information</string>
     <string name="adress">Adress</string>
-    <string name="password_6_16_char">Password (6-16 char)</string>
+    <string name="password_6_16_char">Password (12-32 char)</string>
     <string name="user_info">User info</string>
     <string name="welcome_to_playsports_admin">Welcome to PlaySports admin!</string>
     <string name="manage_rooms">Manage rooms</string>
@@ -32,4 +32,5 @@
     <string name="delete_room">Delete room</string>
     <string name="add_room">Add room</string>
     <string name="room_to_add">Room to add</string>
+    <string name="main">Main</string>
 </resources>
