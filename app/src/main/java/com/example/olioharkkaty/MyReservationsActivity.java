@@ -25,7 +25,6 @@ public class MyReservationsActivity extends AppCompatActivity {
             recyclerView = findViewById(R.id.recyclerView);
             recyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(this);
-            Log.e("User ids",UserManager.getInstance().getCurrentUser().getReservations().toString());
             adapter = new ItemAdapter(Hall.getInstance().findReservationsByIdList(UserManager.getInstance().getCurrentUser().getReservations()));
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter);

@@ -12,25 +12,16 @@ import java.util.HashMap;
 @Root
 public class HallConfig {
 
-    @ElementList
-    private ArrayList<RoomInfo> rooms;
-    public HashMap<Integer, String> getRoomMap(){
-        HashMap hm = new HashMap<Integer, String>();
-        for (RoomInfo room:rooms) {
-            hm.put(room.id, room.name);
-        }
-        return hm;
-    }
-
     @ElementArray
-    private String[] sports;
-    public String[] getSports(){return sports;}
+    private String[] admin; // [username, password]
+    public String[] getAdmin() { return admin; }
 
     @ElementArray
     private int[][] openhours;
     public int[][] getOpenHours(){return openhours;}
 
-    private HallConfig(){}
+    @ElementList
+    private ArrayList<RoomInfo> rooms;
 
     @Root
     static class RoomInfo{
@@ -44,4 +35,19 @@ public class HallConfig {
 
 
     }
+
+    public HashMap<Integer, String> getRoomMap(){
+        HashMap hm = new HashMap<Integer, String>();
+        for (RoomInfo room:rooms) {
+            hm.put(room.id, room.name);
+        }
+        return hm;
+    }
+
+    @ElementArray
+    private String[] sports;
+    public String[] getSports(){return sports;}
+
+    // tyhjä rakentaja SimpleXML kirjastoa varten
+    private HallConfig(){}
 }

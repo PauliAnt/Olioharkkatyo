@@ -1,4 +1,8 @@
 <hallConfig>
+    <admin length="2">
+        <string>admin</string>
+        <string>adm1n</string>
+    </admin>
     <openhours length="7">
         <int length="2">8, 19</int>
         <int length="2">8, 19</int>

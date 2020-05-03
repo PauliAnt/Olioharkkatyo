@@ -26,6 +26,16 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
 
+        // configuroidaan varausjärjestelmä
+        try {
+            Hall.getInstance().config(SignInActivity.this);
+        } catch (Exception e) {
+            // config tiedoston parsiminen epäonnistui
+            e.printStackTrace();
+            finish();
+            System.exit(0);
+        }
+
         userSign = (TextView) findViewById(R.id.userSign);
         passSign = (TextView) findViewById(R.id.passSign);
         warning1 = (TextView) findViewById(R.id.warning1);
@@ -84,8 +94,8 @@ public class SignInActivity extends AppCompatActivity {
             warning1.setText("Give password");
         else {
             if (um.checkLogin(SignInActivity.this, un, pw1)) {
-                if (um.checkAdmin(un, pw1)==true){
-                    Intent intent = new Intent(SignInActivity.this, AdminMainActivity.class);
+                if (um.checkAdmin()){
+                    Intent intent = new Intent(SignInActivity.this, ManageRoomsActivity.class);
                     this.clearFields();
                     startActivity(intent);
                 } else {

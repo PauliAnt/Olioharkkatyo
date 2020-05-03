@@ -1,21 +1,14 @@
 package com.example.olioharkkaty;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
-
 import com.google.gson.Gson;
 public class UserManager {
 
     private User currentuser;
     private String una;
-    private String adminun;
-    private String adminpw;
+    private User admin;
 
-    private UserManager() {
-        // todo fiksumpi tapa adminkäyttäjän tekemiseen
-        adminun = "Tommi";
-        adminpw = "Teemuki";
-    }
+    private UserManager() {}
 
 
     public static final UserManager instance = new UserManager();
@@ -23,6 +16,10 @@ public class UserManager {
 
 
     public boolean checkLogin(Context con, String username, String password) {
+        if (username.equals(admin.getUserName())&&password.equals(admin.getPassword())){
+            currentuser=admin;
+            return true;
+        }
         SharedPreferences mPrefs = con.getSharedPreferences("Users", Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = mPrefs.getString(username, "defValue");
@@ -81,8 +78,12 @@ public class UserManager {
         currentuser = user;
     }
 
-    public Boolean checkAdmin(String un, String pw){
-        if (un.equals(adminun) && pw.equals(adminpw))
+    public void setAdmin(String[] adminsignin){
+       admin = new Admin(adminsignin[0],adminsignin[1]);
+    }
+
+    public Boolean checkAdmin(){
+        if (currentuser instanceof Admin)
             return true;
         return false;
     }

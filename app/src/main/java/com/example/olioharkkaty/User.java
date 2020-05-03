@@ -1,4 +1,6 @@
 package com.example.olioharkkaty;
+import android.os.UserManager;
+
 import java.util.ArrayList;
 
 public class User {
@@ -56,6 +58,12 @@ public class User {
     public String getAddress(){return adress;}
 
     public ArrayList<Integer> getReservations(){return reservationids;}
+
 }
 
+class Admin extends User {
+    public Admin(String un, String pw) {
+        super(un, pw);
+    }
+}
 

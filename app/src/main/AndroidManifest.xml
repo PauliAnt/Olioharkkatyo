@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/icon1_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AdminMainActivity"></activity>
         <activity android:name=".ManageRoomsActivity" />
         <activity android:name=".MyReservationsActivity" />
         <activity android:name=".UserInfoActivity" />

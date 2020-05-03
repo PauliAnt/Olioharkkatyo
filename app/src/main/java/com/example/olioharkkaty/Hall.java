@@ -61,6 +61,7 @@ public class Hall {
         openhours = hc.getOpenHours();
         sports = hc.getSports();
         rooms = hc.getRoomMap();
+        UserManager.getInstance().setAdmin(hc.getAdmin());
         Log.i("config",Integer.toString(rooms.size()));
     }
 
