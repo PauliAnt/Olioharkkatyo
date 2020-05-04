@@ -3,14 +3,11 @@ package com.example.olioharkkaty;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import java.text.ParseException;
 import java.util.ArrayList;
 
 public class ReservationActivity extends AppCompatActivity {

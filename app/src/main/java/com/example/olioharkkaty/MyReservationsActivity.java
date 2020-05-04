@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,9 +19,11 @@ import android.widget.Toast;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.ListIterator;
 // https://freesvg.org/badminton-shuttlecock-full sulkapallo kuva
 // https://freesvg.org/tennis-ball-clip-art-vector-image Tennispallo kuva
 // https://svgsilh.com/image/37359.html Squash pallo
@@ -33,6 +36,8 @@ public class MyReservationsActivity extends AppCompatActivity {
     private Dialog infoPopUp, editPopUp;
     private ArrayList<Reservation> reservations;
     private Toast editError;
+    private Spinner searchspinner;
+    private int sportfilter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // PopUp initiate
@@ -43,12 +48,41 @@ public class MyReservationsActivity extends AppCompatActivity {
         editError = Toast.makeText(MyReservationsActivity.this,"You can't edit reservation on the same day",Toast.LENGTH_SHORT);
         refreshView();
 
+        searchspinner = findViewById(R.id.search_spinner);
+        ArrayList<String> sports = new ArrayList<>();
+        sports.addAll(Arrays.asList(Hall.getInstance().getSports()));
+        sports.add(0,"All reservations");
+        ArrayAdapter<String> spinneradapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,sports);
+        spinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        searchspinner.setAdapter(spinneradapter);
+        sportfilter = -1;
+        searchspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sportfilter = position-1;
+                refreshView();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void refreshView(){
         reservations = Hall.getInstance().findReservationsByIdList(UserManager.getInstance().getCurrentUser().getReservations());
         if (reservations == null)
             finish();
+        if (sportfilter != -1) {
+            ListIterator<Reservation> iterator = reservations.listIterator();
+            while(iterator.hasNext()){
+                if(iterator.next().getSportid()!=sportfilter)
+                    iterator.remove();
+            }
+        }
+        Collections.sort(reservations);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -75,7 +109,7 @@ public class MyReservationsActivity extends AppCompatActivity {
                     calendar.set(Calendar.MINUTE, 0);
                     calendar.set(Calendar.SECOND, 0);
                     calendar.set(Calendar.MILLISECOND, 0);
-                    calendar.add(Calendar.HOUR_OF_DAY,24);
+                    calendar.add(Calendar.DAY_OF_MONTH,1);
                     Log.e("OnItemLongClick",sdf.format(calendar.getTime()));
                     if (calendar.getTime().compareTo(sdf.parse(reservation.getDate())) > 0) {
                         editError.show();
@@ -139,21 +173,21 @@ public class MyReservationsActivity extends AppCompatActivity {
         desc.setText(reservation.getDescribtion());
 
         // Find available times for the spinner
-        ArrayAdapter<String> adapter = null;
+        ArrayAdapter<String> spinneradapter = null;
         ArrayList<String> times = hall.getAvailableReservations(reservation.getRoom(),reservation.getDate());
         if(times == null)
             // Parse error with xml or with java Calendar class
             System.exit(1);
         times.add(reservation.getTime());
         Collections.sort(times);
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,times);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        availableSlots.setAdapter(adapter);
+        spinneradapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,times);
+        spinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        availableSlots.setAdapter(spinneradapter);
 
         String[] sportlist = hall.getSports();
-        adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,sportlist);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sports.setAdapter(adapter);
+        spinneradapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,sportlist);
+        spinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sports.setAdapter(spinneradapter);
 
         // setting default selections for spinners
         availableSlots.setSelection(times.indexOf(reservation.getTime()));

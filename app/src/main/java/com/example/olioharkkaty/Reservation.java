@@ -77,6 +77,9 @@ public class Reservation implements Comparable<Reservation>{
 
     @Override
     public int compareTo(Reservation reservation) {
-        return this.date.compareTo(reservation.date);
+        if(this.date.equals(reservation.date))
+            return(this.time.compareTo(reservation.time));
+        else
+            return this.date.compareTo(reservation.date);
     }
 }

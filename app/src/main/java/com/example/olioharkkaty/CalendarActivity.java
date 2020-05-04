@@ -10,7 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,7 +24,8 @@ public class CalendarActivity extends AppCompatActivity {
     private Spinner hallRoom;
     private ArrayList<String> rooms;
     private TextView textView;
-    protected String date;
+    private String date;
+    private Toast invalidDate;
 
 
 
@@ -38,6 +41,7 @@ public class CalendarActivity extends AppCompatActivity {
 
         Hall hall = Hall.getInstance();
         rooms = hall.getRooms();
+        invalidDate = Toast.makeText(CalendarActivity.this,"You can't make reservation for that day",Toast.LENGTH_SHORT);
 
         // Spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, rooms);
@@ -56,10 +60,23 @@ public class CalendarActivity extends AppCompatActivity {
     }
     public void openReservationActivity(View v){
 
-        Intent intent = new Intent(CalendarActivity.this, ReservationActivity.class);
-        intent.putExtra("date", date);
-        intent.putExtra("room", hallRoom.getSelectedItem().toString());
-        startActivity(intent);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        Calendar now = Calendar.getInstance();
+        now.add(Calendar.DAY_OF_MONTH,-1);
+        try {
+            // Check if date is before current day
+            if (sdf.parse(date).compareTo(now.getTime()) < 0){
+                invalidDate.show();
+            } else {
+                Intent intent = new Intent(CalendarActivity.this, ReservationActivity.class);
+                intent.putExtra("date", date);
+                intent.putExtra("room", hallRoom.getSelectedItem().toString());
+                startActivity(intent);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 
     public void mainMenu(View v){

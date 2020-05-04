@@ -69,13 +69,12 @@ public class Hall {
     public ArrayList<String> getRooms() {
         ArrayList<String> al = new ArrayList<String>();
         al.addAll(rooms.values());
-        Log.i("getRooms",Integer.toString(rooms.size())+ Integer.toString(rooms.keySet().size()));
         return al;
     }
     public String[] getSports() { return sports; }
 
     public ArrayList<String> getAvailableReservations(String roomname, String date) {
-        Calendar c = null;
+        Calendar c = null, now = Calendar.getInstance();
         try {
             // Viikonpäivän parsiminen ja aukioloajat
             c = Calendar.getInstance();
@@ -88,11 +87,17 @@ public class Hall {
             return null;
         }
 
+
+
         int day = c.get(Calendar.DAY_OF_WEEK);
         int openinghour = openhours[day - 1][0];
         int closinghour = openhours[day - 1][1];
+        //
+        if ((c.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR))&&(c.get(Calendar.YEAR)==now.get(Calendar.YEAR)))
+            openinghour = now.get(Calendar.HOUR_OF_DAY)+1;
 
-        // Luodaan Arraylist joka voidaan palauttaa jos tiedostoa ei löydy
+
+            // Luodaan Arraylist joka voidaan palauttaa jos tiedostoa ei löydy
         ArrayList<String> al = new ArrayList<String>();
         for (int hour = openinghour; hour <= closinghour; hour++) {
             al.add(String.format("%02d.00", hour));
