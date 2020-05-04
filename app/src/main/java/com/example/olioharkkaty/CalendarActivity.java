@@ -50,7 +50,7 @@ public class CalendarActivity extends AppCompatActivity {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                date = String.format("%02d.%02d.%04d",dayOfMonth,month,year);
+                date = String.format("%02d.%02d.%04d",dayOfMonth,month+1,year);
             }
         });
     }

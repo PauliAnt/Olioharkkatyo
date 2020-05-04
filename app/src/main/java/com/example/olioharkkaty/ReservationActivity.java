@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 
 public class ReservationActivity extends AppCompatActivity {
 
@@ -35,19 +36,17 @@ public class ReservationActivity extends AppCompatActivity {
 
         dateView.setText(date);
         roomView.setText(room);
+
         Hall hall = Hall.getInstance();
 
-
         ArrayAdapter<String> adapter = null;
-        try {
-            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,hall.getAvailableReservations(ReservationActivity.this,room,date));
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            availableSlots.setAdapter(adapter);
-        } catch (ParseException e) {
-            // Jos annettua päivämäärää ei saada parsittua
-            e.printStackTrace();
-            finish();
-        }
+        ArrayList<String> reservations = hall.getAvailableReservations(room,date);
+        if(reservations == null)
+            // Ongelma kalenterin käytössä tai xml parsimisessa
+            System.exit(1);
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,reservations);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        availableSlots.setAdapter(adapter);
 
 
         adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,hall.getSports());

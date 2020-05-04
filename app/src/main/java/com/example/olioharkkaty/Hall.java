@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ListIterator;
@@ -73,14 +74,21 @@ public class Hall {
     }
     public String[] getSports() { return sports; }
 
-    public ArrayList<String> getAvailableReservations(Context con, String roomname, String date) throws ParseException {
+    public ArrayList<String> getAvailableReservations(String roomname, String date) {
+        Calendar c = null;
+        try {
+            // Viikonpäivän parsiminen ja aukioloajat
+            c = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyy");
+            c.setTime(sdf.parse(date));
 
-        // Viikonpäivän parsiminen ja aukioloajat
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyy");
-        c.setTime(sdf.parse(date));
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+
         int day = c.get(Calendar.DAY_OF_WEEK);
-
         int openinghour = openhours[day - 1][0];
         int closinghour = openhours[day - 1][1];
 
@@ -99,11 +107,11 @@ public class Hall {
         } catch (FileNotFoundException e) {
             // Tiedostoa ei ole -> palautetaan kaikki ajat
             return (al);
-
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+
     }
 
     public void makeReservation(Context con, String time, String roomname, String date, String describtion, int sportid) {
@@ -135,8 +143,13 @@ public class Hall {
     }
 
     public ArrayList<Reservation> findReservationsByIdList(ArrayList<Integer> ids) {
+        // Method takes list of reservation ids and returns corresponding list of reservations
         ArrayList<Reservation> reservations = new ArrayList<Reservation>();
         Collections.sort(ids);
+        Calendar calendar = Calendar.getInstance();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyyHH.mm");
+        Reservation reservation;
         int roomid = 0;
         Room room = null;
         Iterator<Integer> itr = ids.iterator();
@@ -144,7 +157,10 @@ public class Hall {
         try {
             while (true) {
                 if (id / 1000 == roomid) {
-                    reservations.add(room.getReservationById(id));
+                    reservation = room.getReservationById(id);
+                    // Only add reservations from current day and future
+                    if(sdf.parse(reservation.getDate() + reservation.getTime()).compareTo(calendar.getTime()) > 0)
+                        reservations.add(reservation);
                     if (itr.hasNext())
                         id = itr.next();
                     else
@@ -161,6 +177,21 @@ public class Hall {
         }
 
         return reservations;
+    }
+
+    public void editReservation(Reservation reservation) {
+        try {
+            Room room = deserializeXMLToRoomObject(reservation.getRoom());
+            room.removeReservation(reservation.getId());
+            room.addReservation(reservation);
+            serializeObjectToXML(reservation.getRoom().replaceAll(" ", "") + fname,room);
+
+        } catch (Exception e) {
+            // parsiminen epäonnistui
+            e.printStackTrace();
+            System.exit(1);
+        }
+
     }
 
 

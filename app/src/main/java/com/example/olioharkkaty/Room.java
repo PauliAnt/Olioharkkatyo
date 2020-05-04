@@ -73,4 +73,12 @@ public class Room {
         }
         return null;
     }
+
+    public void addReservation(Reservation reservation) {
+        reservations.add(reservation);
+    }
+
+    public void removeReservation(int id){
+        reservations.remove(getReservationById(id));
+    }
 }

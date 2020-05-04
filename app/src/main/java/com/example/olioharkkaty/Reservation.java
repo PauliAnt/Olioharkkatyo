@@ -14,7 +14,6 @@ public class Reservation implements Comparable<Reservation>{
 
     @Attribute
     private int id;
-
     public int getId() { return id; }
 
     @Element
@@ -24,6 +23,7 @@ public class Reservation implements Comparable<Reservation>{
     @Element
     private String time;
     public String getTime() {return time;}
+    public void setTime(String time) {this.time = time;}
 
     @Element
     private String username;
@@ -37,8 +37,17 @@ public class Reservation implements Comparable<Reservation>{
         return describtion;
     }
 
+    public void setDescribtion(String describtion) {
+       if (describtion.length()==0)
+           this.describtion = "_empty_";
+       else
+           this.describtion = describtion;
+    }
+
     @Element
     private int sportid;
+    public int getSportid() { return sportid; }
+    public void setSportid(int sportid) { this.sportid = sportid; }
 
     @Element
     private String room;
@@ -49,7 +58,7 @@ public class Reservation implements Comparable<Reservation>{
         date = d;
         time = t;
         username = un;
-        // Väliaikainen arvo helpottaa xml käsittelyssä
+        // Temporary value helps with xml handling
         if (des == null || des.length()==0) {
             des = "_empty_";
         }
