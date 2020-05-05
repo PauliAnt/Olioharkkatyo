@@ -72,7 +72,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="40dp"
             android:layout_toEndOf="@id/firstview">
             <TextView
                 android:layout_width="wrap_content"

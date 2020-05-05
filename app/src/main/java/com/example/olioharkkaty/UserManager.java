@@ -12,15 +12,15 @@ public class UserManager {
     private User currentuser;
     private String una;
     private User admin;
+    private Context con;
 
     private UserManager() {}
-
-
     public static final UserManager instance = new UserManager();
     public static UserManager getInstance() {return instance;}
 
+    public void setContext(Context con){this.con = con;}
 
-    public boolean checkLogin(Context con, String username, String password) {
+    public boolean checkLogin(String username, String password) {
         if (username.equals(admin.getUserName())&&password.equals(admin.getPassword())){
             currentuser=admin;
             return true;
@@ -41,18 +41,18 @@ public class UserManager {
         }
     }
 
-    public void updateInfo(Context con, String un, String pw, String fn, String ln, String ad){
+    public void updateInfo(String un, String pw, String fn, String ln, String ad){
         currentuser.setUserName(un);
         currentuser.setPassword(pw);
         currentuser.setFirstName(fn);
         currentuser.setLastName(ln);
         currentuser.setAddress(ad);
-        writeToFile(con, currentuser);
+        writeToFile(currentuser);
     }
 
-    public void addReservationid(Context con, int id){
+    public void addReservationid(int id){
         currentuser.addReservation(id);
-        writeToFile(con, currentuser);
+        writeToFile(currentuser);
     }
 
     public User getCurrentUser() {return currentuser;}
@@ -77,7 +77,7 @@ public class UserManager {
         return false;
     }
 
-    private void writeToFile(Context con, User user){
+    private void writeToFile(User user){
         SharedPreferences mPrefs = con.getSharedPreferences("Users", Context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
@@ -91,9 +91,9 @@ public class UserManager {
         currentuser = user;
     }
 
-    public void addUser(Context con, String un, String pw) {
+    public void addUser(String un, String pw) {
         User user = new User(un, pw);
-        this.writeToFile(con, user);
+        writeToFile(user);
         currentuser = user;
     }
 

@@ -51,7 +51,7 @@ public class UserInfoActivity extends AppCompatActivity {
         else {
             wr.setText("");
             un = uname.getText().toString();
-            um.updateInfo(UserInfoActivity.this, un, pw.getText().toString(), fn.getText().toString(), ln.getText().toString(), ad.getText().toString());
+            um.updateInfo( un, pw.getText().toString(), fn.getText().toString(), ln.getText().toString(), ad.getText().toString());
             finish();
         }
     }

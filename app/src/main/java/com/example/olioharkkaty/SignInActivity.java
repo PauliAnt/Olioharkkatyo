@@ -29,6 +29,7 @@ public class SignInActivity extends AppCompatActivity {
         // configuroidaan varausjärjestelmä
         try {
             Hall.getInstance().config(SignInActivity.this);
+            UserManager.getInstance().setContext(SignInActivity.this);
         } catch (Exception e) {
             // config tiedoston parsiminen epäonnistui
             e.printStackTrace();
@@ -77,7 +78,7 @@ public class SignInActivity extends AppCompatActivity {
             warning2.setText("Username and password can't be same");
         else if (pw2.equals(pw1)) {
                 if (um.checkPassword(pw1)) {
-                    um.getInstance().addUser(SignInActivity.this, un, pw1);
+                    um.getInstance().addUser(un, pw1);
                     Intent intent = new Intent(SignInActivity.this, UserInfoActivity.class);
                     this.clearFields();
                     startActivity(intent);
@@ -97,7 +98,7 @@ public class SignInActivity extends AppCompatActivity {
         else if (pw1.equals(""))
             warning1.setText("Give password");
         else {
-            if (um.checkLogin(SignInActivity.this, un, pw1)) {
+            if (um.checkLogin(un, pw1)) {
                 if (um.checkAdmin()){
                     Intent intent = new Intent(SignInActivity.this, ManageRoomsActivity.class);
                     this.clearFields();

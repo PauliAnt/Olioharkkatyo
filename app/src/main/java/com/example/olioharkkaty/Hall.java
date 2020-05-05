@@ -130,7 +130,7 @@ public class Hall {
         }
         // Adding new reservation with given parameters
         int id = room.addReservation(date, time, describtion, sportid);
-        UserManager.getInstance().addReservationid(con, id);
+        UserManager.getInstance().addReservationid(id);
 
         try {
             // Writing room object to XML with new reservation
