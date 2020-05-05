@@ -29,7 +29,7 @@ import java.util.ListIterator;
 // https://svgsilh.com/image/37359.html Squash pallo
 
 public class MyReservationsActivity extends AppCompatActivity {
-
+    // Class is used to handle users reservations
     private RecyclerView recyclerView;
     private ItemAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -48,9 +48,11 @@ public class MyReservationsActivity extends AppCompatActivity {
         editError = Toast.makeText(MyReservationsActivity.this,"You can't edit reservation on the same day",Toast.LENGTH_SHORT);
         refreshView();
 
+        //Initiating spinner for finding reservations
         searchspinner = findViewById(R.id.search_spinner);
         ArrayList<String> sports = new ArrayList<>();
         sports.addAll(Arrays.asList(Hall.getInstance().getSports()));
+        // Adding option to view all reservations
         sports.add(0,"All reservations");
         ArrayAdapter<String> spinneradapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,sports);
         spinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -59,6 +61,8 @@ public class MyReservationsActivity extends AppCompatActivity {
         searchspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                /* sport filter needs to correlate directly to list of sports in hall
+                and we added one element to index 0 so we need to lower the index by one.*/
                 sportfilter = position-1;
                 refreshView();
 
@@ -72,9 +76,11 @@ public class MyReservationsActivity extends AppCompatActivity {
     }
 
     private void refreshView(){
+        // Used to refresh/create recyclerview
         reservations = Hall.getInstance().findReservationsByIdList(UserManager.getInstance().getCurrentUser().getReservations());
         if (reservations == null)
             finish();
+        // if filter == -1 -> all reservations is selected
         if (sportfilter != -1) {
             ListIterator<Reservation> iterator = reservations.listIterator();
             while(iterator.hasNext()){
@@ -82,6 +88,7 @@ public class MyReservationsActivity extends AppCompatActivity {
                     iterator.remove();
             }
         }
+        // Sorting reservations by date
         Collections.sort(reservations);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -104,13 +111,14 @@ public class MyReservationsActivity extends AppCompatActivity {
                 Calendar calendar = Calendar.getInstance();
                 SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
                 try {
-                    // Set calendar to midnight following day
+                    // Setting calendar to midnight following day
                     calendar.set(Calendar.HOUR_OF_DAY, 0);
                     calendar.set(Calendar.MINUTE, 0);
                     calendar.set(Calendar.SECOND, 0);
                     calendar.set(Calendar.MILLISECOND, 0);
                     calendar.add(Calendar.DAY_OF_MONTH,1);
-                    Log.e("OnItemLongClick",sdf.format(calendar.getTime()));
+
+                    // Only edit reservations that are at least booked for following day
                     if (calendar.getTime().compareTo(sdf.parse(reservation.getDate())) > 0) {
                         editError.show();
                     } else {

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class ManageRoomsActivity extends AppCompatActivity {
+    // Class is used to control admin room management activity
     private ArrayList<String> rooms;
     private Spinner hallroom;
     private TextView addRoom;

@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 @Root
 public class HallConfig {
+    // Class is used to save configuration settings from file to object
 
     @ElementArray
     private String[] admin; // [username, password]
@@ -48,6 +49,6 @@ public class HallConfig {
     private String[] sports;
     public String[] getSports(){return sports;}
 
-    // tyhjä rakentaja SimpleXML kirjastoa varten
+    // Empty builder for SimpleXML library
     private HallConfig(){}
 }

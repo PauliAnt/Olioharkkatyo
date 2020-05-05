@@ -12,7 +12,7 @@ import org.simpleframework.xml.Root;
 
 @Root
 public class Room {
-
+    // Class is used to manage reservations and room properties
     @Attribute
     private int id;
 
@@ -23,10 +23,8 @@ public class Room {
     private String name;
 
     @Element
-    private int nextid;
+    private int nextid; // reservation id contains room id part and index of reservation part
 
-    // Tyhjä rakentaja Simple kirjastoa varten
-    private Room() {}
 
 
     public Room(String name,int id) {
@@ -49,12 +47,15 @@ public class Room {
     }
 
     public ArrayList<String> getAvailableHours(String date, int openinghour, int closinghour) {
+        // Returns list of time strings by date, and open hours parameters
         ArrayList<String> reservedhours = new ArrayList<String>(), availablehours = new ArrayList<String>();
+        // Finding reserved slots
         for (Reservation reservation : reservations) {
             if (reservation.getDate().equals(date)) {
                 reservedhours.add(reservation.getTime());
             }
         }
+        // Taking non reserved slots and returning them
         for (int hour = openinghour; hour <= closinghour; hour++) {
             String time = String.format("%02d.00",hour);
             if(!reservedhours.contains(time)){
@@ -81,4 +82,8 @@ public class Room {
     public void removeReservation(int id){
         reservations.remove(getReservationById(id));
     }
+
+
+    // Empty builder for SimpleXML
+    private Room() {}
 }

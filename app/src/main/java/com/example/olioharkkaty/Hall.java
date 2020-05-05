@@ -12,17 +12,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.ListIterator;
-
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
 
 public class Hall {
-    /*  Luokka käsittelee varausjärjestelmän toiminnallisuutta Room-luokkaa apuna käyttäen. */
+    // Class has all methods for handling reservation system.
     private HashMap<Integer,String> rooms;
     private String fname = "reservations.xml";
     private String[] sports;
@@ -33,16 +30,21 @@ public class Hall {
     private Hall() {
         rooms = new HashMap<Integer, String>();
     }
-
     public static final Hall instance = new Hall();
-
     public static Hall getInstance() {return instance;}
 
 
+    public ArrayList<String> getRooms() {
+        ArrayList<String> al = new ArrayList<String>();
+        al.addAll(rooms.values());
+        return al;
+    }
+    public String[] getSports() { return sports; }
+
 
     public void config(Context con) throws Exception {
+        // Finds configuration settings from files and sets context for other methods to use
         this.con = con;
-        // Etsii config asetukset puhelimen asutuksista
         String filename = "hallconfig.xml";
         InputStream is = null;
         HallConfig hc = null;
@@ -66,83 +68,79 @@ public class Hall {
         Log.i("config",Integer.toString(rooms.size()));
     }
 
-    public ArrayList<String> getRooms() {
-        ArrayList<String> al = new ArrayList<String>();
-        al.addAll(rooms.values());
-        return al;
-    }
-    public String[] getSports() { return sports; }
 
     public ArrayList<String> getAvailableReservations(String roomname, String date) {
+        // Returns list of time strings (formatted as hh.mm) corresponding room and date
         Calendar c = null, now = Calendar.getInstance();
         try {
-            // Viikonpäivän parsiminen ja aukioloajat
+            // finding correct weekday for the opening hour and closing hour.
             c = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyy");
             c.setTime(sdf.parse(date));
 
-
         } catch (ParseException e) {
             e.printStackTrace();
-            return null;
+            System.exit(1);
         }
-
-
-
         int day = c.get(Calendar.DAY_OF_WEEK);
         int openinghour = openhours[day - 1][0];
         int closinghour = openhours[day - 1][1];
-        //
         if ((c.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR))&&(c.get(Calendar.YEAR)==now.get(Calendar.YEAR)))
             openinghour = now.get(Calendar.HOUR_OF_DAY)+1;
 
 
-            // Luodaan Arraylist joka voidaan palauttaa jos tiedostoa ei löydy
+            // Creating arraylist that can be returned if no reservations are found
         ArrayList<String> al = new ArrayList<String>();
         for (int hour = openinghour; hour <= closinghour; hour++) {
             al.add(String.format("%02d.00", hour));
         }
 
         try {
-            // Room objektin luku tiedostosta
             Room room = deserializeXMLToRoomObject(roomname);
             return (room.getAvailableHours(date, openinghour, closinghour));
 
 
         } catch (FileNotFoundException e) {
-            // Tiedostoa ei ole -> palautetaan kaikki ajat
+            // No reservations found
             return (al);
         } catch (Exception e) {
+            // Error with XML parse
             e.printStackTrace();
-            return null;
+            System.exit(1);
         }
-
+    return null;
     }
 
     public void makeReservation(Context con, String time, String roomname, String date, String describtion, int sportid) {
+        // Creates new reservation object and adds it to XML file
         Room room = null;
         try {
-            // luetaan vanhat varaukset
+            // Reading old reservations from roomnamereservations.XML file
             room = deserializeXMLToRoomObject(roomname);
 
         } catch (FileNotFoundException e) {
+            // No file found. Creating new room object instead
             room = new Room(roomname,(int)this.getKeyFromValue(rooms,roomname));
 
         } catch (Exception e) {
+            // Error with XML parse
             e.printStackTrace();
+            System.exit(1);
 
         }
-        // Lisätään uusi varaus
+        // Adding new reservation with given parameters
         int id = room.addReservation(date, time, describtion, sportid);
         UserManager.getInstance().addReservationid(con, id);
 
         try {
-            //kirjoitetaan varaukset tiedostoon
+            // Writing room object to XML with new reservation
             String filename = room.getName().replaceAll(" ", "") + fname;
             serializeObjectToXML(filename, room);
 
         } catch (Exception e) {
+            // Error with XML parse
             e.printStackTrace();
+            System.exit(1);
         }
 
     }
@@ -150,9 +148,10 @@ public class Hall {
     public ArrayList<Reservation> findReservationsByIdList(ArrayList<Integer> ids) {
         // Method takes list of reservation ids and returns corresponding list of reservations
         ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+        // Sorting ids to make sure that reservations in the same room are subsequent
         Collections.sort(ids);
-        Calendar calendar = Calendar.getInstance();
 
+        Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyyHH.mm");
         Reservation reservation;
         int roomid = 0;
@@ -161,6 +160,7 @@ public class Hall {
         int id = itr.next();
         try {
             while (true) {
+                // Finding all reservations in the same room before reading the new file
                 if (id / 1000 == roomid) {
                     reservation = room.getReservationById(id);
                     // Only add reservations from current day and future
@@ -171,20 +171,23 @@ public class Hall {
                     else
                         break;
                 } else {
+                    // Moving to next room
                     roomid = id / 1000;
                     room = deserializeXMLToRoomObject(rooms.get(roomid));
                 }
             }
         } catch(Exception e) {
-            // Parsiminen epäonnistui
+            // Error with XML parse
             e.printStackTrace();
-            return null;
+            System.exit(1);
         }
 
         return reservations;
     }
 
     public void editReservation(Reservation reservation) {
+        /* this method takes edited reservation object as parameter
+        and finds and replaces the old one by unchanged id*/
         try {
             Room room = deserializeXMLToRoomObject(reservation.getRoom());
             room.removeReservation(reservation.getId());
@@ -192,7 +195,7 @@ public class Hall {
             serializeObjectToXML(reservation.getRoom().replaceAll(" ", "") + fname,room);
 
         } catch (Exception e) {
-            // parsiminen epäonnistui
+            // Error with xml parse
             e.printStackTrace();
             System.exit(1);
         }

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
+    // Class is used as adapter for making reservation objects to cards for recycler view in MyReservationActivity
     private ArrayList<Reservation> reservations;
     private OnItemClickListener clickListener;
     private OnLongItemClickListener longClickListener;

@@ -8,7 +8,7 @@ import org.simpleframework.xml.Root;
 
 @Root
 public class Reservation implements Comparable<Reservation>{
-
+    // Class handles reservation information
     private String[] listofsports = {"Tennis", "Badminton", "Squash"};
     private int[] sportImageResources = {R.drawable.ic_tennisball,R.drawable.ic_badminton,R.drawable.ic_squashball};
 
@@ -69,17 +69,21 @@ public class Reservation implements Comparable<Reservation>{
     }
 
     public int getSportImageResource(){ return sportImageResources[sportid]; }
-    // Tyhjä rakentaja Simple kirjastoa varten
-    private Reservation(){}
-
 
     public String getSport() {return listofsports[sportid];}
 
+
     @Override
     public int compareTo(Reservation reservation) {
+        // Implemented method for sorting reservations
         if(this.date.equals(reservation.date))
             return(this.time.compareTo(reservation.time));
         else
             return this.date.compareTo(reservation.date);
     }
+
+    // Empty builder for SimpleXML
+    private Reservation(){}
+
+
 }

@@ -31,6 +31,6 @@
     <string name="choose_room_to_delete_or_add_new">Choose room to delete or add new</string>
     <string name="delete_room">Delete room</string>
     <string name="add_room">Add room</string>
-    <string name="room_to_add">Room to add</string>
+    <string name="room_to_add">Room name</string>
     <string name="main">Main</string>
 </resources>
