@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="350dp"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/infoboxwithcorners"
     android:padding="5dp"
     android:orientation="vertical"
     android:layout_gravity="center">
@@ -37,9 +37,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="160dp"
             android:layout_toEndOf="@id/roomname"
-            android:background="@android:color/transparent"
-            android:minWidth="20dp"
-            android:minHeight="20dp"
+            android:background="@drawable/transparentbutton"
+            android:minWidth="30dp"
+            android:minHeight="30dp"
             android:text="x" />
     </RelativeLayout>
     <RelativeLayout
@@ -48,7 +48,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:layout_marginStart="10dp"
             android:id="@+id/firstview">
             <TextView
                 android:layout_width="wrap_content"
@@ -104,25 +104,25 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp">
 
         <Button
             android:id="@+id/cancelbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:width="88dp"
-            android:textSize="12dp"
-            android:background="@android:color/transparent"
-            android:text="cancel reservation" />
+            android:background="@drawable/transparentbutton"
+            android:text="cancel reservation"
+            android:textSize="11dp" />
 
         <Button
             android:id="@+id/confirmbutton"
-            android:layout_toEndOf="@id/cancelbutton"
             android:layout_width="wrap_content"
-            android:layout_marginStart="40dp"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:outlineProvider="bounds"
+            android:layout_marginStart="40dp"
+            android:layout_toEndOf="@id/cancelbutton"
+            android:background="@drawable/transparentbutton"
             android:text="Confirm" />
     </RelativeLayout>
 </LinearLayout>

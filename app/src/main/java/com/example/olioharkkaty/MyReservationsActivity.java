@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -135,6 +137,7 @@ public class MyReservationsActivity extends AppCompatActivity {
     public void reservationInfoPopUp(Reservation reservation, final Dialog infoPopUp){
         infoPopUp.setContentView(R.layout.reservation_info_popup);
         infoPopUp.show();
+        infoPopUp.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         TextView roomname,date,time,sport,description;
         roomname = (TextView)infoPopUp.findViewById(R.id.roomname);
@@ -165,6 +168,7 @@ public class MyReservationsActivity extends AppCompatActivity {
 
         editPopUp.setContentView(R.layout.reservation_edit_popup);
         editPopUp.show();
+        editPopUp.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         final Hall hall = Hall.getInstance();
         final Spinner availableSlots,sports;
@@ -204,7 +208,7 @@ public class MyReservationsActivity extends AppCompatActivity {
 
 
         // OnClickListener for back button
-        Button backbutton,confirmbutton;
+        final Button backbutton,confirmbutton,cancelbutton;
         backbutton = editPopUp.findViewById(R.id.backbutton);
         backbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,6 +230,23 @@ public class MyReservationsActivity extends AppCompatActivity {
                 refreshView();
             }
         });
+        cancelbutton = editPopUp.findViewById(R.id.cancelbutton);
+        cancelbutton.setOnClickListener(new View.OnClickListener() {
+            int clickCounter = 0;
+            @Override
+            public void onClick(View v) {
+                if(clickCounter == 0) {
+                    cancelbutton.setText("Click again to confirm");
+                    clickCounter++;
+                } else {
+                    hall.removeReservation(reservation);
+                    UserManager.getInstance().removeReservation(reservation);
+                    editPopUp.dismiss();
+                    refreshView();
+                }
+            }
+        });
+
 
 
 

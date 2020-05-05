@@ -59,6 +59,10 @@ public class User {
 
     public ArrayList<Integer> getReservations(){return reservationids;}
 
+    public void removeReservationId(int id) {
+        reservationids.remove(reservationids.indexOf(id));
+    }
+
 }
 
 class Admin extends User {

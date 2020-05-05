@@ -83,6 +83,8 @@ public class Room {
         reservations.remove(getReservationById(id));
     }
 
+    public int getAmountOfReservations(){return reservations.size();}
+
 
     // Empty builder for SimpleXML
     private Room() {}

@@ -107,4 +107,9 @@ public class UserManager {
         return false;
     }
 
+    public void removeReservation(Reservation reservation){
+        currentuser.removeReservationId(reservation.getId());
+        writeToFile(currentuser);
+    }
+
 }

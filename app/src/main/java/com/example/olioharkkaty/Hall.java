@@ -3,6 +3,8 @@ package com.example.olioharkkaty;
 
 import android.content.Context;
 import android.util.Log;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,7 +67,6 @@ public class Hall {
         sports = hc.getSports();
         rooms = hc.getRoomMap();
         UserManager.getInstance().setAdmin(hc.getAdmin());
-        Log.i("config",Integer.toString(rooms.size()));
     }
 
 
@@ -83,6 +84,7 @@ public class Hall {
             System.exit(1);
         }
         int day = c.get(Calendar.DAY_OF_WEEK);
+        Log.e("Openhours",openhours.toString());
         int openinghour = openhours[day - 1][0];
         int closinghour = openhours[day - 1][1];
         if ((c.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR))&&(c.get(Calendar.YEAR)==now.get(Calendar.YEAR)))
@@ -195,13 +197,28 @@ public class Hall {
             serializeObjectToXML(reservation.getRoom().replaceAll(" ", "") + fname,room);
 
         } catch (Exception e) {
-            // Error with xml parse
+            // Error with XML parse
             e.printStackTrace();
             System.exit(1);
         }
 
     }
 
+    public void removeReservation(Reservation reservation) {
+        try {
+            Room room = deserializeXMLToRoomObject(reservation.getRoom());
+            room.removeReservation(reservation.getId());
+            String filename = reservation.getRoom().replaceAll(" ","") + fname;
+            if (room.getAmountOfReservations()==0)
+                new File(con.getFilesDir(),filename).delete();
+            else
+                serializeObjectToXML(filename,room);
+        } catch (Exception e) {
+            // Error with XML parse
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
 
     private Room deserializeXMLToRoomObject(String roomname) throws Exception {
         String filename = roomname.replaceAll(" ", "") + fname;
