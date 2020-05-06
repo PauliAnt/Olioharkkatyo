@@ -9,6 +9,8 @@ import org.simpleframework.xml.Root;
 @Root
 public class Reservation implements Comparable<Reservation>{
     // Class handles reservation information
+
+    private int comparevalue = 1;
     private String[] listofsports = {"Tennis", "Badminton", "Squash"};
     private int[] sportImageResources = {R.drawable.ic_tennisball,R.drawable.ic_badminton,R.drawable.ic_squashball};
 
@@ -75,13 +77,21 @@ public class Reservation implements Comparable<Reservation>{
 
     @Override
     public int compareTo(Reservation reservation) {
-        // Implemented method for sorting reservations
-        if(this.date.equals(reservation.date))
-            return(this.time.compareTo(reservation.time));
+        if(getClass() == reservation.getClass())
+            return this.subCompare(reservation);
+        else {
+            return Integer.compare(this.comparevalue,reservation.comparevalue);
+
+        }
+    }
+
+
+    protected int subCompare(Reservation reservation){
+        if (this.date.equals(reservation.date))
+            return (this.time.compareTo(reservation.time));
         else
             return this.date.compareTo(reservation.date);
     }
-
     // Empty builder for SimpleXML and subclass
     protected Reservation(){}
 
@@ -89,19 +99,37 @@ public class Reservation implements Comparable<Reservation>{
 }
 @Root
 class RegularReservation extends Reservation{
+    private int comparevalue = 2;
+
     @Element
     private int weekday;
     public int getWeekday() { return weekday; }
 
-    public RegularReservation(String t, int wd, String un, String des, int si, int i, String r) {
+    @Element
+    private String firstdate;
+    public String getFirstdate() { return firstdate; }
+
+    public RegularReservation(String t, int wd, String un, String des, int si, int i, String r, String fd) {
         super();
         time = t;
         weekday = wd;
         username = un;
+        if (des == null || des.length()==0) {
+            des = "_empty_";
+        }
         describtion = des;
         sportid = si;
         id = i;
         room = r;
+        firstdate = fd;
+    }
+
+    @Override
+    protected int subCompare(Reservation reservation) {
+        if (this.weekday == ((RegularReservation)reservation).weekday)
+            return this.time.compareTo(reservation.time);
+        else
+            return Integer.compare(this.weekday,weekday);
     }
 
     private RegularReservation(){}

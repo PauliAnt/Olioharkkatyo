@@ -181,7 +181,7 @@ public class Hall {
         }
 
     }
-    public void makeRegularReservation(String time, String roomname, int weekday, String describtion, int sportid) {
+    public void makeRegularReservation(String time, String roomname, int weekday, String describtion, int sportid, String firstdate) {
         // Creates new reservation object and adds it to XML file
         Room room = null;
         try {
@@ -199,7 +199,7 @@ public class Hall {
 
         }
         // Adding new reservation with given parameters
-        int id = room.addRegularReservation(weekday, time, describtion, sportid);
+        int id = room.addRegularReservation(weekday, time, describtion, sportid,firstdate);
         UserManager.getInstance().addReservationid(id);
 
         try {
@@ -215,30 +215,33 @@ public class Hall {
 
     }
 
-    public ArrayList<String> findNextAvailableDays(String roomname, int weekday, String time) {
+    public ArrayList<String> findNextAvailableDays(String roomname, int weekday, String time, String date) {
          // Finds 3 next available date strings for the given room, weekday and time
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         Calendar calendar = Calendar.getInstance();
         ArrayList<String> dates = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         Room room = null;
 
 
         try {
+            // If given null use current date
+            if(date != null)
+                calendar.setTime(sdf.parse(date));
             room = deserializeXMLToRoomObject(roomname);
         } catch (IOException e) {
             // Making temporaly room that isn't rerserved if no file is found
             room = new Room("temp",-1);
         } catch (Exception e) {
-            // Error with XML parse
+            // Error with XML or date parse
             e.printStackTrace();
             System.exit(1);
         }
-
+        String newdate;
         while(dates.size() < 3) {
             if (calendar.get(Calendar.DAY_OF_WEEK) == weekday + 1) {
-                String date = sdf.format(calendar.getTime());
+                newdate = sdf.format(calendar.getTime());
                 if (!room.isReserved(date, time))
-                    dates.add(date);
+                    dates.add(newdate);
             }
             calendar.add(Calendar.DATE,1);
         }
@@ -259,6 +262,8 @@ public class Hall {
         Reservation reservation;
         int roomid = 0;
         Room room = null;
+        if (ids.size() == 0)
+            return null;
         Iterator<Integer> itr = ids.iterator();
         int id = itr.next();
         try {
@@ -267,8 +272,11 @@ public class Hall {
                 if (id / 1000 == roomid) {
                     reservation = room.getReservationById(id);
                     // Only add reservations from current day and future
-                    if(sdf.parse(reservation.getDate() + reservation.getTime()).compareTo(calendar.getTime()) > 0)
+                    if (reservation instanceof RegularReservation)
                         reservations.add(reservation);
+                    else if(sdf.parse(reservation.getDate() + reservation.getTime()).compareTo(calendar.getTime()) > 0)
+                        reservations.add(reservation);
+
                     if (itr.hasNext())
                         id = itr.next();
                     else

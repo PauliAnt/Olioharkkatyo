@@ -146,6 +146,8 @@
                 android:text="@string/back"/>
 
             <Button
+                android:enabled="false"
+                android:id="@+id/confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"

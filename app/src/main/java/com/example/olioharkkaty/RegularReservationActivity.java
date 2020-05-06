@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -22,6 +23,7 @@ public class RegularReservationActivity extends AppCompatActivity {
     private Spinner roomspinner, timespinner, sportspinner, weekdayspinner, datespinner;
     private EditText description;
     private ArrayList<String> availableslots;
+    private Button confirm;
 
 
     @Override
@@ -36,6 +38,7 @@ public class RegularReservationActivity extends AppCompatActivity {
         timespinner = findViewById(R.id.availabletimesSpinner);
         sportspinner = findViewById(R.id.sportSpinner);
         description = findViewById(R.id.description);
+        confirm = findViewById(R.id.confirm);
 
         ArrayAdapter<String> spinneradapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,hall.getRooms());
         spinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -55,9 +58,11 @@ public class RegularReservationActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                ArrayAdapter<String> spinneradapter = new ArrayAdapter<String>(RegularReservationActivity.this,android.R.layout.simple_spinner_item,hall.findNextAvailableDays(roomspinner.getSelectedItem().toString(),getWeekday(),availableslots.get(position)));
+                ArrayAdapter<String> spinneradapter = new ArrayAdapter<String>(RegularReservationActivity.this,android.R.layout.simple_spinner_item,hall.findNextAvailableDays(roomspinner.getSelectedItem().toString(),getWeekday(),availableslots.get(position),null));
                 spinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 datespinner.setAdapter(spinneradapter);
+                confirm.setEnabled(true);
+
             }
 
             @Override
@@ -79,7 +84,7 @@ public class RegularReservationActivity extends AppCompatActivity {
     }
 
     public void addReservation(View v){
-        Hall.getInstance().makeRegularReservation(timespinner.getSelectedItem().toString(),roomspinner.getSelectedItem().toString(),getWeekday(),description.getText().toString(),sportspinner.getSelectedItemPosition());
+        Hall.getInstance().makeRegularReservation(timespinner.getSelectedItem().toString(),roomspinner.getSelectedItem().toString(),getWeekday(),description.getText().toString(),sportspinner.getSelectedItemPosition(),datespinner.getSelectedItem().toString());
         finish();
     }
 

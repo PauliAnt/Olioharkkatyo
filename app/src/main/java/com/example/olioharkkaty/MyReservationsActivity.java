@@ -80,8 +80,10 @@ public class MyReservationsActivity extends AppCompatActivity {
     private void refreshView(){
         // Used to refresh/create recyclerview
         reservations = Hall.getInstance().findReservationsByIdList(UserManager.getInstance().getCurrentUser().getReservations());
-        if (reservations == null)
+        if (reservations == null){
             finish();
+            return;
+        }
         // if filter == -1 -> all reservations is selected
         if (sportfilter != -1) {
             ListIterator<Reservation> iterator = reservations.listIterator();
@@ -103,7 +105,10 @@ public class MyReservationsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 Reservation reservation = reservations.get(position);
-                reservationInfoPopUp(reservation,infoPopUp);
+                if(reservation instanceof RegularReservation)
+                    regularReservationInfoPopUp(reservation,infoPopUp);
+                else
+                    reservationInfoPopUp(reservation,infoPopUp);
             }
         });
         adapter.setOnLongClickListener(new ItemAdapter.OnLongItemClickListener() {
@@ -119,9 +124,10 @@ public class MyReservationsActivity extends AppCompatActivity {
                     calendar.set(Calendar.SECOND, 0);
                     calendar.set(Calendar.MILLISECOND, 0);
                     calendar.add(Calendar.DAY_OF_MONTH,1);
-
+                    if(reservation instanceof RegularReservation)
+                        reservationEditPopUp(reservation,editPopUp);
                     // Only edit reservations that are at least booked for following day
-                    if (calendar.getTime().compareTo(sdf.parse(reservation.getDate())) > 0) {
+                    else if (calendar.getTime().compareTo(sdf.parse(reservation.getDate())) > 0) {
                         editError.show();
                     } else {
                         reservationEditPopUp(reservation,editPopUp);
@@ -134,18 +140,44 @@ public class MyReservationsActivity extends AppCompatActivity {
         });
     }
 
+    public void regularReservationInfoPopUp(Reservation reservation, Dialog infoPopUp){
+        RegularReservation reservation1 = (RegularReservation)reservation;
+        infoPopUp.setContentView(R.layout.regular_reservation_info_popup);
+        infoPopUp.show();
+        infoPopUp.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        TextView roomname,time,sport,describtion,slots;
+        roomname = infoPopUp.findViewById(R.id.roomname);
+        time = infoPopUp.findViewById(R.id.time);
+        sport = infoPopUp.findViewById(R.id.editsport);
+        describtion = infoPopUp.findViewById(R.id.editdesc);
+        roomname.setText(reservation.getRoom());
+        time.setText(reservation.getTime());
+        sport.setText(reservation.getSport());
+        describtion.setText(reservation.getDescribtion());
+
+        ArrayList<String> dates =  Hall.getInstance().findNextAvailableDays(reservation1.getRoom(),reservation1.getWeekday(),reservation1.getTime(),reservation1.getFirstdate());
+        String str = "";
+        for (String date:dates){
+            str += date + " "+ reservation.time + "\n";
+        }
+
+        slots = infoPopUp.findViewById(R.id.threeslots);
+        slots.setText(str);
+
+    }
+
     public void reservationInfoPopUp(Reservation reservation, final Dialog infoPopUp){
         infoPopUp.setContentView(R.layout.reservation_info_popup);
         infoPopUp.show();
         infoPopUp.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        infoPopUp.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
         TextView roomname,date,time,sport,description;
-        roomname = (TextView)infoPopUp.findViewById(R.id.roomname);
-        date = (TextView)infoPopUp.findViewById(R.id.editdate);
-        time = (TextView)infoPopUp.findViewById(R.id.edittime);
-        sport = (TextView)infoPopUp.findViewById(R.id.editsport);
-        description = (TextView)infoPopUp.findViewById(R.id.editdesc);
+        roomname = infoPopUp.findViewById(R.id.roomname);
+        date = infoPopUp.findViewById(R.id.editdate);
+        time = infoPopUp.findViewById(R.id.edittime);
+        sport = infoPopUp.findViewById(R.id.editsport);
+        description = infoPopUp.findViewById(R.id.editdesc);
         roomname.setText(reservation.getRoom());
         date.setText(reservation.getDate());
         time.setText(reservation.getTime());
@@ -183,12 +215,20 @@ public class MyReservationsActivity extends AppCompatActivity {
         desc = editPopUp.findViewById(R.id.editdesc);
 
         roomname.setText(reservation.getRoom());
-        date.setText(reservation.getDate());
         desc.setText(reservation.getDescribtion());
 
         // Find available times for the spinner
         ArrayAdapter<String> spinneradapter = null;
-        ArrayList<String> times = hall.getAvailableReservations(reservation.getRoom(),reservation.getDate());
+        ArrayList<String> times;
+        if(reservation instanceof RegularReservation) {
+            RegularReservation reservation1 = (RegularReservation)reservation;
+            times = hall.getAvailableRegularReservations(reservation.getRoom(), reservation1.getWeekday());
+            date.setText(hall.findNextAvailableDays(reservation.getRoom(),reservation1.getWeekday(),reservation.getTime(),reservation1.getFirstdate()).get(0));
+        }
+        else {
+            times = hall.getAvailableReservations(reservation.getRoom(),reservation.getDate());
+            date.setText(reservation.getDate());
+        }
         if(times == null)
             // Parse error with xml or with java Calendar class
             System.exit(1);

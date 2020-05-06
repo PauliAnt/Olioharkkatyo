@@ -35,10 +35,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         public ImageView imageView;
         public TextView textView1;
         public TextView textView2;
-        TextView textView3;
+        public  ImageView star;
+        public TextView textView3;
 
         public ItemViewHolder(View itemView, final OnItemClickListener clickListener, final OnLongItemClickListener longItemClickListener) {
             super(itemView);
+            star = itemView.findViewById(R.id.star);
             imageView = itemView.findViewById(R.id.image);
             textView1 = itemView.findViewById(R.id.line1);
             textView2 = itemView.findViewById(R.id.line2);
@@ -84,8 +86,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         Reservation reservation = reservations.get(position);
         holder.imageView.setImageResource(reservation.getSportImageResource());
         holder.textView1.setText(reservation.getRoom());
-        holder.textView2.setText(reservation.getDate());
         holder.textView3.setText(reservation.getTime());
+        if(reservation instanceof RegularReservation) {
+            holder.textView2.setText(Hall.getInstance().findNextAvailableDays(reservation.getRoom(),((RegularReservation)reservation).getWeekday(),reservation.getTime(),((RegularReservation) reservation).getFirstdate()).get(0));
+            holder.star.setVisibility(View.VISIBLE);
+        } else {
+            holder.textView2.setText(reservation.getDate());
+        }
     }
 
 

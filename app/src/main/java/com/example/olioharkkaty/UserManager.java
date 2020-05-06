@@ -2,8 +2,6 @@ package com.example.olioharkkaty;
 import android.content.Context;
 import android.content.SharedPreferences;
 import com.google.gson.Gson;
-
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

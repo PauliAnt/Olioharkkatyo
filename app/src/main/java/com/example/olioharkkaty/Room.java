@@ -1,7 +1,10 @@
 package com.example.olioharkkaty;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.simpleframework.xml.Attribute;
@@ -52,19 +55,20 @@ public class Room {
         return reservationid;
     }
 
-    public int addRegularReservation(int weekday, String time, String describtion, int sportid){
+    public int addRegularReservation(int weekday, String time, String describtion, int sportid, String firstdate){
         int reservationid = nextid;
         nextid++;
         if(regularReservations == null)
             regularReservations = new ArrayList<RegularReservation>();
-        regularReservations.add(new RegularReservation(time,weekday,UserManager.getInstance().getCurrentUserName(),describtion,sportid,reservationid,name));
+        regularReservations.add(new RegularReservation(time,weekday,UserManager.getInstance().getCurrentUserName(),describtion,sportid,reservationid,name,firstdate));
         return reservationid;
     }
 
     public ArrayList<String> getAvailableHours(String date, int openinghour, int closinghour) {
         // Returns list of time strings by date, and open hours parameters
         ArrayList<String> reservedhours = new ArrayList<String>(), availablehours = new ArrayList<String>();
-        // Finding reserved slots
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        // Finding reserved slots from default reservations
         if(reservations != null) {
             for (Reservation reservation : reservations) {
                 if (reservation.getDate().equals(date))
@@ -72,6 +76,25 @@ public class Room {
 
             }
         }
+        Calendar calendar = null;
+        int day = 0;
+        try {
+            calendar = Calendar.getInstance();
+            calendar.setTime((sdf.parse((date))));
+            day = calendar.get(Calendar.DAY_OF_WEEK)-1;
+        } catch (ParseException e) {
+            //Error with XML parse
+            e.printStackTrace();
+            System.exit(1);
+        }
+        // Finding reserved slots from Regular reservations
+        if (regularReservations != null) {
+            for (RegularReservation reservation : regularReservations) {
+                if ((reservation.getWeekday() == day))
+                    reservedhours.add(reservation.getTime());
+            }
+        }
+
         // Taking non reserved slots and returning them
         for (int hour = openinghour; hour < closinghour; hour++) {
             String time = String.format("%02d.00",hour);
@@ -107,6 +130,8 @@ public class Room {
     public boolean isReserved(String date, String time){
         if(reservations == null)
             return false;
+        else if (reservations.size() == 0)
+            return false;
         for (Reservation reservation:reservations){
             if (reservation.getDate().equals(date) && reservation.getTime().equals(time))
                 return true;
@@ -115,22 +140,41 @@ public class Room {
     }
 
     public Reservation getReservationById(int id){
-        for(Reservation reservation:reservations){
-            if (reservation.getId()==id)
-                return reservation;
+        if (reservations != null) {
+            for (Reservation reservation : reservations) {
+                if (reservation.getId() == id)
+                    return reservation;
+            }
+        }
+        if (regularReservations != null) {
+            for (RegularReservation reservation : regularReservations) {
+                if (reservation.getId() == id)
+                    return reservation;
+            }
         }
         return null;
     }
 
     public void addReservation(Reservation reservation) {
-        reservations.add(reservation);
+        if (reservation instanceof  RegularReservation)
+            regularReservations.add((RegularReservation)reservation);
+        else
+            reservations.add(reservation);
     }
 
     public void removeReservation(int id){
-        reservations.remove(getReservationById(id));
+        Reservation reservation = getReservationById(id);
+        if (reservations != null) {
+            if (reservations.contains(reservation))
+                reservations.remove(reservation);
+        }
+        if (regularReservations != null) {
+            if (regularReservations.contains(reservation))
+                regularReservations.remove(reservation);
+        }
     }
 
-    public int getAmountOfReservations(){return reservations.size();}
+    public int getAmountOfReservations(){return reservations.size()+regularReservations.size();}
 
 
     // Empty builder for SimpleXML
