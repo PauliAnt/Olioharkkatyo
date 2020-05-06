@@ -83,14 +83,17 @@
                 android:id="@+id/edittime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:popupBackground="@drawable/calender"
                 android:textSize="20dp" />
+
             <Spinner
+                android:id="@+id/editsport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:id="@+id/editsport"
+                android:layout_below="@+id/edittime"
+                android:popupBackground="@drawable/calender"
                 android:text="sport"
-                android:layout_below="@+id/edittime"/>
+                android:textSize="20dp" />
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

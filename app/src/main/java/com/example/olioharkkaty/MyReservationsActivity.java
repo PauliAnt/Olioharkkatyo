@@ -138,6 +138,7 @@ public class MyReservationsActivity extends AppCompatActivity {
         infoPopUp.setContentView(R.layout.reservation_info_popup);
         infoPopUp.show();
         infoPopUp.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        infoPopUp.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
         TextView roomname,date,time,sport,description;
         roomname = (TextView)infoPopUp.findViewById(R.id.roomname);
@@ -169,6 +170,7 @@ public class MyReservationsActivity extends AppCompatActivity {
         editPopUp.setContentView(R.layout.reservation_edit_popup);
         editPopUp.show();
         editPopUp.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        editPopUp.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
         final Hall hall = Hall.getInstance();
         final Spinner availableSlots,sports;

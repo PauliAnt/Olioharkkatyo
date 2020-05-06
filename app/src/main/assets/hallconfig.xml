@@ -4,13 +4,13 @@
         <string>adm1n</string>
     </admin>
     <openhours length="7">
+        <int length="2">13, 18</int>
         <int length="2">8, 19</int>
         <int length="2">8, 19</int>
         <int length="2">8, 19</int>
-        <int length="2">7, 17</int>
+        <int length="2">8, 19</int>
         <int length="2">9, 21</int>
         <int length="2">10, 20</int>
-        <int length="2">13, 18</int>
     </openhours>
     <rooms>
         <roomInfo>

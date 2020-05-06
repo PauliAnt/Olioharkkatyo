@@ -57,6 +57,13 @@ public class CalendarActivity extends AppCompatActivity {
                 date = String.format("%02d.%02d.%04d",dayOfMonth,month+1,year);
             }
         });
+        calendarView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                return false;
+            }
+        });
     }
     public void openReservationActivity(View v){
 

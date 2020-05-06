@@ -56,7 +56,7 @@ public class Room {
             }
         }
         // Taking non reserved slots and returning them
-        for (int hour = openinghour; hour <= closinghour; hour++) {
+        for (int hour = openinghour; hour < closinghour; hour++) {
             String time = String.format("%02d.00",hour);
             if(!reservedhours.contains(time)){
                 availablehours.add(time);

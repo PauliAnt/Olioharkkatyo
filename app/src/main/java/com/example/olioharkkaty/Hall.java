@@ -24,11 +24,12 @@ public class Hall {
     // Class has all methods for handling reservation system.
     private HashMap<Integer,String> rooms;
     private String fname = "reservations.xml";
+    private String configfilename = "hallconfig.xml";
     private String[] sports;
     private int[][] openhours;
     private Context con;
 
-
+    // Singleton pattern
     private Hall() {
         rooms = new HashMap<Integer, String>();
     }
@@ -39,6 +40,7 @@ public class Hall {
     public ArrayList<String> getRooms() {
         ArrayList<String> al = new ArrayList<String>();
         al.addAll(rooms.values());
+        Collections.sort(al);
         return al;
     }
     public String[] getSports() { return sports; }
@@ -83,8 +85,9 @@ public class Hall {
             e.printStackTrace();
             System.exit(1);
         }
+        c.setFirstDayOfWeek(Calendar.MONDAY);
         int day = c.get(Calendar.DAY_OF_WEEK);
-        Log.e("Openhours",openhours.toString());
+        Log.e("wow",Integer.toString(day));
         int openinghour = openhours[day - 1][0];
         int closinghour = openhours[day - 1][1];
         if ((c.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR))&&(c.get(Calendar.YEAR)==now.get(Calendar.YEAR)))
@@ -93,7 +96,7 @@ public class Hall {
 
             // Creating arraylist that can be returned if no reservations are found
         ArrayList<String> al = new ArrayList<String>();
-        for (int hour = openinghour; hour <= closinghour; hour++) {
+        for (int hour = openinghour; hour < closinghour; hour++) {
             al.add(String.format("%02d.00", hour));
         }
 
@@ -220,10 +223,46 @@ public class Hall {
         }
     }
 
+    public Boolean addRoom(String roomname, int id) {
+        if(rooms.keySet().contains(id) || rooms.values().contains(roomname))
+            return false;
+
+        try {
+            InputStream is = con.openFileInput(configfilename);
+            HallConfig hc = deserializeXMLToConfigObject(is);
+            is.close();
+            hc.addRoom(roomname,id);
+            rooms = hc.getRoomMap();
+            serializeObjectToXML(configfilename,hc);
+        } catch (Exception e) {
+            // Error with XML parse
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return true;
+
+    }
+
+    public void deleteRoom(String roomname){
+        try {
+            InputStream is = con.openFileInput(configfilename);
+            HallConfig hc = deserializeXMLToConfigObject(is);
+            is.close();
+            hc.deleteRoom(roomname);
+            rooms = hc.getRoomMap();
+            serializeObjectToXML(configfilename,hc);
+
+        } catch (Exception e) {
+            // Error wit XML parse
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
     private Room deserializeXMLToRoomObject(String roomname) throws Exception {
+        // Deserializes XML to Room object using SimpleXML library
         String filename = roomname.replaceAll(" ", "") + fname;
-        InputStream is = null;
-        is = con.openFileInput(filename);
+        InputStream is = con.openFileInput(filename);
         Serializer ser = new Persister();
         Room room = ser.read(Room.class, is);
         is.close();
@@ -231,13 +270,14 @@ public class Hall {
     }
 
     private HallConfig deserializeXMLToConfigObject(InputStream is) throws Exception {
-        String filename = "hallconfig.xml";
+        // Takes Input stream as parameter so it can be used to read assets folder too
         Serializer ser = new Persister();
         HallConfig hc = ser.read(HallConfig.class, is);
         return hc;
     }
 
     private <Object> void serializeObjectToXML(String filename, Object object) throws Exception {
+        // Serializes Room object to XML using SimpleXML library
         OutputStream os = con.openFileOutput(filename, Context.MODE_PRIVATE);
         Serializer ser = new Persister();
         ser.write(object, os);

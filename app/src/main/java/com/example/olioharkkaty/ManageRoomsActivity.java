@@ -3,10 +3,13 @@ package com.example.olioharkkaty;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -14,8 +17,8 @@ public class ManageRoomsActivity extends AppCompatActivity {
     // Class is used to control admin room management activity
     private ArrayList<String> rooms;
     private Spinner hallroom;
-    private TextView addRoom;
-    private String roomName;
+    private EditText room,roomid;
+    private Toast errormessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,25 +26,39 @@ public class ManageRoomsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manage_rooms);
 
         Hall hall = Hall.getInstance();
-        rooms = hall.getRooms();
         hallroom = (Spinner) findViewById(R.id.spinner2);
-        addRoom = (TextView) findViewById(R.id.addRoom);
+        room = (EditText)findViewById(R.id.addRoom);
+        roomid = (EditText)findViewById(R.id.addRoomId);
+        refreshSpinner();
 
-        // Spinner
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, rooms);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        hallroom.setAdapter(adapter);
     }
 
     public void deleteRoomFromList(View v){
-        roomName = hallroom.getSelectedItem().toString();
-        // todo lisää toiminnallisuus poista huone listasta
+        Hall.getInstance().deleteRoom(hallroom.getSelectedItem().toString());
+        refreshSpinner();
     }
 
     public void addRoomToList(View v){
-        roomName = addRoom.getText().toString();
-        // todo lisää toiminnallisuus lisää huoneen huonelistaan
+        try {
+            if(!Hall.getInstance().addRoom(room.getText().toString(),Integer.parseInt(roomid.getText().toString()))) {
+                errormessage = Toast.makeText(ManageRoomsActivity.this, "Id or room already taken",Toast.LENGTH_SHORT);
+                errormessage.show();
+            }
+
+        } catch (NumberFormatException e) {
+            errormessage = Toast.makeText(ManageRoomsActivity.this,"Invalid id", Toast.LENGTH_SHORT);
+            errormessage.show();
+        }
+        refreshSpinner();
+
+
     }
 
     public void backButton(View v){ finish();}
+
+    private void refreshSpinner(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,Hall.getInstance().getRooms());
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        hallroom.setAdapter(adapter);
+    }
 }
