@@ -25,6 +25,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void openRegularReservationActivity(View v){
+        Intent intent = new Intent(MainActivity.this,RegularReservationActivity.class);
+        startActivity(intent);
+    }
+
     public void openMyReservationsActivity(View v){
         Intent intent = new Intent(MainActivity.this, MyReservationsActivity.class);
         startActivity(intent);

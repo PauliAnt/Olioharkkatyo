@@ -48,6 +48,7 @@ public class CalendarActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         hallRoom.setAdapter(adapter);
 
+        // Initiating date String with current date
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         date = sdf.format(new Date(calendarView.getDate()));
 
@@ -55,13 +56,6 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 date = String.format("%02d.%02d.%04d",dayOfMonth,month+1,year);
-            }
-        });
-        calendarView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-
-                return false;
             }
         });
     }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorPrimary"
     tools:context=".SignInActivity">
 
     <LinearLayout
@@ -67,6 +67,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/calender"
             android:onClick="signInButton"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:text="@string/sign_in"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -120,6 +121,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/calender"
             android:onClick="register"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:text="@string/register"
             android:layout_marginTop="5dp"/>
 

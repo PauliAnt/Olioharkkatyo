@@ -33,4 +33,11 @@
     <string name="add_room">Add room</string>
     <string name="room_to_add">Room name</string>
     <string name="main">Main</string>
+    <string name="sport">Sport:</string>
+    <string name="weekday">Weekday</string>
+    <string name="regular_reservation">Regular Reservation</string>
+    <string name="room">Room:</string>
+    <string name="available_times">Available times:</string>
+    <string name="find">Find</string>
+    <string name="choose_starting_day">Choose starting day</string>
 </resources>

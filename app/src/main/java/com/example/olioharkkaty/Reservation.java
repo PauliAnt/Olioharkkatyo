@@ -13,23 +13,23 @@ public class Reservation implements Comparable<Reservation>{
     private int[] sportImageResources = {R.drawable.ic_tennisball,R.drawable.ic_badminton,R.drawable.ic_squashball};
 
     @Attribute
-    private int id;
+    protected int id;
     public int getId() { return id; }
 
-    @Element
+    @Element(required = false)
     private String date;
     public String getDate() {return date;}
 
     @Element
-    private String time;
+    protected String time;
     public String getTime() {return time;}
     public void setTime(String time) {this.time = time;}
 
     @Element
-    private String username;
+    protected String username;
 
     @Element
-    private String describtion;
+    protected String describtion;
 
     public String getDescribtion() {
         if (describtion.equals("_empty_"))
@@ -45,12 +45,12 @@ public class Reservation implements Comparable<Reservation>{
     }
 
     @Element
-    private int sportid;
+    protected int sportid;
     public int getSportid() { return sportid; }
     public void setSportid(int sportid) { this.sportid = sportid; }
 
     @Element
-    private String room;
+    protected String room;
 
     public String getRoom() { return room; }
 
@@ -82,8 +82,27 @@ public class Reservation implements Comparable<Reservation>{
             return this.date.compareTo(reservation.date);
     }
 
-    // Empty builder for SimpleXML
-    private Reservation(){}
+    // Empty builder for SimpleXML and subclass
+    protected Reservation(){}
 
 
+}
+@Root
+class RegularReservation extends Reservation{
+    @Element
+    private int weekday;
+    public int getWeekday() { return weekday; }
+
+    public RegularReservation(String t, int wd, String un, String des, int si, int i, String r) {
+        super();
+        time = t;
+        weekday = wd;
+        username = un;
+        describtion = des;
+        sportid = si;
+        id = i;
+        room = r;
+    }
+
+    private RegularReservation(){}
 }

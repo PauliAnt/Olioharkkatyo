@@ -72,6 +72,7 @@ public class Hall {
     }
 
 
+
     public ArrayList<String> getAvailableReservations(String roomname, String date) {
         // Returns list of time strings (formatted as hh.mm) corresponding room and date
         Calendar c = null, now = Calendar.getInstance();
@@ -85,16 +86,15 @@ public class Hall {
             e.printStackTrace();
             System.exit(1);
         }
-        c.setFirstDayOfWeek(Calendar.MONDAY);
+
         int day = c.get(Calendar.DAY_OF_WEEK);
-        Log.e("wow",Integer.toString(day));
         int openinghour = openhours[day - 1][0];
         int closinghour = openhours[day - 1][1];
         if ((c.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR))&&(c.get(Calendar.YEAR)==now.get(Calendar.YEAR)))
             openinghour = now.get(Calendar.HOUR_OF_DAY)+1;
 
 
-            // Creating arraylist that can be returned if no reservations are found
+        // Creating arraylist that can be returned if no reservations are found
         ArrayList<String> al = new ArrayList<String>();
         for (int hour = openinghour; hour < closinghour; hour++) {
             al.add(String.format("%02d.00", hour));
@@ -113,10 +113,42 @@ public class Hall {
             e.printStackTrace();
             System.exit(1);
         }
-    return null;
+        return null;
     }
 
-    public void makeReservation(Context con, String time, String roomname, String date, String describtion, int sportid) {
+    public ArrayList<String> getAvailableRegularReservations(String roomname, int day) {
+        // Returns list of available time strings (formatted as hh.mm) corresponding room and weekday
+        // Openhour array is formatted to start indexing from sunday
+
+        int openinghour = openhours[day][0];
+        int closinghour = openhours[day][1];
+
+
+        // Creating arraylist that can be returned if no reservations are found
+        ArrayList<String> al = new ArrayList<String>();
+        for (int hour = openinghour; hour < closinghour; hour++) {
+            al.add(String.format("%02d.00", hour));
+        }
+
+        try {
+            Room room = deserializeXMLToRoomObject(roomname);
+            return (room.getAvailableRegularHours(day, openinghour, closinghour));
+
+
+        } catch (FileNotFoundException e) {
+            // No reservations found
+            return (al);
+        } catch (Exception e) {
+            // Error with XML parse
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return null;
+    }
+
+
+
+    public void makeReservation(String time, String roomname, String date, String describtion, int sportid) {
         // Creates new reservation object and adds it to XML file
         Room room = null;
         try {
@@ -125,7 +157,7 @@ public class Hall {
 
         } catch (FileNotFoundException e) {
             // No file found. Creating new room object instead
-            room = new Room(roomname,(int)this.getKeyFromValue(rooms,roomname));
+            room = new Room(roomname,this.getKeyFromValue(rooms,roomname));
 
         } catch (Exception e) {
             // Error with XML parse
@@ -147,6 +179,72 @@ public class Hall {
             e.printStackTrace();
             System.exit(1);
         }
+
+    }
+    public void makeRegularReservation(String time, String roomname, int weekday, String describtion, int sportid) {
+        // Creates new reservation object and adds it to XML file
+        Room room = null;
+        try {
+            // Reading old reservations from roomnamereservations.XML file
+            room = deserializeXMLToRoomObject(roomname);
+
+        } catch (FileNotFoundException e) {
+            // No file found. Creating new room object instead
+            room = new Room(roomname,getKeyFromValue(rooms,roomname));
+
+        } catch (Exception e) {
+            // Error with XML parse
+            e.printStackTrace();
+            System.exit(1);
+
+        }
+        // Adding new reservation with given parameters
+        int id = room.addRegularReservation(weekday, time, describtion, sportid);
+        UserManager.getInstance().addReservationid(id);
+
+        try {
+            // Writing room object to XML with new reservation
+            String filename = room.getName().replaceAll(" ", "") + fname;
+            serializeObjectToXML(filename, room);
+
+        } catch (Exception e) {
+            // Error with XML parse
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+    }
+
+    public ArrayList<String> findNextAvailableDays(String roomname, int weekday, String time) {
+         // Finds 3 next available date strings for the given room, weekday and time
+        Calendar calendar = Calendar.getInstance();
+        ArrayList<String> dates = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        Room room = null;
+
+
+        try {
+            room = deserializeXMLToRoomObject(roomname);
+        } catch (IOException e) {
+            // Making temporaly room that isn't rerserved if no file is found
+            room = new Room("temp",-1);
+        } catch (Exception e) {
+            // Error with XML parse
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        while(dates.size() < 3) {
+            if (calendar.get(Calendar.DAY_OF_WEEK) == weekday + 1) {
+                String date = sdf.format(calendar.getTime());
+                if (!room.isReserved(date, time))
+                    dates.add(date);
+            }
+            calendar.add(Calendar.DATE,1);
+        }
+        return dates;
+
+
 
     }
 
@@ -285,12 +383,12 @@ public class Hall {
 
     }
 
-    private Object getKeyFromValue(HashMap map, String value) {
+    private int getKeyFromValue(HashMap map, String value) {
         for (Object key:map.keySet()){
             if (map.get(key).equals(value))
-                    return(key);
+                    return((int)key);
         }
-        return null;
+        return -1;
     }
 }
 

@@ -16,11 +16,14 @@ public class Room {
     @Attribute
     private int id;
 
-    @ElementList(inline = true)
+    @ElementList(entry = "reservation",inline = true, type = Reservation.class, required = false)
     private List<Reservation> reservations;
 
     @Element
     private String name;
+
+    @ElementList(entry = "regularReservation",inline = true, type = RegularReservation.class, required = false)
+    private List<RegularReservation> regularReservations;
 
     @Element
     private int nextid; // reservation id contains room id part and index of reservation part
@@ -31,6 +34,7 @@ public class Room {
         this.name = name;
         this.id = id;
         reservations = new ArrayList<Reservation>();
+        regularReservations = new ArrayList<RegularReservation>();
         nextid = 1000*id+1;
     }
 
@@ -39,10 +43,21 @@ public class Room {
         return name;
     }
 
-    public int addReservation(String date, String time, String describtion, int sportid) {
+    public int addReservation(String date, String time, String description, int sportid) {
         int reservationid = nextid;
         nextid++;
-        reservations.add(new Reservation(date, time, "pale", describtion, sportid, reservationid,name));
+        if (reservations == null)
+            reservations = new ArrayList<Reservation>();
+        reservations.add(new Reservation(date, time, UserManager.getInstance().getCurrentUserName(), description, sportid, reservationid, name));
+        return reservationid;
+    }
+
+    public int addRegularReservation(int weekday, String time, String describtion, int sportid){
+        int reservationid = nextid;
+        nextid++;
+        if(regularReservations == null)
+            regularReservations = new ArrayList<RegularReservation>();
+        regularReservations.add(new RegularReservation(time,weekday,UserManager.getInstance().getCurrentUserName(),describtion,sportid,reservationid,name));
         return reservationid;
     }
 
@@ -50,9 +65,11 @@ public class Room {
         // Returns list of time strings by date, and open hours parameters
         ArrayList<String> reservedhours = new ArrayList<String>(), availablehours = new ArrayList<String>();
         // Finding reserved slots
-        for (Reservation reservation : reservations) {
-            if (reservation.getDate().equals(date)) {
-                reservedhours.add(reservation.getTime());
+        if(reservations != null) {
+            for (Reservation reservation : reservations) {
+                if (reservation.getDate().equals(date))
+                    reservedhours.add(reservation.getTime());
+
             }
         }
         // Taking non reserved slots and returning them
@@ -61,10 +78,40 @@ public class Room {
             if(!reservedhours.contains(time)){
                 availablehours.add(time);
             }
-
         }
 
         return availablehours;
+    }
+
+    public ArrayList<String> getAvailableRegularHours(int weekday, int openinghour, int closinghour) {
+        // Returns list of time strings by date, and open hours parameters
+        ArrayList<String> reservedhours = new ArrayList<String>(), availablehours = new ArrayList<String>();
+        // Finding reserved slots
+        if (regularReservations != null) {
+            for (RegularReservation reservation : regularReservations) {
+                if (reservation.getWeekday() == weekday)
+                    reservedhours.add(reservation.getTime());
+
+            }
+        }
+        // Taking non reserved slots and returning them
+        for (int hour = openinghour; hour < closinghour; hour++) {
+            String time = String.format("%02d.00",hour);
+            if(!reservedhours.contains(time)){
+                availablehours.add(time);
+            }
+        }
+        return availablehours;
+    }
+
+    public boolean isReserved(String date, String time){
+        if(reservations == null)
+            return false;
+        for (Reservation reservation:reservations){
+            if (reservation.getDate().equals(date) && reservation.getTime().equals(time))
+                return true;
+        }
+        return false;
     }
 
     public Reservation getReservationById(int id){
