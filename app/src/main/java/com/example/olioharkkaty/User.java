@@ -10,6 +10,7 @@ public class User {
     private String f_name = "";
     private String l_name = "";
     private String adress = "";
+    private String salt = "";
     private ArrayList<Integer> reservationids;
 
     public User(String un, String pw){
@@ -36,6 +37,8 @@ public class User {
         l_name = ln;
     }
 
+    public void setSalt(String sl) {salt = sl; }
+
     public void addReservation(int id){reservationids.add(id);}
 
 
@@ -56,6 +59,8 @@ public class User {
     }
 
     public String getAddress(){return adress;}
+
+    public String getSalt(){return salt;}
 
     public ArrayList<Integer> getReservations(){return reservationids;}
 

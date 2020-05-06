@@ -2,6 +2,12 @@ package com.example.olioharkkaty;
 import android.content.Context;
 import android.content.SharedPreferences;
 import com.google.gson.Gson;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +37,8 @@ public class UserManager {
             return false;
         else {
             User user = gson.fromJson(json, User.class);
-            if (password.equals(user.getPassword())) {
+            String pw = hashPassword(password, user.getSalt());
+            if (pw.equals(user.getPassword())) {
                 currentuser = user;
                 return true;
             } else
@@ -39,9 +46,8 @@ public class UserManager {
         }
     }
 
-    public void updateInfo(String un, String pw, String fn, String ln, String ad){
+    public void updateInfo(String un, String fn, String ln, String ad){
         currentuser.setUserName(un);
-        currentuser.setPassword(pw);
         currentuser.setFirstName(fn);
         currentuser.setLastName(ln);
         currentuser.setAddress(ad);
@@ -57,16 +63,44 @@ public class UserManager {
 
     public String getCurrentUserName() {return currentuser.getUserName();}
 
-    public void addUsers(User user) {
-
-
+    public String hashPassword(String password, String salt){
+        String hashedPassword = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(salt.getBytes(StandardCharsets.UTF_8));
+            byte[] bytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i< bytes.length ;i++){
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            hashedPassword = sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return hashedPassword;
     }
+
+    public String generateSalt(){
+        int lLimit = 97;
+        int rLimit = 122;
+        int length = 5;
+        Random random = new Random();
+        StringBuilder buffer = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int randomInt = lLimit + (int)
+                    (random.nextFloat() * (rLimit - lLimit + 1));
+            buffer.append((char) randomInt);
+        }
+        String salt = buffer.toString();
+        return salt;
+    }
+
 
     public boolean checkPassword(String pw){
         Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(pw);
-        boolean b = m.find();
-        if (b==false)
+        boolean bool = m.find();
+        if (bool==false)
             return false;
         for (char c : pw.toCharArray()){
             if (Character.isDigit(c))
@@ -90,7 +124,10 @@ public class UserManager {
     }
 
     public void addUser(String un, String pw) {
-        User user = new User(un, pw);
+        String sal = generateSalt();
+        String pw1 = hashPassword(pw, sal);
+        User user = new User(un, pw1);
+        user.setSalt(sal);
         writeToFile(user);
         currentuser = user;
     }

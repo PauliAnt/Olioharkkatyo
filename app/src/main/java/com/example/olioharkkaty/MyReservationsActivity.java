@@ -8,7 +8,6 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.ListIterator;
 // https://freesvg.org/badminton-shuttlecock-full sulkapallo kuva
 // https://freesvg.org/tennis-ball-clip-art-vector-image Tennispallo kuva
@@ -186,7 +184,7 @@ public class MyReservationsActivity extends AppCompatActivity {
 
         // OnClickListener for back button
         Button button;
-        button = infoPopUp.findViewById(R.id.backbutton);
+        button = infoPopUp.findViewById(R.id.back2);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -251,7 +249,7 @@ public class MyReservationsActivity extends AppCompatActivity {
 
         // OnClickListener for back button
         final Button backbutton,confirmbutton,cancelbutton;
-        backbutton = editPopUp.findViewById(R.id.backbutton);
+        backbutton = editPopUp.findViewById(R.id.back2);
         backbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -260,7 +258,7 @@ public class MyReservationsActivity extends AppCompatActivity {
         });
 
         // OnClickListener for confirm button
-        confirmbutton = editPopUp.findViewById(R.id.confirmbutton);
+        confirmbutton = editPopUp.findViewById(R.id.confirm2);
         confirmbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

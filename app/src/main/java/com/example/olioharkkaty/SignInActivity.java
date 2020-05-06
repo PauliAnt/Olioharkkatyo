@@ -2,10 +2,16 @@ package com.example.olioharkkaty;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.Random;
 
 public class SignInActivity extends AppCompatActivity {
     private TextView userReg;
@@ -15,6 +21,7 @@ public class SignInActivity extends AppCompatActivity {
     private TextView userSign;
     private TextView passSign;
     private TextView warning1;
+    private Dialog numberPopUp;
 
 
     protected String un;
@@ -23,6 +30,7 @@ public class SignInActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        numberPopUp = new Dialog(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
 
@@ -45,6 +53,49 @@ public class SignInActivity extends AppCompatActivity {
         passReg2 = (TextView) findViewById(R.id.passReg2);
         warning2 = (TextView) findViewById(R.id.warning2);
 
+
+    }
+
+    public void createPopUp(final Dialog numberPopUp){
+        numberPopUp.setContentView(R.layout.signin_number_popup);
+        numberPopUp.show();
+        numberPopUp.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        numberPopUp.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+
+        final TextView popUpText, numbers, randNumbers, warningPop;
+        popUpText = (TextView) numberPopUp.findViewById(R.id.popUpText);
+        randNumbers = (TextView) numberPopUp.findViewById(R.id.randNumber) ;
+        numbers = (TextView) numberPopUp.findViewById(R.id.codeText);
+        warningPop = (TextView) numberPopUp.findViewById(R.id.warningPop);
+        warningPop.setText("");
+        Random rand = new Random();
+        final String rn = String.format("%06d", rand.nextInt(999999));
+
+        popUpText.setText("Give the following code:");
+        randNumbers.setText(rn);
+        final String code = numbers.getText().toString();
+
+        Button back, confirm;
+        back = numberPopUp.findViewById(R.id.back2);
+        confirm = numberPopUp.findViewById(R.id.confirm2);
+        confirm.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+               if (rn.equals(rn)){
+                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    numberPopUp.dismiss();
+                }
+               else
+                   warningPop.setText("Code doesn't match");
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberPopUp.dismiss();
+            }
+
+        });
 
     }
 
@@ -78,7 +129,7 @@ public class SignInActivity extends AppCompatActivity {
             warning2.setText("Username and password can't be same");
         else if (pw2.equals(pw1)) {
                 if (um.checkPassword(pw1)) {
-                    um.getInstance().addUser(un, pw1);
+                    um.addUser(un, pw1);
                     Intent intent = new Intent(SignInActivity.this, UserInfoActivity.class);
                     this.clearFields();
                     startActivity(intent);
@@ -104,9 +155,8 @@ public class SignInActivity extends AppCompatActivity {
                     this.clearFields();
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                    createPopUp(numberPopUp);
                     this.clearFields();
-                    startActivity(intent);
                 }
             } else {
                 warning1.setText("Username or password invalid");

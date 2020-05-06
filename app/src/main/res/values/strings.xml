@@ -40,4 +40,9 @@
     <string name="available_times">Available times:</string>
     <string name="find">Find</string>
     <string name="choose_starting_day">Choose starting day</string>
+    <string name="x">x</string>
+    <string name="give_current_password">Give current password</string>
+    <string name="give_new_password_again">Give new password again</string>
+    <string name="change_password">Change password</string>
+    <string name="give_new_password">Give new password</string>
 </resources>
