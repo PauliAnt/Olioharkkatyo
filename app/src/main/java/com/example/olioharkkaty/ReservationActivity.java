@@ -39,6 +39,9 @@ public class ReservationActivity extends AppCompatActivity {
 
         // Available times spinner
         ArrayList<String> reservations = hall.getAvailableReservations(room,date);
+        if(reservations.isEmpty())
+            reservations.add("No available reservations");
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,reservations);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         availableSlots.setAdapter(adapter);
