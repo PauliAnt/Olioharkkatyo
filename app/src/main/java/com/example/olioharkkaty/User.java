@@ -5,10 +5,13 @@ import java.util.ArrayList;
 
 public class User {
 
-    private String u_name;
+    // User class maintains users information, password and salt used to hash password
+    // Also admin user extends user class, but doesn't have info else than username and password
+    
+    private String u_name; // this is username
     private String password;
-    private String f_name = "";
-    private String l_name = "";
+    private String f_name = ""; // this is first name
+    private String l_name = ""; // this is last name
     private String adress = "";
     private String salt = "";
     private ArrayList<Integer> reservationids;

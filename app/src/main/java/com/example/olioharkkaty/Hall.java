@@ -58,7 +58,7 @@ public class Hall {
             hc = deserializeXMLToConfigObject(is);
             is.close();
         } catch (IOException e){
-            // Luetaan assets kansiosta config ja tallennetaan puhelimen muistiin
+            // Reads assets from folder config and save to phones memory
             is = con.getAssets().open(filename);
             hc = deserializeXMLToConfigObject(is);
             is.close();
