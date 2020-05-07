@@ -60,7 +60,7 @@ public class RegularReservationActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                ArrayAdapter<String> spinneradapter = new ArrayAdapter<String>(RegularReservationActivity.this,android.R.layout.simple_spinner_item,hall.findNextAvailableDays(roomspinner.getSelectedItem().toString(),getWeekday(),availableslots.get(position),null));
+                ArrayAdapter<String> spinneradapter = new ArrayAdapter<String>(RegularReservationActivity.this,android.R.layout.simple_spinner_item,hall.findNextAvailableDays(roomname,weekday,timespinner.getSelectedItem().toString(),null));
                 spinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 datespinner.setAdapter(spinneradapter);
                 confirm.setEnabled(true);
@@ -85,6 +85,7 @@ public class RegularReservationActivity extends AppCompatActivity {
         timespinner.setAdapter(adapter);
         roomname = roomspinner.getSelectedItem().toString();
         sport = sportspinner.getSelectedItem().toString();
+        weekday = getWeekday();
     }
 
     public void addReservation(View v){

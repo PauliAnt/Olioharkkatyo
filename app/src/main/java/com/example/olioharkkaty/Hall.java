@@ -248,19 +248,13 @@ public class Hall {
             System.exit(1);
         }
         String newdate;
-        try {
-            while (dates.size() < 3) {
-                if (calendar.get(Calendar.DAY_OF_WEEK) == weekday + 1) {
-                    newdate = sdf1.format(calendar.getTime());
-                    if (!room.isReserved(newdate, time) && (sdf2.parse(newdate + time).compareTo(now.getTime()) < 0))
-                        dates.add(newdate);
-                }
-                calendar.add(Calendar.DATE, 1);
+        while (dates.size() < 3) {
+            if (calendar.get(Calendar.DAY_OF_WEEK) == weekday + 1) {
+                newdate = sdf1.format(calendar.getTime());
+                if (!room.isReserved(newdate, time))
+                    dates.add(newdate);
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
+            calendar.add(Calendar.DATE, 1); }
         return dates;
 
 
