@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import org.simpleframework.xml.Serializer;
@@ -216,20 +217,30 @@ public class Hall {
     }
 
     public ArrayList<String> findNextAvailableDays(String roomname, int weekday, String time, String date) {
-         // Finds 3 next available date strings for the given room, weekday and time
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        Calendar calendar = Calendar.getInstance();
+         // Finds 3 next available date strings for regular reservation by given room, weekday and time
+        SimpleDateFormat sdf1 = new SimpleDateFormat("dd.MM.yyyy"),sdf2 = new SimpleDateFormat("dd.MM.yyyyHH.mm");
+
+
+        // Setting calendar for today
+        Calendar now = Calendar.getInstance(),calendar = Calendar.getInstance();
         ArrayList<String> dates = new ArrayList<>();
         Room room = null;
 
 
         try {
             // If given null use current date
-            if(date != null)
-                calendar.setTime(sdf.parse(date));
+            if (date == null)
+                calendar = now;
+            else {
+                calendar.setTime(sdf1.parse(date));
+                // if given date is before current date -> use current date
+                if (calendar.compareTo(now) < 0)
+                    calendar = now;
+            }
             room = deserializeXMLToRoomObject(roomname);
+
         } catch (IOException e) {
-            // Making temporaly room that isn't rerserved if no file is found
+            // Making temporary room object that isn't reserved if no file is found
             room = new Room("temp",-1);
         } catch (Exception e) {
             // Error with XML or date parse
@@ -237,13 +248,18 @@ public class Hall {
             System.exit(1);
         }
         String newdate;
-        while(dates.size() < 3) {
-            if (calendar.get(Calendar.DAY_OF_WEEK) == weekday + 1) {
-                newdate = sdf.format(calendar.getTime());
-                if (!room.isReserved(newdate, time))
-                    dates.add(newdate);
+        try {
+            while (dates.size() < 3) {
+                if (calendar.get(Calendar.DAY_OF_WEEK) == weekday + 1) {
+                    newdate = sdf1.format(calendar.getTime());
+                    if (!room.isReserved(newdate, time) && (sdf2.parse(newdate + time).compareTo(now.getTime()) < 0))
+                        dates.add(newdate);
+                }
+                calendar.add(Calendar.DATE, 1);
             }
-            calendar.add(Calendar.DATE,1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            System.exit(1);
         }
         return dates;
 
@@ -257,7 +273,7 @@ public class Hall {
         // Sorting ids to make sure that reservations in the same room are subsequent
         Collections.sort(ids);
 
-        Calendar calendar = Calendar.getInstance();
+        Calendar now = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyyHH.mm");
         Reservation reservation;
         int roomid = 0;
@@ -271,10 +287,10 @@ public class Hall {
                 // Finding all reservations in the same room before reading the new file
                 if (id / 1000 == roomid) {
                     reservation = room.getReservationById(id);
-                    // Only add reservations from current day and future
                     if (reservation instanceof RegularReservation)
                         reservations.add(reservation);
-                    else if(sdf.parse(reservation.getDate() + reservation.getTime()).compareTo(calendar.getTime()) > 0)
+                    // Only add reservations from current day and future
+                    else if(sdf.parse(reservation.getDate() + reservation.getTime()).compareTo(now.getTime()) > 0)
                         reservations.add(reservation);
 
                     if (itr.hasNext())
@@ -366,7 +382,7 @@ public class Hall {
     }
 
     private Room deserializeXMLToRoomObject(String roomname) throws Exception {
-        // Deserializes XML to Room object using SimpleXML library
+        // Deserialize XML to Room object using SimpleXML library
         String filename = roomname.replaceAll(" ", "") + fname;
         InputStream is = con.openFileInput(filename);
         Serializer ser = new Persister();

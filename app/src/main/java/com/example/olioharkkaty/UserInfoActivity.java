@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class UserInfoActivity extends AppCompatActivity {
     protected String un;
@@ -49,6 +50,7 @@ public class UserInfoActivity extends AppCompatActivity {
             wr.setText("");
             un = uname.getText().toString();
             um.updateInfo(un, fn.getText().toString(), ln.getText().toString(), ad.getText().toString());
+            Toast.makeText(this,"User info successfully saved",Toast.LENGTH_LONG).show();
             finish();
         }
     }

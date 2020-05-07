@@ -1,7 +1,4 @@
 package com.example.olioharkkaty;
-
-import android.util.Log;
-
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
@@ -133,5 +130,7 @@ class RegularReservation extends Reservation{
             return Integer.compare(this.weekday,weekday);
     }
 
+
+    // Empty builder for SimpleXML
     private RegularReservation(){}
 }

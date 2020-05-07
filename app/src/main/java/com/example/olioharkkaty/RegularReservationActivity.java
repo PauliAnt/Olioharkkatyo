@@ -24,6 +24,8 @@ public class RegularReservationActivity extends AppCompatActivity {
     private EditText description;
     private ArrayList<String> availableslots;
     private Button confirm;
+    private String roomname, sport;
+    private int weekday;
 
 
     @Override
@@ -81,6 +83,8 @@ public class RegularReservationActivity extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,availableslots);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         timespinner.setAdapter(adapter);
+        roomname = roomspinner.getSelectedItem().toString();
+        sport = sportspinner.getSelectedItem().toString();
     }
 
     public void addReservation(View v){
