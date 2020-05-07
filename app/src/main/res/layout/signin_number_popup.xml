@@ -23,6 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="20dp"
+        android:gravity="center"
+        android:text='Give the following code:'
         android:textSize="24sp" />
 
     <TextView
@@ -31,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
         android:textAlignment="center"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/codeText"
@@ -64,6 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="120dp"
         android:background="@drawable/transparentbutton"
-        android:text="@string/confirm" />
+        android:text="@string/confirm"
+        android:layout_marginBottom="10dp"/>
 
 </LinearLayout>

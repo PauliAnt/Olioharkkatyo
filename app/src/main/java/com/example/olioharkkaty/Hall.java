@@ -240,7 +240,7 @@ public class Hall {
         while(dates.size() < 3) {
             if (calendar.get(Calendar.DAY_OF_WEEK) == weekday + 1) {
                 newdate = sdf.format(calendar.getTime());
-                if (!room.isReserved(date, time))
+                if (!room.isReserved(newdate, time))
                     dates.add(newdate);
             }
             calendar.add(Calendar.DATE,1);

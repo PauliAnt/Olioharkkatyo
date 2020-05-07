@@ -108,7 +108,7 @@ public class Room {
 
     public ArrayList<String> getAvailableRegularHours(int weekday, int openinghour, int closinghour) {
         // Returns list of time strings by date, and open hours parameters
-        ArrayList<String> reservedhours = new ArrayList<String>(), availablehours = new ArrayList<String>();
+        ArrayList<String> reservedhours = new ArrayList(), availablehours = new ArrayList<String>();
         // Finding reserved slots
         if (regularReservations != null) {
             for (RegularReservation reservation : regularReservations) {
@@ -129,8 +129,6 @@ public class Room {
 
     public boolean isReserved(String date, String time){
         if(reservations == null)
-            return false;
-        else if (reservations.size() == 0)
             return false;
         for (Reservation reservation:reservations){
             if (reservation.getDate().equals(date) && reservation.getTime().equals(time))

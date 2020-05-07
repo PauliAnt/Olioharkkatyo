@@ -71,7 +71,6 @@ public class SignInActivity extends AppCompatActivity {
         Random rand = new Random();
         final String rn = String.format("%06d", rand.nextInt(999999));
 
-        popUpText.setText("Give the following code:");
         randNumbers.setText(rn);
         final String code = numbers.getText().toString();
 

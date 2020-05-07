@@ -8,7 +8,10 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
@@ -88,7 +91,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         holder.textView1.setText(reservation.getRoom());
         holder.textView3.setText(reservation.getTime());
         if(reservation instanceof RegularReservation) {
-            holder.textView2.setText(Hall.getInstance().findNextAvailableDays(reservation.getRoom(),((RegularReservation)reservation).getWeekday(),reservation.getTime(),((RegularReservation) reservation).getFirstdate()).get(0));
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE");
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.DAY_OF_WEEK,((RegularReservation)reservation).getWeekday()+1);
+            holder.textView2.setText("Regular   " + sdf.format(calendar.getTime()));
             holder.star.setVisibility(View.VISIBLE);
         } else {
             holder.textView2.setText(reservation.getDate());

@@ -77,6 +77,7 @@ public class Reservation implements Comparable<Reservation>{
 
     @Override
     public int compareTo(Reservation reservation) {
+        // todo sorttaus kuntoo
         if(getClass() == reservation.getClass())
             return this.subCompare(reservation);
         else {
@@ -99,7 +100,7 @@ public class Reservation implements Comparable<Reservation>{
 }
 @Root
 class RegularReservation extends Reservation{
-    private int comparevalue = 2;
+    private int comparevalue = 10;
 
     @Element
     private int weekday;

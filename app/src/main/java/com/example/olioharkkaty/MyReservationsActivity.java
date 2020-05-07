@@ -138,7 +138,8 @@ public class MyReservationsActivity extends AppCompatActivity {
         });
     }
 
-    public void regularReservationInfoPopUp(Reservation reservation, Dialog infoPopUp){
+    public void regularReservationInfoPopUp(Reservation reservation, final Dialog infoPopUp){
+
         RegularReservation reservation1 = (RegularReservation)reservation;
         infoPopUp.setContentView(R.layout.regular_reservation_info_popup);
         infoPopUp.show();
@@ -162,6 +163,17 @@ public class MyReservationsActivity extends AppCompatActivity {
 
         slots = infoPopUp.findViewById(R.id.threeslots);
         slots.setText(str);
+
+        // OnClickListener for back button
+        Button button;
+        button = infoPopUp.findViewById(R.id.backbutton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                infoPopUp.dismiss();
+            }
+        });
+
 
     }
 
