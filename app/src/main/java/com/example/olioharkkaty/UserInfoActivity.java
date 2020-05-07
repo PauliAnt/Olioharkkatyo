@@ -18,6 +18,8 @@ public class UserInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
+
+        // Initiate textviews
         um = UserManager.getInstance();
         user = um.getCurrentUser();
         uname = (TextView) findViewById(R.id.userName);
@@ -38,12 +40,14 @@ public class UserInfoActivity extends AppCompatActivity {
     }
 
     private Boolean checkFields(){
+        // Checks if all writing fields contain something, returns true or false
         if (uname.getText().toString().equals("") || fn.getText().toString().equals("") || ln.getText().toString().equals("") || ad.getText().toString().equals(""))
             return false;
         return true;
     }
 
     public void confirm(View v){
+        // Confirm button, check fields and update info
         if (checkFields()==false)
             wr.setText("Fill all fields");
         else {
@@ -56,12 +60,15 @@ public class UserInfoActivity extends AppCompatActivity {
     }
 
     public void changePassword(View v){
+        // Change password button, checks passwords
         String old = pwOld.getText().toString();
         if (um.hashPassword(old, user.getSalt()).equals(user.getPassword())){
             String pw1 = pwNew1.getText().toString();
             String pw2 = pwNew2.getText().toString();
             if (pw1.equals(pw2) && um.checkPassword(pw1)){
                 wr2.setText("");
+                String salt = um.generateSalt();
+                user.setSalt(salt);
                 user.setPassword(um.hashPassword(pw1, user.getSalt()));
                 if(checkFields()) {
                     wr2.setText("");
@@ -69,7 +76,7 @@ public class UserInfoActivity extends AppCompatActivity {
                 } else
                     wr2.setText("Fill all fields");
             } else
-                wr2.setText("New passwords must be same and contain number and special char");
+                wr2.setText("New passwords invalid");
         } else
             wr2.setText("Current password invalid");
 

@@ -12,6 +12,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UserManager {
+    // Class contains methods to edit users and User file
+    // Contains methods so hash passwords
+    // Also contains current users object in currentuser
 
     private User currentuser;
     private User admin;
@@ -24,6 +27,8 @@ public class UserManager {
     public void setContext(Context con){this.con = con;}
 
     public boolean checkLogin(String username, String password) {
+        // Checks if given username and password found and matched in Users file, returns true or false
+        // Also true if admin username and password
         if (username.equals(admin.getUserName())&&password.equals(admin.getPassword())){
             currentuser=admin;
             return true;
@@ -46,6 +51,7 @@ public class UserManager {
     }
 
     public void updateInfo(String un, String fn, String ln, String ad){
+        // updates given information to users file
         currentuser.setUserName(un);
         currentuser.setFirstName(fn);
         currentuser.setLastName(ln);
@@ -63,6 +69,7 @@ public class UserManager {
     public String getCurrentUserName() {return currentuser.getUserName();}
 
     public String hashPassword(String password, String salt){
+        // hashes given password with given salt SHA-512
         String hashedPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -80,6 +87,7 @@ public class UserManager {
     }
 
     public String generateSalt(){
+        // generates random 5 char string to use as salt
         int lLimit = 97;
         int rLimit = 122;
         int length = 5;
@@ -96,19 +104,25 @@ public class UserManager {
 
 
     public boolean checkPassword(String pw){
+        // Checks if password contains alphabet, number and special char returns true or false
         Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(pw);
         boolean bool = m.find();
         if (bool==false)
             return false;
         for (char c : pw.toCharArray()){
-            if (Character.isDigit(c))
-                return true;
+            if (Character.isDigit(c)) {
+                for (char ch : pw.toCharArray()) {
+                    if (Character.isAlphabetic(ch))
+                        return true;
+                }
+            }
         }
         return false;
     }
 
     private void writeToFile(User user){
+        // Changes given user to string and writes the information to Users file
         SharedPreferences mPrefs = con.getSharedPreferences("Users", Context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
@@ -123,6 +137,8 @@ public class UserManager {
     }
 
     public void addUser(String un, String pw) {
+        // generates new user with given username and password
+        // uses different methods to hash password and write users info to Users file
         String sal = generateSalt();
         String pw1 = hashPassword(pw, sal);
         User user = new User(un, pw1);
@@ -136,12 +152,14 @@ public class UserManager {
     }
 
     public Boolean checkAdmin(){
+        // Checks if current user is admin, returns true or false
         if (currentuser instanceof Admin)
             return true;
         return false;
     }
 
     public void removeReservationId(Reservation reservation){
+        // Removes reservation with given id from Users file
         currentuser.removeReservationId(reservation.getId());
         writeToFile(currentuser);
     }

@@ -45,4 +45,5 @@
     <string name="give_new_password_again">Give new password again</string>
     <string name="change_password">Change password</string>
     <string name="give_new_password">Give new password</string>
+    <string name="give_the_following_code">Give the following code:</string>
 </resources>

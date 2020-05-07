@@ -44,7 +44,7 @@ public class SignInActivity extends AppCompatActivity {
             finish();
             System.exit(0);
         }
-
+        // initiate textviews
         userSign = (TextView) findViewById(R.id.userSign);
         passSign = (TextView) findViewById(R.id.passSign);
         warning1 = (TextView) findViewById(R.id.warning1);
@@ -57,29 +57,32 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void createPopUp(final Dialog numberPopUp){
+        // Creates popup which ask for 6 digit code
         numberPopUp.setContentView(R.layout.signin_number_popup);
         numberPopUp.show();
         numberPopUp.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         numberPopUp.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
         final TextView popUpText, numbers, randNumbers, warningPop;
-        popUpText = (TextView) numberPopUp.findViewById(R.id.popUpText);
+        // initiate popups textviews
         randNumbers = (TextView) numberPopUp.findViewById(R.id.randNumber) ;
         numbers = (TextView) numberPopUp.findViewById(R.id.codeText);
         warningPop = (TextView) numberPopUp.findViewById(R.id.warningPop);
         warningPop.setText("");
+
+        // generates random 6 digit code
         Random rand = new Random();
         final String rn = String.format("%06d", rand.nextInt(999999));
-
         randNumbers.setText(rn);
-        final String code = numbers.getText().toString();
 
         Button back, confirm;
         back = numberPopUp.findViewById(R.id.back2);
         confirm = numberPopUp.findViewById(R.id.confirm2);
+        // Checks if given code matches the 6 digit code
         confirm.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-               if (rn.equals(rn)){
+                String code = numbers.getText().toString();
+               if (rn.trim().equals(code.trim())){
                     Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                     startActivity(intent);
                     numberPopUp.dismiss();
@@ -110,6 +113,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void register(View v) {
+        // Register button, checks passwords, starts MainActivity
         UserManager um = UserManager.getInstance();
         un = userReg.getText().toString();
         pw1 =  passReg1.getText().toString();
@@ -148,8 +152,10 @@ public class SignInActivity extends AppCompatActivity {
         else if (pw1.equals(""))
             warning1.setText("Give password");
         else {
+            // Usermanager have method to check login
             if (um.checkLogin(un, pw1)) {
                 if (um.checkAdmin()){
+                    // if username and password match admin open ManageRoomsActivity
                     Intent intent = new Intent(SignInActivity.this, AdminViewActivity.class);
                     this.clearFields();
                     startActivity(intent);
