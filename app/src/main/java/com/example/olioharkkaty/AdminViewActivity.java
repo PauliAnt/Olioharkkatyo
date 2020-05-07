@@ -69,7 +69,9 @@ public class AdminViewActivity extends AppCompatActivity {
                     }
                 }
             getSharedPreferences("Users", Context.MODE_PRIVATE).edit().clear().commit();
+        Toast.makeText(this,"Progress reset successful",Toast.LENGTH_SHORT);
     }
+
 
     public void backButton(View v){ finish();}
 

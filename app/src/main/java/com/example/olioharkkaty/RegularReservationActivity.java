@@ -32,7 +32,7 @@ public class RegularReservationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regular_reservation);
-        String[] weekdays = {"Monday","Tuesday","Wednesday","Thurday","Friday","Saturday","Sunday"};
+        String[] weekdays = {"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
 
         final Hall hall = Hall.getInstance();
         roomspinner = findViewById(R.id.roomSpinner);
