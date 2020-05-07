@@ -42,7 +42,8 @@
                 android:id="@+id/roomSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:popupBackground="@drawable/calender" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -59,7 +60,8 @@
                 android:id="@+id/weekdaySpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:popupBackground="@drawable/calender" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -76,7 +78,8 @@
                 android:id="@+id/sportSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:popupBackground="@drawable/calender" />
         </RelativeLayout>
 
         <EditText
@@ -116,7 +119,8 @@
                 android:id="@+id/availabletimesSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"/>
+                android:layout_alignParentEnd="true"
+                android:popupBackground="@drawable/calender" />
         </RelativeLayout>
 
         <TextView
@@ -132,7 +136,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:gravity="center" />
+            android:gravity="center"
+            android:popupBackground="@drawable/calender" />
 
         <RelativeLayout
             android:layout_width="match_parent"

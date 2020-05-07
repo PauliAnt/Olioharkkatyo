@@ -9,7 +9,7 @@ public class Reservation implements Comparable<Reservation>{
 
     private int comparevalue = 1;
     private String[] listofsports = {"Tennis", "Badminton", "Squash"};
-    private int[] sportImageResources = {R.drawable.ic_tennisball,R.drawable.ic_badminton,R.drawable.ic_squashball};
+    private int[] sportImageResources = {R.drawable.ic_tennisball,R.drawable.ic_badminton,R.drawable.ic_squash_ball};
 
     @Attribute
     protected int id;
@@ -77,10 +77,7 @@ public class Reservation implements Comparable<Reservation>{
         // todo sorttaus kuntoo
         if(getClass() == reservation.getClass())
             return this.subCompare(reservation);
-        else {
-            return Integer.compare(this.comparevalue,reservation.comparevalue);
-
-        }
+        return 0;
     }
 
 
@@ -127,7 +124,7 @@ class RegularReservation extends Reservation{
         if (this.weekday == ((RegularReservation)reservation).weekday)
             return this.time.compareTo(reservation.time);
         else
-            return Integer.compare(this.weekday,weekday);
+            return Integer.compare(this.weekday,((RegularReservation) reservation).getWeekday());
     }
 
 

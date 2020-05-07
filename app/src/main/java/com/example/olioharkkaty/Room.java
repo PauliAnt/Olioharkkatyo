@@ -172,7 +172,13 @@ public class Room {
         }
     }
 
-    public int getAmountOfReservations(){return reservations.size()+regularReservations.size();}
+    public int getAmountOfReservations(){
+        int sum = 0;
+        if(reservations != null)
+            sum += reservations.size();
+        if(regularReservations != null)
+            sum += regularReservations.size();
+        return sum;}
 
 
     // Empty builder for SimpleXML
