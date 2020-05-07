@@ -292,7 +292,7 @@ public class MyReservationsActivity extends AppCompatActivity {
                     clickCounter++;
                 } else {
                     hall.removeReservation(reservation);
-                    UserManager.getInstance().removeReservation(reservation);
+                    UserManager.getInstance().removeReservationId(reservation);
                     editPopUp.dismiss();
                     refreshView();
                 }

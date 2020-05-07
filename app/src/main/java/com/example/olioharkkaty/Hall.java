@@ -149,7 +149,7 @@ public class Hall {
 
 
 
-    public void makeReservation(String time, String roomname, String date, String describtion, int sportid) {
+    public void makeReservation(String time, String roomname, String date, String description, int sportid) {
         // Creates new reservation object and adds it to XML file
         Room room = null;
         try {
@@ -167,7 +167,7 @@ public class Hall {
 
         }
         // Adding new reservation with given parameters
-        int id = room.addReservation(date, time, describtion, sportid);
+        int id = room.addReservation(date, time, description, sportid);
         UserManager.getInstance().addReservationid(id);
 
         try {
@@ -182,7 +182,7 @@ public class Hall {
         }
 
     }
-    public void makeRegularReservation(String time, String roomname, int weekday, String describtion, int sportid, String firstdate) {
+    public void makeRegularReservation(String time, String roomname, int weekday, String description, int sportid, String firstdate) {
         // Creates new reservation object and adds it to XML file
         Room room = null;
         try {
@@ -200,7 +200,7 @@ public class Hall {
 
         }
         // Adding new reservation with given parameters
-        int id = room.addRegularReservation(weekday, time, describtion, sportid,firstdate);
+        int id = room.addRegularReservation(weekday, time, description, sportid,firstdate);
         UserManager.getInstance().addReservationid(id);
 
         try {
@@ -342,7 +342,7 @@ public class Hall {
         }
     }
 
-    public Boolean addRoom(String roomname, int id) {
+    public boolean addRoom(String roomname, int id) {
         if(rooms.keySet().contains(id) || rooms.values().contains(roomname))
             return false;
 

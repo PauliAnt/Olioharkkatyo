@@ -2,18 +2,19 @@ package com.example.olioharkkaty;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 
-public class ManageRoomsActivity extends AppCompatActivity {
+public class AdminViewActivity extends AppCompatActivity {
     // Class is used to control admin room management activity
     private ArrayList<String> rooms;
     private Spinner hallroom;
@@ -23,7 +24,7 @@ public class ManageRoomsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manage_rooms);
+        setContentView(R.layout.activity_admin_view);
 
         Hall hall = Hall.getInstance();
         hallroom = (Spinner) findViewById(R.id.spinner2);
@@ -40,18 +41,34 @@ public class ManageRoomsActivity extends AppCompatActivity {
 
     public void addRoomToList(View v){
         try {
-            if(!Hall.getInstance().addRoom(room.getText().toString(),Integer.parseInt(roomid.getText().toString()))) {
-                errormessage = Toast.makeText(ManageRoomsActivity.this, "Id or room already taken",Toast.LENGTH_SHORT);
+            if(Hall.getInstance().addRoom(room.getText().toString(),Integer.parseInt(roomid.getText().toString()))) {
+                room.getText().clear();
+                roomid.getText().clear();
+            } else {
+                errormessage = Toast.makeText(AdminViewActivity.this, "ID or room already taken",Toast.LENGTH_SHORT);
                 errormessage.show();
             }
 
         } catch (NumberFormatException e) {
-            errormessage = Toast.makeText(ManageRoomsActivity.this,"Invalid id", Toast.LENGTH_SHORT);
+            // ID is not integer
+            errormessage = Toast.makeText(AdminViewActivity.this,"Invalid ID", Toast.LENGTH_SHORT);
             errormessage.show();
         }
+
         refreshSpinner();
 
 
+    }
+
+    public void resetProgress(View v) {
+            File file = getFilesDir();
+            File[] files = file.listFiles();
+                if (files != null) {
+                    for (File f : files) {
+                        f.delete();
+                    }
+                }
+            getSharedPreferences("Users", Context.MODE_PRIVATE).edit().clear().commit();
     }
 
     public void backButton(View v){ finish();}

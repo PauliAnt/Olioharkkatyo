@@ -150,7 +150,7 @@ public class SignInActivity extends AppCompatActivity {
         else {
             if (um.checkLogin(un, pw1)) {
                 if (um.checkAdmin()){
-                    Intent intent = new Intent(SignInActivity.this, ManageRoomsActivity.class);
+                    Intent intent = new Intent(SignInActivity.this, AdminViewActivity.class);
                     this.clearFields();
                     startActivity(intent);
                 } else {

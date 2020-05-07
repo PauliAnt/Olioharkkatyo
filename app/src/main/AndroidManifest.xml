@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".RegularReservationActivity"></activity>
-        <activity android:name=".ManageRoomsActivity" />
+        <activity android:name=".AdminViewActivity" />
         <activity android:name=".MyReservationsActivity" />
         <activity android:name=".UserInfoActivity" />
         <activity android:name=".SignInActivity">

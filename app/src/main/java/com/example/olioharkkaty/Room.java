@@ -17,7 +17,7 @@ import org.simpleframework.xml.Root;
 public class Room {
     // Class is used to manage reservations and room properties
     @Attribute
-    private int id;
+    private int roomid;
 
     @ElementList(entry = "reservation",inline = true, type = Reservation.class, required = false)
     private List<Reservation> reservations;
@@ -35,10 +35,10 @@ public class Room {
 
     public Room(String name,int id) {
         this.name = name;
-        this.id = id;
+        this.roomid = id;
         reservations = new ArrayList<Reservation>();
         regularReservations = new ArrayList<RegularReservation>();
-        nextid = 1000*id+1;
+        nextid = 1000*roomid+1;
     }
 
 
@@ -47,12 +47,20 @@ public class Room {
     }
 
     public int addReservation(String date, String time, String description, int sportid) {
+        // Adds reservation with given parameters to list
         int reservationid = nextid;
         nextid++;
         if (reservations == null)
             reservations = new ArrayList<Reservation>();
         reservations.add(new Reservation(date, time, UserManager.getInstance().getCurrentUserName(), description, sportid, reservationid, name));
         return reservationid;
+    }
+    public void addReservation(Reservation reservation) {
+        // Adds reservation to list depending on its type
+        if (reservation instanceof  RegularReservation)
+            regularReservations.add((RegularReservation)reservation);
+        else
+            reservations.add(reservation);
     }
 
     public int addRegularReservation(int weekday, String time, String describtion, int sportid, String firstdate){
@@ -128,6 +136,7 @@ public class Room {
     }
 
     public boolean isReserved(String date, String time){
+        // checks if room is reserved at given time and date
         if(reservations == null)
             return false;
         for (Reservation reservation:reservations){
@@ -138,6 +147,7 @@ public class Room {
     }
 
     public Reservation getReservationById(int id){
+        // Finds reservation by given id and returns it
         if (reservations != null) {
             for (Reservation reservation : reservations) {
                 if (reservation.getId() == id)
@@ -153,12 +163,6 @@ public class Room {
         return null;
     }
 
-    public void addReservation(Reservation reservation) {
-        if (reservation instanceof  RegularReservation)
-            regularReservations.add((RegularReservation)reservation);
-        else
-            reservations.add(reservation);
-    }
 
     public void removeReservation(int id){
         Reservation reservation = getReservationById(id);

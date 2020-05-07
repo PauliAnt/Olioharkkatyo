@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 public class UserManager {
 
     private User currentuser;
-    private String una;
     private User admin;
     private Context con;
 
@@ -114,7 +113,7 @@ public class UserManager {
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
         String json = gson.toJson(user);
-        una = user.getUserName();
+        String una = user.getUserName();
         prefsEditor.putString(una, json);
         prefsEditor.commit();
     }
@@ -142,7 +141,7 @@ public class UserManager {
         return false;
     }
 
-    public void removeReservation(Reservation reservation){
+    public void removeReservationId(Reservation reservation){
         currentuser.removeReservationId(reservation.getId());
         writeToFile(currentuser);
     }
