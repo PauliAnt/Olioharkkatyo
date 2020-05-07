@@ -165,6 +165,7 @@ public class Room {
 
 
     public void removeReservation(int id){
+        // Takes id and removes corresponding reservation
         Reservation reservation = getReservationById(id);
         if (reservations != null) {
             if (reservations.contains(reservation))

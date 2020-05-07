@@ -74,7 +74,7 @@ public class Reservation implements Comparable<Reservation>{
 
     @Override
     public int compareTo(Reservation reservation) {
-        // todo sorttaus kuntoo
+        // Method for sorting reservations
         if(getClass() == reservation.getClass())
             return this.subCompare(reservation);
         return 0;
