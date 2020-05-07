@@ -263,7 +263,7 @@ public class Hall {
 
     public ArrayList<Reservation> findReservationsByIdList(ArrayList<Integer> ids) {
         // Method takes list of reservation ids and returns corresponding list of reservations
-        ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+        ArrayList<Reservation> reservations = new ArrayList<>(), regularreservations = new ArrayList<>();
         // Sorting ids to make sure that reservations in the same room are subsequent
         Collections.sort(ids);
 
@@ -282,7 +282,7 @@ public class Hall {
                 if (id / 1000 == roomid) {
                     reservation = room.getReservationById(id);
                     if (reservation instanceof RegularReservation)
-                        reservations.add(reservation);
+                        regularreservations.add(reservation);
                     // Only add reservations from current day and future
                     else if(sdf.parse(reservation.getDate() + reservation.getTime()).compareTo(now.getTime()) > 0)
                         reservations.add(reservation);
@@ -303,6 +303,9 @@ public class Hall {
             System.exit(1);
         }
 
+        Collections.sort(reservations);
+        Collections.sort(regularreservations);
+        reservations.addAll(0,regularreservations);
         return reservations;
     }
 
